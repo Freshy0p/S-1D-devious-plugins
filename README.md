@@ -14,7 +14,7 @@ The S-1D Solo Tempoross Plugin is a fully automated extension designed for the D
 
 To install the S-1D Solo Tempoross Plugin on the Devious client, follow these steps:
 
-1. Open the Devious client and navigate to the "External rep" section.
+1. Open the Devious client and navigate to the "External Plugin Manager" section.
 2. Click on "Add new" to add a new repository.
 3. In the "Owner" field, enter `SexyPinata`.
 4. In the "Repo" field, enter `S-1D-devious-plugins`.
@@ -32,7 +32,7 @@ Contributions are highly appreciated. If you have ideas for new features, improv
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU 3 License - see the [LICENSE](LICENSE) file for details.
 
 ## Disclaimer
 
