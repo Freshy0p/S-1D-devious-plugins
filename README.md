@@ -32,7 +32,7 @@ Contributions are highly appreciated. If you have ideas for new features, improv
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU 3 License - see the [LICENSE](LICENSE) file for details.
 
 ## Disclaimer
 
