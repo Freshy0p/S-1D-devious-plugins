@@ -261,7 +261,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		if (damagedMast != null && damagedMast.getWorldLocation().distanceToPath(client, player.getWorldLocation()) < 15)
 		{
 			damagedMast.interact("Repair");
-			return 100;
+			return 1000;
 		}
 
 		TileObject tether = workArea.getClosestTether();
@@ -276,7 +276,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 				}
 
 				tether.interact("Tether");
-				return -3;
+				return 1000;
 			}
 
 			return -2;
@@ -326,6 +326,11 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		{
 			scriptState = State.ATTACK_TEMPOROSS;
 		}
+		if (temporossPool != null && scriptState == State.ATTACK_TEMPOROSS && ENERGY >= 95)
+		{
+			scriptState = null;
+		}
+
 		int rawFishCount = Inventory.getCount(ITEM_RAW_FISH);
 
 		// Filter out dangerous NPCs
@@ -378,11 +383,11 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 				{
 					if ((player.getAnimation() == ANIMATION_COOK || player.isMoving()) && !Dialog.isOpen())
 					{
-						return 200;
+						return 1200;
 					}
 
 					range.interact("Cook-at");
-					return 2000;
+					return 1200;
 				}
 				else if (range == null)
 				{
@@ -434,14 +439,6 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 					temporossPool.interact("Harpoon");
 					return 5000;
 				}
-				//if we already is interacting with the pool, check if ENERGY is >= 95 and if so, set scriptState to null to cancel early for maximum efficiency return -1
-				if (temporossPool != null && temporossPool.equals(player.getInteracting()) && ENERGY >= 95)
-				{
-					scriptState = null;
-					return -1;
-				}
-
-
 				else if (temporossPool == null)
 				{
 
