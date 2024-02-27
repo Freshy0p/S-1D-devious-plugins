@@ -71,5 +71,43 @@ public interface S1dSoloTemporossConfig extends Config
 		return HarpoonType.HARPOON;
 	}
 
+	//Bucket setting, how many buckets to bring, min 4, max 6
 
+	@ConfigItem(
+			keyName = "buckets",
+			name = "Buckets",
+			description = "Number of buckets to bring",
+			position = 2,
+			section = tools
+	)
+	default int buckets()
+	{
+		return 6;
+	}
+
+	//Hammer setting, should bring a hammer or not, display as a checkbox
+	@ConfigItem(
+			keyName = "hammer",
+			name = "Hammer",
+			description = "Hammertime?",
+			position = 3,
+			section = tools
+	)
+	default boolean hammer()
+	{
+		return true;
+	}
+
+	//Rope setting, should bring a rope or not, display as a checkbox
+	@ConfigItem(
+			keyName = "rope",
+			name = "Rope",
+			description = "Rope?",
+			position = 4,
+			section = tools
+	)
+	default boolean rope()
+	{
+		return true;
+	}
 }

@@ -13,6 +13,7 @@ import net.runelite.client.plugins.PluginDescriptor;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.Players;
 import net.unethicalite.api.entities.TileObjects;
+import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.plugins.LoopedPlugin;
@@ -46,6 +47,9 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 
 	@Inject
 	private S1dSoloTemporossConfig config;
+
+	@Inject
+	private ConfigManager configManager;
 	private int waves = 0;
 	private TemporossWorkArea workArea = null;
 
@@ -124,39 +128,48 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		{
 			return -2;
 		}
-
-		int harpoonCount = Inventory.getCount(config.harpoonType().getId());
-		if (harpoonCount != 1)
+		HarpoonType harpoonType = config.harpoonType();
+		boolean hasHarpoon = Equipment.contains(harpoonType.getId()) || Inventory.contains(harpoonType.getId());
+		if (!hasHarpoon)
 		{
-			if (player.isMoving() || animation == ANIMATION_INTERACTING)
+			//if we don't have a harpoon, set to the default harpoon that we can pick up
+			harpoonType = HarpoonType.HARPOON;
+			//set the config to the default harpoon
+			configManager.setConfiguration("s1dsolotempoross", "harpoonType", HarpoonType.HARPOON);
+			int harpoonCount = Inventory.getCount(harpoonType.getId());
+			if (harpoonCount != 1)
 			{
+				if (player.isMoving() || animation == ANIMATION_INTERACTING)
+				{
+					return -2;
+				}
+
+				if (harpoonCount > 1)
+				{
+					Inventory.getFirst(harpoonType.getId()).interact("Drop");
+					return -3;
+				}
+
+				if (getPhase() == 1)
+				{
+					return -2;
+				}
+
+				workArea.getHarpoonCrate().interact("Take");
 				return -2;
 			}
-
-			if (harpoonCount > 1)
-			{
-				Inventory.getFirst(ITEM_HARPOON).interact("Drop");
-				return -3;
-			}
-
-			if (getPhase() == 1)
-			{
-				return -2;
-			}
-
-			workArea.getHarpoonCrate().interact("Take");
-			return -2;
 		}
 
 		int bucketCount = Inventory.getCount(ITEM_EMPTY_BUCKET, ITEM_WATER_BUCKET);
-		if (bucketCount != 7)
+		int bucketGoal = config.buckets();
+		if (bucketCount != bucketGoal)
 		{
 			if (player.isMoving() || animation == ANIMATION_INTERACTING)
 			{
 				return -2;
 			}
 
-			if (bucketCount > 7)
+			if (bucketCount > bucketGoal)
 			{
 				Inventory.getFirst(ITEM_EMPTY_BUCKET).interact("Drop");
 				return -3;
@@ -172,7 +185,8 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		}
 
 		int ropeCount = Inventory.getCount(ITEM_ROPE);
-		if (ropeCount != 0)
+		boolean shouldBringRope = config.rope();
+		if (ropeCount != 1 && shouldBringRope)
 		{
 			if (player.isMoving() || animation == ANIMATION_INTERACTING)
 			{
@@ -195,7 +209,8 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		}
 
 		int hammerCount = Inventory.getCount(ITEM_HAMMER);
-		if (hammerCount != 1)
+		boolean shouldBringHammer = config.hammer();
+		if (hammerCount != 1 && shouldBringHammer)
 		{
 			if (player.isMoving() || animation == ANIMATION_INTERACTING)
 			{
@@ -571,7 +586,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 	}
 
 	@Provides
-	S1dSoloTemporossConfig getConfig(ConfigManager configManager)
+	public S1dSoloTemporossConfig getConfig(ConfigManager configManager)
 	{
 		return configManager.getConfig(S1dSoloTemporossConfig.class);
 	}

@@ -6,9 +6,9 @@
   "id": "sdsolotempoross-plugin",
   "releases": [{
     "date": "2024-02-27",
-    "sha512sum": "3A67B5DB5360C6389411ED99591F4DB8D15CD9DD8B8C8F9DAEBCD229864132E7D44C638D3F6AD670ECEFB419413DA03D211F6478157D898B933C236EE25C7F67",
-    "version": "0.0.9",
-    "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.9.jar?raw=true",
+    "sha512sum": "C2EAFB32D7998F53F4DE8D8BFFAEFB0D4BE8ADE3F2363B22C3D7CE83732084DEB52078977E66923B3AD413C91E6A553C717F32675515BF34FCD891D62D503E55",
+    "version": "0.0.10",
+    "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.10.jar?raw=true",
     "requires": "^1.0.0"
   }]
 }]
