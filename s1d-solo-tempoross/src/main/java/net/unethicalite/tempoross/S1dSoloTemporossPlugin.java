@@ -44,6 +44,8 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 	@Inject
 	private Client client;
 
+	@Inject
+	private S1dSoloTemporossConfig config;
 	private int waves = 0;
 	private TemporossWorkArea workArea = null;
 
@@ -123,7 +125,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 			return -2;
 		}
 
-		int harpoonCount = Inventory.getCount(ITEM_HARPOON);
+		int harpoonCount = Inventory.getCount(config.harpoonType().getId());
 		if (harpoonCount != 1)
 		{
 			if (player.isMoving() || animation == ANIMATION_INTERACTING)
