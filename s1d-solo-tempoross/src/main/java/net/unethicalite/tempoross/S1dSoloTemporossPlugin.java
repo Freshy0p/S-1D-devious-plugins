@@ -150,11 +150,6 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 					return -3;
 				}
 
-				if (getPhase() == 1)
-				{
-					return -2;
-				}
-
 				workArea.getHarpoonCrate().interact("Take");
 				return -2;
 			}
@@ -175,11 +170,6 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 				return -3;
 			}
 
-			if (getPhase() == 1)
-			{
-				return -2;
-			}
-
 			workArea.getBucketCrate().interact("Take");
 			return -2;
 		}
@@ -197,11 +187,6 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 			{
 				Inventory.getFirst(ITEM_ROPE).interact("Drop");
 				return -3;
-			}
-
-			if (getPhase() == 1)
-			{
-				return -2;
 			}
 
 			workArea.getRopeCrate().interact("Take");
@@ -449,6 +434,14 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 					temporossPool.interact("Harpoon");
 					return 5000;
 				}
+				//if we already is interacting with the pool, check if ENERGY is >= 95 and if so, set scriptState to null to cancel early for maximum efficiency return -1
+				if (temporossPool != null && temporossPool.equals(player.getInteracting()) && ENERGY >= 95)
+				{
+					scriptState = null;
+					return -1;
+				}
+
+
 				else if (temporossPool == null)
 				{
 
@@ -470,8 +463,8 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 	enum State
 	{
 		ATTACK_TEMPOROSS(() -> ENERGY >= 95, null),
-		SECOND_FILL(() -> getAllFish() == 0, ATTACK_TEMPOROSS),
-		THIRD_COOK(() -> getRawFish() == 0 || INTENSITY >= 92, SECOND_FILL),
+		SECOND_FILL(() -> getCookedFish() == 0, ATTACK_TEMPOROSS),
+		THIRD_COOK(() -> getCookedFish() == 19 || INTENSITY >= 92, SECOND_FILL),
 		THIRD_CATCH(() -> getAllFish() >= 19, THIRD_COOK),
 		EMERGENCY_FILL(() -> getAllFish() == 0, THIRD_CATCH),
 		INITIAL_FILL(() -> getCookedFish() == 0, THIRD_CATCH),
