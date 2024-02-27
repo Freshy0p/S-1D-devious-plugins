@@ -137,6 +137,10 @@ public class FighterPlugin extends LoopedPlugin
 
 			return -1;
 		}
+		if (Game.isLoggedIn())
+		{
+			setCenter(Players.getLocal().getWorldLocation());
+		}
 
 		if (Movement.isWalking())
 		{
@@ -248,31 +252,40 @@ public class FighterPlugin extends LoopedPlugin
 			}
 		}
 
-		List<String> mobs = Text.fromCSV(config.monster());
-		NPC mob = Combat.getAttackableNPC(x -> x.getName() != null
-				&& textMatches(mobs, x.getName()) && !x.isDead()
-				&& x.getWorldLocation().distanceTo(center) < config.attackRange()
-		);
-		if (mob == null)
+		// Check if loot only mode is enabled
+		boolean lootOnlyMode = config.lootOnlyMode();
+
+		if (!lootOnlyMode)
 		{
-			if (local.getWorldLocation().distanceTo(center) < 3)
+			// This block will execute if loot only mode is not enabled
+			// Look for and attack NPCs
+			List<String> mobs = Text.fromCSV(config.monster());
+			NPC mob = Combat.getAttackableNPC(x -> x.getName() != null
+					&& textMatches(mobs, x.getName()) && !x.isDead()
+					&& x.getWorldLocation().distanceTo(center) < config.attackRange()
+			);
+			if (mob == null)
 			{
-				MessageUtils.addMessage("No attackable monsters in area");
-				return -1;
+				if (local.getWorldLocation().distanceTo(center) < 3)
+				{
+					MessageUtils.addMessage("No attackable monsters in area");
+					return -1;
+				}
+
+				Movement.walkTo(center);
+				return -4;
 			}
 
-			Movement.walkTo(center);
-			return -4;
-		}
+			if (!Reachable.isInteractable(mob))
+			{
+				Movement.walkTo(mob.getWorldLocation());
+				return -4;
+			}
 
-		if (!Reachable.isInteractable(mob))
-		{
-			Movement.walkTo(mob.getWorldLocation());
-			return -4;
+			mob.interact("Attack");
+			return -3;
 		}
-
-		mob.interact("Attack");
-		return -3;
+		return  -1;
 	}
 
 	@Subscribe
@@ -346,6 +359,6 @@ public class FighterPlugin extends LoopedPlugin
 
 	protected boolean canPick(TileItem tileItem)
 	{
-		return tileItem != null && tileItem.distanceTo(client.getLocalPlayer().getWorldLocation()) <= 5 && !Inventory.isFull();
+		return tileItem != null && tileItem.distanceTo(client.getLocalPlayer().getWorldLocation()) <= config.attackRange() && !Inventory.isFull();
 	}
 }

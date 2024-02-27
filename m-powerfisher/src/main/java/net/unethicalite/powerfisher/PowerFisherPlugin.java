@@ -135,14 +135,10 @@ public class PowerFisherPlugin extends Plugin
         }
 
         // Idle
-        if (client.getLocalPlayer().getAnimation() == -1)
+        if (!client.getLocalPlayer().isInteracting())
         {
-            // Drop fish
-            if (Inventory.contains(fishingType.getFishToDrop()))
-            {
-                Inventory.getAll(fishingType.getFishToDrop()).forEach(Item::drop);
-                return;
-            }
+
+
 
             // Fish
             NPC fishingSpot = client.getNpcs()
@@ -156,7 +152,10 @@ public class PowerFisherPlugin extends Plugin
                 return;
             }
 
-            fishingSpot.interact(fishingType.getAction());
+            if (!fishingSpot.isMoving())
+            {
+                fishingSpot.interact(fishingType.getAction());
+            }
         }
     }
 

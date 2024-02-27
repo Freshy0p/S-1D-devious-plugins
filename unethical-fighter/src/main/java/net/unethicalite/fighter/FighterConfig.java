@@ -131,6 +131,18 @@ public interface FighterConfig extends Config
 	}
 
 	@ConfigItem(
+			keyName = "lootOnlyMode",
+			name = "Loot only mode",
+			description = "Enable loot only mode",
+			position = 0,
+			section = loot
+	)
+	default boolean lootOnlyMode()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 			keyName = "loots",
 			name = "Loot Items",
 			description = "Items to loot separated by comma. ex: Lobster,Tuna",

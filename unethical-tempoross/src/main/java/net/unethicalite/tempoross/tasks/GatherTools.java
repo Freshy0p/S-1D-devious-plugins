@@ -66,7 +66,7 @@ public class GatherTools extends TemporossTask
 				return -2;
 			}
 
-			if (Inventory.getCount(ITEM_EMPTY_BUCKET, ITEM_WATER_BUCKET) > 5)
+			if (Inventory.getCount(ITEM_EMPTY_BUCKET, ITEM_WATER_BUCKET) > 6)
 			{
 				Inventory.getFirst(ITEM_EMPTY_BUCKET).interact("Drop");
 				return -3;
@@ -131,7 +131,7 @@ public class GatherTools extends TemporossTask
 	private boolean needBuckets()
 	{
 		int bucketCount = Inventory.getCount(ITEM_EMPTY_BUCKET, ITEM_WATER_BUCKET);
-		return bucketCount != 5 && getScriptState() != TemporossPlugin.State.ATTACK_TEMPOROSS;
+		return bucketCount != 6 && getScriptState() != TemporossPlugin.State.ATTACK_TEMPOROSS;
 	}
 
 	private boolean needRope()
