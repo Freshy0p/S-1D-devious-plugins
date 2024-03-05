@@ -2,7 +2,7 @@ package net.unethicalite.wintertodt;
 
 import net.runelite.client.config.*;
 
-@ConfigGroup("mwintertodt")
+@ConfigGroup("s1dwintertodt")
 public interface s1dWintertodtConfig extends Config
 {
 	@ConfigItem(keyName = "Food name", name = "Food name", description = "The food to use", position = 1)

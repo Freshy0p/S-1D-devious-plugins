@@ -67,7 +67,7 @@ import static net.unethicalite.api.commons.Time.sleepUntil;
 
 @Extension
 @PluginDescriptor(
-	name = "s1dWintertodt",
+	name = "S-1D Wintertodt",
 	description = "does wintertodt",
 	enabledByDefault = false,
 	tags =
@@ -192,7 +192,7 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 	@Subscribe
 	public void onConfigButtonPressed(ConfigButtonClicked event)
 	{
-		if (!event.getGroup().contains("s1dWintertodt")
+		if (!event.getGroup().contains("s1dwintertodt")
 			|| !event.getKey().toLowerCase().contains("start"))
 		{
 			return;
@@ -213,7 +213,7 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 	@Subscribe
 	public void onConfigChanged(ConfigChanged event)
 	{
-		if (!event.getGroup().contains("s1dWintertodt"))
+		if (!event.getGroup().contains("s1dwintertodt"))
 		{
 			return;
 		}
