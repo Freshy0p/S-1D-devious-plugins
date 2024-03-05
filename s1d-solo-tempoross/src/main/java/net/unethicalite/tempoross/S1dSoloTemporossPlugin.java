@@ -49,9 +49,14 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 	private S1dSoloTemporossConfig config;
 
 	@Inject
+	private S1dUtils utils;
+
+	@Inject
 	private ConfigManager configManager;
 	private int waves = 0;
 	private TemporossWorkArea workArea = null;
+
+	private int clickDelay = 0;
 
 	private static final Pattern DIGIT_PATTERN = Pattern.compile("(\\d+)");
 
@@ -63,6 +68,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		{
 			return 100;
 		}
+		clickDelay = utils.calculateClickDelay(config.clickDelayMin(), config.clickDelayMax(), config.targetDelay(), config.deviation());
 		int animation = player.getAnimation();
 		if (!client.isInInstancedRegion())
 		{
@@ -208,10 +214,6 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 				return -3;
 			}
 
-			if (getPhase() == 1)
-			{
-				return -2;
-			}
 
 			workArea.getHammerCrate().interact("Take");
 			return -2;
@@ -248,20 +250,20 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		NPC fire = fires.stream()
 				.min(Comparator.comparing(x -> x.getWorldLocation().distanceTo(player.getWorldLocation())))
 				.orElse(null);
-		if (fire != null && fire.getWorldLocation().distanceToPath(client, player.getWorldLocation()) <= 9)
+		if (fire != null && fire.getWorldLocation().distanceToPath(client, player.getWorldLocation()) <= 10 && !fire.equals(player.getInteracting()) && !Dialog.isOpen())
 		{
 			fire.interact("Douse");
 			Inventory.getFirst(ITEM_WATER_BUCKET).interact("Use");
 			fire.interact("Use");
-			return 1000;
+			return clickDelay;
 		}
 
 
 		TileObject damagedMast = TileObjects.getFirstAt(Tiles.getAt(workArea.getMastPoint()), OBJECT_DAMAGED_MAST);
-		if (damagedMast != null && damagedMast.getWorldLocation().distanceToPath(client, player.getWorldLocation()) < 15)
+		if (damagedMast != null && damagedMast.getWorldLocation().distanceToPath(client, player.getWorldLocation()) < 15 && !damagedMast.equals(player.getInteracting()) && !Dialog.isOpen())
 		{
 			damagedMast.interact("Repair");
-			return 1000;
+			return clickDelay;
 		}
 
 		TileObject tether = workArea.getClosestTether();
@@ -276,7 +278,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 				}
 
 				tether.interact("Tether");
-				return 1000;
+				return clickDelay;
 			}
 
 			return -2;
@@ -292,7 +294,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		if (exitNpc != null)
 		{
 			exitNpc.interact("Leave");
-			return 1000;
+			return 5000;
 		}
 
 		NPC doubleSpot = NPCs.getNearest(NPC_DOUBLE_FISH_SPOT);
@@ -304,7 +306,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		if (INTENSITY >= 94 && scriptState == State.THIRD_COOK)
 		{
 			forfeitMatch();
-			return 1000;
+			return clickDelay;
 		}
 
 		if (scriptState == null)
@@ -344,7 +346,11 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 			case INITIAL_CATCH:
 			case SECOND_CATCH:
 			case THIRD_CATCH:
-
+				if (inCloud(player.getWorldLocation(), 1))
+				{
+					Movement.walkNextTo(getClosestCloudOrFire(player.getWorldLocation(), 5));
+					return clickDelay;
+				}
 				NPC fishSpot = NPCs.getNearest(it ->
 						NPC_DOUBLE_FISH_SPOT == it.getId()
 								&& it.getWorldLocation().distanceTo(workArea.getRangePoint()) <= 20
@@ -362,17 +368,17 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 				{
 					if (fishSpot.equals(player.getInteracting()) && !Dialog.isOpen())
 					{
-						return 100;
+						return clickDelay;
 					}
 
 					fishSpot.interact("Harpoon");
-					return 600;
+					return clickDelay;
 				}
 				else
 				{
 					// if fish are null walk to the totem pole since it's in the center of the fish spots.
 					Movement.walkTo(workArea.getTotemPoint());
-					return 600;
+					return clickDelay;
 				}
 
 			case INITIAL_COOK:
@@ -383,16 +389,16 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 				{
 					if ((player.getAnimation() == ANIMATION_COOK || player.isMoving()) && !Dialog.isOpen())
 					{
-						return 1200;
+						return clickDelay;
 					}
 
 					range.interact("Cook-at");
-					return 1200;
+					return clickDelay;
 				}
 				else if (range == null)
 				{
 					Movement.walkTo(workArea.getRangePoint());
-					return 1000;
+					return clickDelay;
 				}
 
 			case EMERGENCY_FILL:
@@ -410,7 +416,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 					if (ammoCrate != null)
 					{
 						Movement.walk(ammoCrate.getWorldLocation());
-						return 1000;
+						return clickDelay;
 					}
 				}
 
@@ -546,6 +552,12 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 	protected boolean inCloud(WorldPoint point, int radius)
 	{
 		return TileObjects.getFirstSurrounding(point, radius, OBJECT_CLOUD_SHADOW, OBJECT_FIRE) != null;
+	}
+
+	// get closest cloud or fire object
+	protected TileObject getClosestCloudOrFire(WorldPoint point, int radius)
+	{
+		return TileObjects.getFirstSurrounding(point, radius, OBJECT_CLOUD_SHADOW, OBJECT_FIRE);
 	}
 
 	private static boolean isTethered()

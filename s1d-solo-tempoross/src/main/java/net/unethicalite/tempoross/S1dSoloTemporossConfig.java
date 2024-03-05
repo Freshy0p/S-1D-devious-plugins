@@ -71,7 +71,7 @@ public interface S1dSoloTemporossConfig extends Config
 		return HarpoonType.HARPOON;
 	}
 
-	//Bucket setting, how many buckets to bring, min 4, max 6
+	//Bucket setting, how many buckets to bring, min 4
 
 	@ConfigItem(
 			keyName = "buckets",
@@ -109,5 +109,54 @@ public interface S1dSoloTemporossConfig extends Config
 	default boolean rope()
 	{
 		return true;
+	}
+
+	//Debug settings, click delay, min, max, target delay, deviation.
+	@ConfigItem(
+			keyName = "clickDelayMin",
+			name = "Click delay min",
+			description = "Minimum click delay",
+			position = 0,
+			section = debug
+	)
+	default int clickDelayMin()
+	{
+		return 100;
+	}
+
+	@ConfigItem(
+			keyName = "clickDelayMax",
+			name = "Click delay max",
+			description = "Maximum click delay",
+			position = 1,
+			section = debug
+	)
+	default int clickDelayMax()
+	{
+		return 200;
+	}
+
+	@ConfigItem(
+			keyName = "targetDelay",
+			name = "Target delay",
+			description = "Target delay",
+			position = 2,
+			section = debug
+	)
+	default int targetDelay()
+	{
+		return 150;
+	}
+
+	@ConfigItem(
+			keyName = "deviation",
+			name = "Deviation",
+			description = "Deviation",
+			position = 3,
+			section = debug
+	)
+	default int deviation()
+	{
+		return 100;
 	}
 }
