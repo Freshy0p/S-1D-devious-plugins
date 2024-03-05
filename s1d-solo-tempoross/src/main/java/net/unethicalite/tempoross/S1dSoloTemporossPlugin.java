@@ -346,7 +346,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 			case INITIAL_CATCH:
 			case SECOND_CATCH:
 			case THIRD_CATCH:
-				if (inCloud(player.getWorldLocation(), 1))
+				if (inCloud(player.getWorldLocation(), 10))
 				{
 					Movement.walkNextTo(getClosestCloudOrFire(player.getWorldLocation(), 5));
 					return clickDelay;
