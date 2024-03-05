@@ -159,4 +159,54 @@ public interface S1dSoloTemporossConfig extends Config
 	{
 		return 100;
 	}
+
+	//Debug settings, Energy, Essence, and Intensity
+	@ConfigItem(
+			keyName = "energy",
+			name = "Energy",
+			description = "Energy",
+			position = 5,
+			section = debug
+	)
+	default int energy()
+	{
+		return 100;
+	}
+
+	@ConfigItem(
+			keyName = "essence",
+			name = "Essence",
+			description = "Essence",
+			position = 6,
+			section = debug
+	)
+	default int essence()
+	{
+		return 100;
+	}
+
+	@ConfigItem(
+			keyName = "intensity",
+			name = "Intensity",
+			description = "Intensity",
+			position = 7,
+			section = debug
+	)
+	default int intensity()
+	{
+		return 0;
+	}
+
+	//Equipment settings, if player has Spirit Angler's outfit, display as a checkbox
+	@ConfigItem(
+			keyName = "hasSpiritAngler",
+			name = "Spirit Angler's outfit",
+			description = "Spirit Angler's outfit",
+			position = 0,
+			section = equipment
+	)
+	default boolean hasSpiritAngler()
+	{
+		return true;
+	}
 }

@@ -182,14 +182,15 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 
 		int ropeCount = Inventory.getCount(ITEM_ROPE);
 		boolean shouldBringRope = config.rope();
-		if (ropeCount != 1 && shouldBringRope)
+		boolean hasSpiritAngler = config.hasSpiritAngler();
+		if (ropeCount != 1 && shouldBringRope && !hasSpiritAngler)
 		{
 			if (player.isMoving() || animation == ANIMATION_INTERACTING)
 			{
 				return -2;
 			}
 
-			if (ropeCount > 0)
+			if (ropeCount > 1)
 			{
 				Inventory.getFirst(ITEM_ROPE).interact("Drop");
 				return -3;
@@ -242,6 +243,9 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		ESSENCE = Integer.parseInt(essenceMatcher.group(0));
 		INTENSITY = Integer.parseInt(intensityMatcher.group(0));
 
+		configManager.setConfiguration("s1dsolotempoross", "energy", ENERGY);
+		configManager.setConfiguration("s1dsolotempoross", "essence", ESSENCE);
+		configManager.setConfiguration("s1dsolotempoross", "intensity", INTENSITY);
 		/**
 		 * Danger tasks
 		 */
@@ -474,7 +478,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 
 	enum State
 	{
-		ATTACK_TEMPOROSS(() -> ENERGY >= 95, null),
+		ATTACK_TEMPOROSS(() -> ENERGY >= 95,  null),
 		SECOND_FILL(() -> getCookedFish() == 0, ATTACK_TEMPOROSS),
 		THIRD_COOK(() -> getCookedFish() == 19 || INTENSITY >= 92, SECOND_FILL),
 		THIRD_CATCH(() -> getAllFish() >= 19, THIRD_COOK),
