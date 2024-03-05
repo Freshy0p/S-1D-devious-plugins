@@ -11,4 +11,17 @@
     "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.15.jar?raw=true",
     "requires": "^1.0.0"
   }]
+}, {
+  "projectUrl": "",
+  "provider": "S-1D",
+  "name": "S-1D Wintertodt",
+  "description": "does wintertodt",
+  "id": "sdwintertodt-plugin",
+  "releases": [{
+    "date": "2024-03-05",
+    "sha512sum": "69E024471B0FC920FEB4038A7A39992C0A7D84E87302DFC3C685E490F18CF58B336F0BB0670EEF756E675EA6DC984CA6077B98892749BF30ED91ADD53C82F6F2",
+    "version": "0.0.5",
+    "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.5.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
 }]

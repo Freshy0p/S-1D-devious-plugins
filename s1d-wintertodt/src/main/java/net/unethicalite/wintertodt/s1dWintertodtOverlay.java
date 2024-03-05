@@ -11,14 +11,14 @@ import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.components.LineComponent;
 import net.runelite.client.ui.overlay.components.TitleComponent;
 
-public class mWintertodtOverlay extends OverlayPanel
+public class s1dWintertodtOverlay extends OverlayPanel
 {
 	private final Client client;
-	private final mWintertodtPlugin plugin;
-	private final mWintertodtConfig config;
+	private final s1dWintertodtPlugin plugin;
+	private final s1dWintertodtConfig config;
 
 	@Inject
-	private mWintertodtOverlay(Client client, mWintertodtPlugin plugin, mWintertodtConfig config)
+	private s1dWintertodtOverlay(Client client, s1dWintertodtPlugin plugin, s1dWintertodtConfig config)
 	{
 		this.client = client;
 		this.plugin = plugin;
@@ -33,7 +33,7 @@ public class mWintertodtOverlay extends OverlayPanel
 		if (plugin.isScriptStarted() && config.overlayEnabled())
 		{
 			panelComponent.getChildren().add(TitleComponent.builder()
-				.text("mWintertodt")
+				.text("s1dWintertodt")
 				.color(Color.WHITE)
 				.build());
 

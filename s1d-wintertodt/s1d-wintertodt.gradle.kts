@@ -1,6 +1,6 @@
-version = "0.0.4"
+version = "0.0.5"
 
-project.extra["PluginName"] = "mWintertodt"
+project.extra["PluginName"] = "S-1D Wintertodt"
 project.extra["PluginDescription"] = "does wintertodt"
 
 tasks {

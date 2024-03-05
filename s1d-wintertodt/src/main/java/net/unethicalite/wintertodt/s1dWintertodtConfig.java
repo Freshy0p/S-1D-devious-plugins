@@ -1,13 +1,9 @@
 package net.unethicalite.wintertodt;
 
-import net.runelite.client.config.Button;
-import net.runelite.client.config.Config;
-import net.runelite.client.config.ConfigGroup;
-import net.runelite.client.config.ConfigItem;
-import net.runelite.client.config.Range;
+import net.runelite.client.config.*;
 
 @ConfigGroup("mwintertodt")
-public interface mWintertodtConfig extends Config
+public interface s1dWintertodtConfig extends Config
 {
 	@ConfigItem(keyName = "Food name", name = "Food name", description = "The food to use", position = 1)
 	default String foodName()

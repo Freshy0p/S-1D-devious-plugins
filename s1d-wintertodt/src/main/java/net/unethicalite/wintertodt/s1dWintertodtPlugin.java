@@ -28,22 +28,7 @@ import com.google.inject.Provides;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.pf4j.Extension;
-import java.time.Instant;
-import java.util.SplittableRandom;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import net.runelite.api.AnimationID;
-import net.runelite.api.ChatMessageType;
-import net.runelite.api.Client;
-import net.runelite.api.Constants;
-import net.runelite.api.GameState;
-import net.runelite.api.Item;
-import net.runelite.api.ItemID;
-import net.runelite.api.MessageNode;
-import net.runelite.api.Player;
-import net.runelite.api.Skill;
-import net.runelite.api.TileObject;
+import net.runelite.api.*;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.ConfigButtonClicked;
@@ -70,12 +55,19 @@ import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.widgets.Dialog;
 import net.unethicalite.api.widgets.Widgets;
 import net.unethicalite.wintertodt.utils.TimeUtils;
+import org.pf4j.Extension;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.time.Instant;
+import java.util.SplittableRandom;
+
 import static net.unethicalite.api.commons.Time.sleep;
 import static net.unethicalite.api.commons.Time.sleepUntil;
 
 @Extension
 @PluginDescriptor(
-	name = "mWintertodt",
+	name = "s1dWintertodt",
 	description = "does wintertodt",
 	enabledByDefault = false,
 	tags =
@@ -86,7 +78,7 @@ import static net.unethicalite.api.commons.Time.sleepUntil;
 )
 @Slf4j
 @Singleton
-public class mWintertodtPlugin extends LoopedPlugin
+public class s1dWintertodtPlugin extends LoopedPlugin
 {
 	@Inject
 	private Client client;
@@ -95,18 +87,18 @@ public class mWintertodtPlugin extends LoopedPlugin
 	private OverlayManager overlayManager;
 
 	@Inject
-	private mWintertodtOverlay mWintertodtOverlay;
+	private s1dWintertodtOverlay s1dWintertodtOverlay;
 
 	@Inject
 	private ChatMessageManager chatMessageManager;
 
 	@Inject
-	private mWintertodtConfig config;
+	private s1dWintertodtConfig config;
 
 	@Provides
-	private mWintertodtConfig provideConfig(ConfigManager configManager)
+	private s1dWintertodtConfig provideConfig(ConfigManager configManager)
 	{
-		return configManager.getConfig(mWintertodtConfig.class);
+		return configManager.getConfig(s1dWintertodtConfig.class);
 	}
 
 	@Getter(AccessLevel.PACKAGE)
@@ -168,14 +160,14 @@ public class mWintertodtPlugin extends LoopedPlugin
 	@Override
 	protected void startUp()
 	{
-		this.overlayManager.add(mWintertodtOverlay);
+		this.overlayManager.add(s1dWintertodtOverlay);
 	}
 
 	@Override
 	protected void shutDown()
 	{
 		reset();
-		this.overlayManager.remove(mWintertodtOverlay);
+		this.overlayManager.remove(s1dWintertodtOverlay);
 	}
 
 	/**
@@ -200,7 +192,7 @@ public class mWintertodtPlugin extends LoopedPlugin
 	@Subscribe
 	public void onConfigButtonPressed(ConfigButtonClicked event)
 	{
-		if (!event.getGroup().contains("mwintertodt")
+		if (!event.getGroup().contains("s1dWintertodt")
 			|| !event.getKey().toLowerCase().contains("start"))
 		{
 			return;
@@ -221,7 +213,7 @@ public class mWintertodtPlugin extends LoopedPlugin
 	@Subscribe
 	public void onConfigChanged(ConfigChanged event)
 	{
-		if (!event.getGroup().contains("mwintertodt"))
+		if (!event.getGroup().contains("s1dWintertodt"))
 		{
 			return;
 		}
@@ -302,7 +294,7 @@ public class mWintertodtPlugin extends LoopedPlugin
 			.runeLiteFormattedMessage(
 				new ChatMessageBuilder()
 					.append(ChatColorType.NORMAL)
-					.append("[mWintertodt] ")
+					.append("[s1dWintertodt] ")
 					.append(ChatColorType.HIGHLIGHT)
 					.append(message)
 					.build()
@@ -321,8 +313,8 @@ public class mWintertodtPlugin extends LoopedPlugin
 	{
 		if (isInWintertodtRegion())
 		{
-			Widget w = Widgets.get(396, 3);
-			return w == null || !w.getText().contains("The Wintertodt returns");
+			Widget w = Widgets.get(396, 20);
+			return w == null || !w.getText().contains("The Wintertodt returns in");
 		}
 		return false;
 	}
