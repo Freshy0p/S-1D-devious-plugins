@@ -5,10 +5,10 @@
   "description": "Solo Tempoross",
   "id": "sdsolotempoross-plugin",
   "releases": [{
-    "date": "2024-02-27",
-    "sha512sum": "89445884D74855952050FFB0C7442D09C42EAE3E7EB72A06039F06A52E5B045ACE14DF268CEFBB02176ECA3B2CEC7690930CF23F8EAF1B7C7D2ED28426B58380",
-    "version": "0.0.12",
-    "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.12.jar?raw=true",
+    "date": "2024-03-05",
+    "sha512sum": "DEC7EA47D0D469930AD38E1F576CD8F9878F7D3C25060472A42D37994AE182FC6E43FCD391A5455B8B34598B0C2497C09C8D85C7CB8DED6DF66789449A415CED",
+    "version": "0.0.13",
+    "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.13.jar?raw=true",
     "requires": "^1.0.0"
   }]
 }]
