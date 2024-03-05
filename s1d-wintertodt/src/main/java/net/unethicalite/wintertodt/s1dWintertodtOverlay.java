@@ -1,15 +1,14 @@
 package net.unethicalite.wintertodt;
 
 import com.google.inject.Inject;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
 import net.runelite.api.Client;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPanel;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.components.LineComponent;
 import net.runelite.client.ui.overlay.components.TitleComponent;
+
+import java.awt.*;
 
 public class s1dWintertodtOverlay extends OverlayPanel
 {
@@ -98,6 +97,11 @@ public class s1dWintertodtOverlay extends OverlayPanel
 
 			panelComponent.getChildren().add(LineComponent.builder()
 				.left("Times banked: " + plugin.getTimesBanked())
+				.leftColor(Color.GREEN)
+				.build());
+			//Wintertodt energy
+			panelComponent.getChildren().add(LineComponent.builder()
+				.left("Wintertodt energy: " + plugin.getWintertodtEnergy())
 				.leftColor(Color.GREEN)
 				.build());
 		}

@@ -56,13 +56,30 @@ public interface s1dWintertodtConfig extends Config
 		return 8;
 	}
 
-	@ConfigItem(keyName = "Overlay enabled", name = "Overlay enabled", description = "Enables overlay", position = 9)
+	//Min inventory space setting
+	@Range(max = 28)
+	@ConfigItem(keyName = "Min inventory space", name = "Min inventory space", description = "Min inventory space before leaving", position = 9)
+	default int minInventorySpace()
+	{
+		return 5;
+	}
+
+	//Smart mode setting
+	@ConfigItem(keyName = "Smart mode", name = "Smart mode", description = "Smart mode makes sure you don't waste any xp", position = 10)
+	default boolean smartMode()
+	{
+		return true;
+	}
+
+	@ConfigItem(keyName = "Overlay enabled", name = "Overlay enabled", description = "Enables overlay", position = 11)
 	default boolean overlayEnabled()
 	{
 		return true;
 	}
 
-	@ConfigItem(keyName = "Start", name = "Start/Stop", description = "Start/Stop button", position = 10)
+
+
+	@ConfigItem(keyName = "Start", name = "Start/Stop", description = "Start/Stop button", position = 12)
 	default Button startStopButton()
 	{
 		return new Button();

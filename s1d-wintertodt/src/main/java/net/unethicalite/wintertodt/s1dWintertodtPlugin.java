@@ -61,6 +61,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.time.Instant;
 import java.util.SplittableRandom;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static net.unethicalite.api.commons.Time.sleep;
 import static net.unethicalite.api.commons.Time.sleepUntil;
@@ -319,6 +321,34 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 		return false;
 	}
 
+	//Get wintertodt energy(health) from widget
+	public int getWintertodtEnergy()
+	{
+		if (!isInWintertodtRegion())
+		{
+			return 0;
+		}
+		Widget w = Widgets.get(396, 20);
+		if (w != null)
+		{
+			// Pull just the numbers from the Widget's text property ("Wintertodt Energy: 100%")
+			Pattern regex = Pattern.compile("\\d+");
+			Matcher bossEnergy = regex.matcher(w.getText().toString());
+
+			if (bossEnergy.find())
+			{
+				return Integer.parseInt(bossEnergy.group(0));
+			}
+		}
+		return 0;
+	}
+
+	//Get current number of resources in inventory
+	private int getResourcesInInventory()
+	{
+		return Inventory.getCount(ItemID.BRUMA_KINDLING) + Inventory.getCount(ItemID.BRUMA_ROOT);
+	}
+
 	@Subscribe
 	public void onGameTick(GameTick event)
 	{
@@ -406,7 +436,7 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 		if (!isInWintertodtRegion())
 		{
 			if (Inventory.getCount(i -> i != null && i.getName().toLowerCase().contains(config.foodName().toLowerCase())) < config.foodAmount()
-				|| Inventory.contains(ItemID.SUPPLY_CRATE))
+				|| Inventory.getFreeSlots() < config.minInventorySpace())
 			{
 				return State.BANK;
 			}
@@ -432,7 +462,8 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 						|| Inventory.contains(ItemID.BRUMA_ROOT) && localPlayer.distanceTo(currentBrazier) <= 4
 						|| currentBrazier == brokenBrazier && localPlayer.distanceTo(currentBrazier) <= 4
 						|| currentBrazier == unlitBrazier && localPlayer.distanceTo(currentBrazier) <= 4
-						|| Inventory.isFull())
+						|| Inventory.isFull()
+						|| getResourcesInInventory() >= getWintertodtEnergy())
 					{
 						if (currentBrazier == brokenBrazier
 							&& config.fixBrokenBrazier()
