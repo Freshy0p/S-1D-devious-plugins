@@ -8,14 +8,22 @@ public interface s1dWintertodtConfig extends Config
 	@ConfigItem(keyName = "Food name", name = "Food name", description = "The food to use", position = 1)
 	default String foodName()
 	{
-		return "Tuna";
+		return "Monkfish";
 	}
 
 	@Range(max = 16)
 	@ConfigItem(keyName = "Food amount", name = "Food amount", description = "The food amount to take from bank", position = 2)
 	default int foodAmount()
 	{
-		return 7;
+		return 5;
+	}
+
+	//Min food amount to start a new game
+	@Range(max = 28)
+	@ConfigItem(keyName = "Min food amount", name = "Min food amount", description = "Min food amount to start a new game", position = 3)
+	default int minFoodAmount()
+	{
+		return 2;
 	}
 
 	@Range(max = 100)

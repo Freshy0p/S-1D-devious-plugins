@@ -484,7 +484,7 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 					}
 				}
 
-				if (Inventory.getCount(ItemID.BRUMA_ROOT) + Inventory.getCount(ItemID.BRUMA_KINDLING) < config.maxResources())
+				if (getResourcesInInventory() < config.maxResources())
 				{
 					return State.CUT_TREE;
 				}
@@ -495,8 +495,8 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 					return State.FLETCH_LOGS;
 				}
 			}
-			else if (Inventory.getCount(i -> i != null && i.getName().toLowerCase().contains(config.foodName().toLowerCase())) < config.foodAmount()
-				|| Inventory.contains(ItemID.SUPPLY_CRATE))
+			else if (Inventory.getCount(i -> i != null && i.getName().toLowerCase().contains(config.foodName().toLowerCase())) < config.minFoodAmount()
+				|| Inventory.getFreeSlots() < config.minInventorySpace())
 			{
 				return State.LEAVE_WINTERTODT;
 			}

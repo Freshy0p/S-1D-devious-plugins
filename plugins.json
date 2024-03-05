@@ -19,9 +19,9 @@
   "id": "sdwintertodt-plugin",
   "releases": [{
     "date": "2024-03-05",
-    "sha512sum": "9FE4AC491D380B6FFA9982A1A6A6193D9BCB566F79119F13C894B4216938FFEB39B2A2814A2E2256D05B7F489D0EA40A8124B2BDD1F8D58212A332B688C139CC",
-    "version": "0.0.7",
-    "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.7.jar?raw=true",
+    "sha512sum": "A0F373D9950D12C038911DCCF1E0883F83E97E248085089F0B5D5A7D6879B2F034B338A9E6F3444A85F1C03036724152D3C23EAAB12562E2EA58216B863FDCD3",
+    "version": "0.0.8",
+    "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.8.jar?raw=true",
     "requires": "^1.0.0"
   }]
 }]
