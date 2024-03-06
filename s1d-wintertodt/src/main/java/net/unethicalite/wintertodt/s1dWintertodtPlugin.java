@@ -256,6 +256,7 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 			if (config.lightUnlitBrazier()
 				&& Inventory.contains(ItemID.TINDERBOX) || Inventory.contains(ItemID.BRUMA_TORCH) || Equipment.contains(ItemID.BRUMA_TORCH))
 			{
+				log.debug("Lighting brazier");
 				this.currentState = State.LIGHT_BRAZIER;
 			}
 		}
@@ -474,8 +475,9 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 						}
 						else if (currentBrazier == unlitBrazier
 							&& config.lightUnlitBrazier()
-							&& Inventory.contains(ItemID.TINDERBOX))
+							&& Inventory.contains(ItemID.TINDERBOX) || Inventory.contains(ItemID.BRUMA_TORCH) || Equipment.contains(ItemID.BRUMA_TORCH))
 						{
+							log.debug("Lighting brazier");
 							return State.LIGHT_BRAZIER;
 						}
 						else if (currentBrazier == burningBrazier)
