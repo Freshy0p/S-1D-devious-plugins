@@ -23,9 +23,9 @@ public class WithdrawSack extends MotherlodeMineTask
     @Override
     public boolean validate()
     {
-        return isCurrentActivity(Activity.IDLE)
-                && !plugin.isUpperFloor()
-                && plugin.isSackFull()
+        return this.isCurrentActivity(Activity.IDLE)
+                && !this.isUpperFloor()
+                && this.isSackFull()
                 && !Inventory.contains(
                 ItemID.PAYDIRT,
                 ItemID.RUNITE_ORE,
@@ -46,9 +46,9 @@ public class WithdrawSack extends MotherlodeMineTask
         TileObject sack = TileObjects.getNearest("Sack");
         if (sack != null)
         {
-            setActivity(Activity.WITHDRAWING);
+            this.setActivity(Activity.WITHDRAWING);
             sack.interact("Fill");
-            Time.sleepTicksUntil(() -> isCurrentActivity(Activity.IDLE), 20);
+            Time.sleepTicksUntil(() -> this.isCurrentActivity(Activity.IDLE), 20);
             return 0;
         }
         return 0;

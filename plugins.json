@@ -18,6 +18,13 @@
       "version": "0.0.3",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.3.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-06",
+      "sha512sum": "EC4C92D99A3E066401D2D901AD9EE76AA3522251921935A8A1927D2488855EFFC7B3A84AEAA2E32D8AAA4FEF7FAA90298DCFBDB33134652F4E98E21271C6A270",
+      "version": "0.0.5",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.5.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {

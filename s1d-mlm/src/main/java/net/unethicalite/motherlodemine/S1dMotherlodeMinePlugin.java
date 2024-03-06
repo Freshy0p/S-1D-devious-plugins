@@ -14,6 +14,7 @@ import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.plugins.Task;
 import net.unethicalite.api.plugins.TaskPlugin;
+import net.unethicalite.motherlodemine.data.Activity;
 import net.unethicalite.motherlodemine.tasks.*;
 import org.pf4j.Extension;
 
@@ -45,6 +46,32 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
     @Getter
     private Client client;
 
+
+    private Activity currentActivity;
+    private Activity previousActivity;
+    protected int taskCooldown;
+
+    public void setActivity(Activity activity)
+    {
+        if (activity == Activity.IDLE && currentActivity != Activity.IDLE)
+        {
+            previousActivity = currentActivity;
+        }
+
+        currentActivity = activity;
+
+    }
+
+    public final boolean isCurrentActivity(Activity activity)
+    {
+        return currentActivity == activity;
+    }
+
+    public final boolean wasPreviousActivity(Activity activity)
+    {
+        return previousActivity == activity;
+    }
+
     @Provides
     public Config getConfig(ConfigManager configManager)
     {
@@ -54,6 +81,7 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
     private final Task[] tasks =
             {
                 new Deposit(this),
+                new startTaskPlugin(this),
                 new Mine(this),
                 new FixWheel(this),
                 new GoDown(this),
@@ -68,6 +96,13 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
         return tasks;
     }
 
+    @Override
+    protected void startUp()
+    {
+        setActivity(Activity.IDLE);
+        log.info("S1d Motherlode Mine started");
+        log.info("Active activity: " + currentActivity.getName());
+    }
 
 
     public boolean isUpperFloor()
@@ -94,18 +129,9 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
 
     public MiningArea getMiningArea()
     {
-        if (config.upstairs())
-        {
+
             return MiningArea.UPSTAIRS;
-        }
-        else if (config.shortcut())
-        {
-            return MiningArea.BEHIND_SHORTCUT;
-        }
-        else
-        {
-            return MiningArea.NORTH;
-        }
+
     }
     public void refreshSackValues()
     {

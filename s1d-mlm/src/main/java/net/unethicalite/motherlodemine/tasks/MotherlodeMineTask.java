@@ -22,36 +22,16 @@ public abstract class MotherlodeMineTask implements Task
     @Delegate
     private final S1dMotherlodeMinePlugin context;
 
-    private Activity currentActivity;
-    private Activity previousActivity;
-    protected int taskCooldown;
+    // plugin startup boolean
+    public boolean running = false;
 
-    public void setActivity(Activity activity)
-    {
-        if (activity == Activity.IDLE && currentActivity != Activity.IDLE)
-        {
-            previousActivity = currentActivity;
-        }
 
-        currentActivity = activity;
-
-    }
-
-    public final boolean isCurrentActivity(Activity activity)
-    {
-        return currentActivity == activity;
-    }
-
-    public final boolean wasPreviousActivity(Activity activity)
-    {
-        return previousActivity == activity;
-    }
 
     @Subscribe
     private void onAnimationChanged(AnimationChanged event)
     {
         Actor actor = event.getActor();
-        if (!isRunning() || actor == null || actor != Players.getLocal())
+        if (!context.isRunning() || actor == null || actor != Players.getLocal())
         {
             return;
         }
@@ -72,7 +52,7 @@ public abstract class MotherlodeMineTask implements Task
             case AnimationID.MINING_MOTHERLODE_GILDED:
             case AnimationID.MINING_MOTHERLODE_INFERNAL:
             case AnimationID.MINING_MOTHERLODE_3A:
-                setActivity(Activity.MINING);
+                context.setActivity(Activity.MINING);
                 break;
             default:
         }
@@ -81,24 +61,24 @@ public abstract class MotherlodeMineTask implements Task
     @Subscribe
     private void onGameObjectDespawned(GameObjectDespawned event)
     {
-        if (isCurrentActivity(Activity.REPAIRING)
+        if (context.isCurrentActivity(Activity.REPAIRING)
                 && event.getGameObject().getName().equals("Broken strut"))
         {
-            setActivity(Activity.IDLE);
+            context.setActivity(Activity.IDLE);
         }
     }
 
     @Subscribe
     private void onItemContainerChanged(ItemContainerChanged event)
     {
-        if (isCurrentActivity(Activity.DEPOSITING))
+        if (context.isCurrentActivity(Activity.DEPOSITING))
         {
             if (!Inventory.contains(ItemID.PAYDIRT))
             {
-                setActivity(Activity.IDLE);
+                context.setActivity(Activity.IDLE);
             }
         }
-        else if (isCurrentActivity(Activity.WITHDRAWING))
+        else if (context.isCurrentActivity(Activity.WITHDRAWING))
         {
             if (Inventory.contains(
                     ItemID.RUNITE_ORE,
@@ -112,14 +92,14 @@ public abstract class MotherlodeMineTask implements Task
                     ItemID.UNCUT_DIAMOND,
                     ItemID.UNCUT_DRAGONSTONE))
             {
-                setActivity(Activity.IDLE);
+                context.setActivity(Activity.IDLE);
             }
         }
-        else if (isCurrentActivity(Activity.MINING))
+        else if (context.isCurrentActivity(Activity.MINING))
         {
             if (Inventory.isFull())
             {
-                setActivity(Activity.IDLE);
+                context.setActivity(Activity.IDLE);
             }
         }
     }
@@ -127,9 +107,9 @@ public abstract class MotherlodeMineTask implements Task
     @Subscribe
     private void onVarbitChanged(VarbitChanged event)
     {
-        if (isRunning() && inMotherlodeMine())
+        if (context.isRunning() && context.inMotherlodeMine())
         {
-            refreshSackValues();
+            context.refreshSackValues();
             if (context.curSackSize >= context.maxSackSize - 26)
             {
                 context.sackFull = true;

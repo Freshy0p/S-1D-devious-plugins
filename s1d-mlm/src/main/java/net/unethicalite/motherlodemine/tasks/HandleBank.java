@@ -30,8 +30,8 @@ public class HandleBank extends MotherlodeMineTask
     @Override
     public boolean validate()
     {
-        return isCurrentActivity(Activity.IDLE)
-                && !plugin.isUpperFloor()
+        return this.isCurrentActivity(Activity.IDLE)
+                && !this.isUpperFloor()
                 && Inventory.contains(
                 ItemID.RUNITE_ORE,
                 ItemID.ADAMANTITE_ORE,
@@ -49,8 +49,8 @@ public class HandleBank extends MotherlodeMineTask
     @Override
     public int execute()
     {
-        TileObject bank = TileObjects.getNearest(obj -> obj.hasAction("Deposit"));
-        if (Bank.isOpen() && isCurrentActivity(Activity.DEPOSITING))
+        TileObject bank = TileObjects.getNearest(obj -> obj.hasAction("Use") && obj.getName().equals("Bank chest"));
+        if (Bank.isOpen() && this.isCurrentActivity(Activity.DEPOSITING))
         {
             sleep(Constants.GAME_TICK_LENGTH);
             Bank.depositAllExcept(ItemID.IMCANDO_HAMMER,
@@ -65,14 +65,14 @@ public class HandleBank extends MotherlodeMineTask
                 sleep(Constants.GAME_TICK_LENGTH);
             }
             Bank.close();
-            setActivity(Activity.IDLE);
+            this.setActivity(Activity.IDLE);
             return -1;
 
         }
         else if (bank != null)
         {
-            setActivity(Activity.DEPOSITING);
-            bank.interact("Deposit");
+            this.setActivity(Activity.DEPOSITING);
+            bank.interact("Use");
             sleepUntil(Bank::isOpen, 4000);
         }
         return 0;

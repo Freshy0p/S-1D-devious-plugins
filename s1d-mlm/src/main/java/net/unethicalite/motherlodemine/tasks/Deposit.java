@@ -20,8 +20,8 @@ public class Deposit extends MotherlodeMineTask
     @Override
     public boolean validate()
     {
-        return isCurrentActivity(Activity.IDLE)
-                && !plugin.isUpperFloor()
+        return this.isCurrentActivity(Activity.IDLE)
+                && !this.isUpperFloor()
                 && Inventory.contains("Pay-dirt")
                 && Inventory.isFull();
     }
@@ -29,13 +29,13 @@ public class Deposit extends MotherlodeMineTask
     @Override
     public int execute()
     {
-        setActivity(Activity.DEPOSITING);
+        this.setActivity(Activity.DEPOSITING);
 
         final TileObject hopper = TileObjects.getNearest("Hopper");
         if (hopper != null)
         {
             hopper.interact("Deposit");
-            setActivity(Activity.IDLE);
+            this.setActivity(Activity.IDLE);
             return 4000;
         }
         return -1;

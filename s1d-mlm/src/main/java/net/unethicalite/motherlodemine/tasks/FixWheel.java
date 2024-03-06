@@ -20,9 +20,9 @@ public class FixWheel extends MotherlodeMineTask
     @Override
     public boolean validate()
     {
-        return isCurrentActivity(Activity.IDLE)
-                && !plugin.isUpperFloor()
-                && wasPreviousActivity(Activity.DEPOSITING)
+        return this.isCurrentActivity(Activity.IDLE)
+                && !this.isUpperFloor()
+                && this.wasPreviousActivity(Activity.DEPOSITING)
                 && TileObjects.getAll(ObjectID.BROKEN_STRUT).size() == 2;
     }
 
@@ -32,9 +32,9 @@ public class FixWheel extends MotherlodeMineTask
         TileObject brokenStrut = TileObjects.getNearest(ObjectID.BROKEN_STRUT);
         if (brokenStrut != null)
         {
-            setActivity(Activity.REPAIRING);
+            this.setActivity(Activity.REPAIRING);
             brokenStrut.interact("Hammer");
-            setActivity(Activity.IDLE);
+            this.setActivity(Activity.IDLE);
             return 4000;
         }
         return 0;

@@ -49,7 +49,7 @@ public enum MiningArea
     // Get nearest ore vein(wallObject) to player
     public TileObject getNearestOreVein()
     {
-        final List<TileObject> oreVeins = TileObjects.getAll(x -> x.getName().equals("Ore vein") && miningArea.contains(x.getWorldLocation()) && x.hasAction("Mine"));
+        final List<TileObject> oreVeins = TileObjects.getAll(x -> x.getName().equals("Ore vein") && x.hasAction("Mine"));
         if (oreVeins.isEmpty())
         {
             return null;

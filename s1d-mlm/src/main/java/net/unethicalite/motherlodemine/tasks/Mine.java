@@ -5,8 +5,8 @@ import net.runelite.api.events.GameTick;
 import net.runelite.client.eventbus.Subscribe;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.items.Inventory;
-import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.motherlodemine.Config;
+import net.unethicalite.motherlodemine.MiningArea;
 import net.unethicalite.motherlodemine.S1dMotherlodeMinePlugin;
 import net.unethicalite.motherlodemine.data.Activity;
 
@@ -27,17 +27,15 @@ public class Mine extends MotherlodeMineTask
     @Override
     public boolean validate()
     {
-        return isCurrentActivity(Activity.IDLE)
-                && !Inventory.isFull()
-                && (isUpperFloor() || !config.upstairs())
-                && (oreVein = plugin.getMiningArea().getNearestOreVein()) != null
-                && Reachable.isInteractable(oreVein);
+        oreVein = MiningArea.UPSTAIRS.getNearestOreVein();
+        return this.isCurrentActivity(Activity.IDLE)
+                && !Inventory.isFull() && (oreVein = MiningArea.UPSTAIRS.getNearestOreVein()) != null && !this.isUpperFloor();
     }
 
     @Override
     public int execute()
     {
-        setActivity(Activity.MINING);
+        this.setActivity(Activity.MINING);
         oreVein.interact("Mine");
         return 4000;
     }
@@ -45,11 +43,11 @@ public class Mine extends MotherlodeMineTask
     @Subscribe
     private void onGameTick(GameTick event)
     {
-        if (plugin.isRunning() && isCurrentActivity(Activity.MINING))
+        if (this.isRunning() && this.isCurrentActivity(Activity.MINING))
         {
-            if (oreVein == null || !Reachable.isInteractable(oreVein))
+            if (oreVein == null)
             {
-                setActivity(Activity.IDLE);
+                this.setActivity(Activity.IDLE);
             }
             else
             {
@@ -57,7 +55,7 @@ public class Mine extends MotherlodeMineTask
                 if (oreVeinCheck == null)
                 {
                     oreVein = null;
-                    setActivity(Activity.IDLE);
+                    this.setActivity(Activity.IDLE);
                 }
             }
         }

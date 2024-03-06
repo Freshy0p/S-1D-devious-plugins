@@ -1,6 +1,6 @@
 package net.unethicalite.motherlodemine.tasks;
 
-import net.runelite.api.ObjectID;
+import net.runelite.api.NullObjectID;
 import net.runelite.api.TileObject;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.commons.Time;
@@ -25,22 +25,22 @@ public class GoDown extends MotherlodeMineTask
     @Override
     public boolean validate()
     {
-        return isCurrentActivity(Activity.IDLE)
-                && isUpperFloor()
+        return this.isCurrentActivity(Activity.IDLE)
+                && this.isUpperFloor()
                 && Inventory.isFull();
     }
 
     @Override
     public int execute()
     {
-        final TileObject ladder = TileObjects.getNearest(ObjectID.LADDER_19049);
+        final TileObject ladder = TileObjects.getNearest(NullObjectID.NULL_19045);
         if (ladder == null || !ladder.hasAction("Climb"))
         {
             Movement.walk(new WorldPoint(3755, 5675, 0));
 
             Time.sleepTicksUntil(() ->
             {
-                final TileObject ladder2 = TileObjects.getNearest(ObjectID.LADDER_19049);
+                final TileObject ladder2 = TileObjects.getNearest(NullObjectID.NULL_19045);
 
                 return ladder2 != null && ladder2.hasAction("Climb");
             }, 10);
@@ -48,7 +48,7 @@ public class GoDown extends MotherlodeMineTask
             return 0;
         }
         ladder.interact("Climb");
-        Time.sleepTicksUntil(() -> !isUpperFloor(), 20);
+        Time.sleepTicksUntil(() -> !this.isUpperFloor(), 20);
         return 0;
     }
 }

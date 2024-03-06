@@ -3,6 +3,7 @@ package net.unethicalite.motherlodemine;
 import net.runelite.client.config.Button;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
+import net.unethicalite.motherlodemine.data.Activity;
 
 @ConfigGroup("s1dmlm")
 public interface Config extends net.runelite.client.config.Config
@@ -39,5 +40,17 @@ public interface Config extends net.runelite.client.config.Config
     default Button startButton()
     {
         return new Button();
+    }
+
+    // Activity config
+    @ConfigItem(
+            keyName = "activity",
+            name = "Activity",
+            description = "Activity to perform",
+            position = 2
+    )
+    default Activity activity()
+    {
+        return Activity.IDLE;
     }
 }
