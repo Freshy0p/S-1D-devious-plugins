@@ -67,6 +67,13 @@
       "version": "0.0.9",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.9.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-06",
+      "sha512sum": "C74416E705A998397B7E498FB1A04942A32C10A7CB2AE72537F8111942D070BE96DF6FF5F3B448D5DB052315C2FA85A881FF6D9C6876C8B8B5C02714B4F5829E",
+      "version": "0.0.10",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.10.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }]

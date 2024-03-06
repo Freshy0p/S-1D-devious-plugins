@@ -85,9 +85,20 @@ public interface s1dWintertodtConfig extends Config
 		return true;
 	}
 
+	// Use Spec setting, checkbox
+	@ConfigItem(keyName = "UseSpec", name = "UseSpec", description = "Use dragon axe spec", position = 12)
+	default boolean useSpec()
+	{
+		return true;
+	}
+	// Use Bruma Torch instead of tinderbox setting, checkbox
+	@ConfigItem(keyName = "Bruma torch", name = "Bruma torch", description = "Use the Bruma torch instead of tinderbox, can be equipped or in inventory", position = 13)
+	default boolean useBrumaTorch()
+	{
+		return true;
+	}
 
-
-	@ConfigItem(keyName = "Start", name = "Start/Stop", description = "Start/Stop button", position = 12)
+	@ConfigItem(keyName = "Start", name = "Start/Stop", description = "Start/Stop button", position = 20)
 	default Button startStopButton()
 	{
 		return new Button();

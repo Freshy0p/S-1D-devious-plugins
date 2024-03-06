@@ -49,6 +49,7 @@ import net.unethicalite.api.events.ExperienceGained;
 import net.unethicalite.api.game.Combat;
 import net.unethicalite.api.input.Keyboard;
 import net.unethicalite.api.items.Bank;
+import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.plugins.LoopedPlugin;
@@ -253,7 +254,7 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 		if (messageNode.getValue().startsWith("The brazier has gone out"))
 		{
 			if (config.lightUnlitBrazier()
-				&& Inventory.contains(ItemID.TINDERBOX))
+				&& Inventory.contains(ItemID.TINDERBOX) || Inventory.contains(ItemID.BRUMA_TORCH) || Equipment.contains(ItemID.BRUMA_TORCH))
 			{
 				this.currentState = State.LIGHT_BRAZIER;
 			}
@@ -462,6 +463,7 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 						|| Inventory.contains(ItemID.BRUMA_ROOT) && localPlayer.distanceTo(currentBrazier) <= 4
 						|| currentBrazier == brokenBrazier && localPlayer.distanceTo(currentBrazier) <= 4
 						|| currentBrazier == unlitBrazier && localPlayer.distanceTo(currentBrazier) <= 4
+						|| Inventory.isFull() && !config.fletchingEnabled()
 						|| getResourcesInInventory() >= getWintertodtEnergy())
 					{
 						if (currentBrazier == brokenBrazier
@@ -486,6 +488,13 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 
 				if (getResourcesInInventory() < config.maxResources() && !Inventory.isFull())
 				{
+					// Use spec if enabled and engough spec energy
+					if (config.useSpec()
+						&& Combat.getSpecEnergy() >= 100
+						&& Equipment.contains(ItemID.DRAGON_AXE) || Equipment.contains(ItemID.INFERNAL_AXE))
+					{
+						Combat.toggleSpec();
+					}
 					return State.CUT_TREE;
 				}
 				else if (Inventory.contains(ItemID.BRUMA_ROOT)
@@ -493,6 +502,12 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 					&& config.fletchingEnabled())
 				{
 					return State.FLETCH_LOGS;
+				}
+				else if (!Inventory.contains(ItemID.BRUMA_ROOT)
+					&& config.fletchingEnabled()
+					&& Inventory.isFull())
+				{
+					return State.FEED_BRAZIER;
 				}
 			}
 			else if (Inventory.getCount(i -> i != null && i.getName().toLowerCase().contains(config.foodName().toLowerCase())) < config.minFoodAmount()
@@ -531,7 +546,18 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 				if (Bank.isOpen())
 				{
 					sleep(Constants.GAME_TICK_LENGTH);
-					Bank.depositAllExcept(item -> item != null && item.getName().toLowerCase().contains(config.foodName().toLowerCase()) || item.getName().endsWith("axe") || item.getName().equals("Knife") || item.getName().equals("Hammer") || item.getName().equals("Tinderbox"));
+
+					//Deposit all except food, axe, knife, hammer, tinderbox, if bruma torch setting is enabled, deposit tinderbox and not bruma torch
+					if (config.useBrumaTorch())
+					{
+						Bank.depositAllExcept(item -> item != null && item.getName().toLowerCase().contains(config.foodName().toLowerCase()) || item.getName().endsWith("axe") || item.getName().equals("Knife") || item.getName().equals("Hammer") || item.getName().equals("Bruma torch"));
+					}
+					else
+					{
+						Bank.depositAllExcept(item -> item != null && item.getName().toLowerCase().contains(config.foodName().toLowerCase()) || item.getName().endsWith("axe") || item.getName().equals("Knife") || item.getName().equals("Hammer") || item.getName().equals("Tinderbox"));
+					}
+					//Old code
+					//Bank.depositAllExcept(item -> item != null && item.getName().toLowerCase().contains(config.foodName().toLowerCase()) || item.getName().endsWith("axe") || item.getName().equals("Knife") || item.getName().equals("Hammer") || item.getName().equals("Tinderbox") || item.getName().equals("Bruma torch"));
 					sleep(Constants.GAME_TICK_LENGTH);
 
 					//Bug, if raw or burnt version is in a earlier bank slot than the cooked, it will withdraw the raw/burnt food that can't be eaten
