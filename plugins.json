@@ -4,13 +4,22 @@
   "name": "S-1D Motherlode Mine",
   "description": "Automates the Motherlode Mine minigame.",
   "id": "sdmotherlodemine-plugin",
-  "releases": [{
-    "date": "2024-03-06",
-    "sha512sum": "C713D0AC51B2DE07B99B58C3DD14CA3CF54E02AE1A5CF42A0497569543B6B17E43E27B80EC0A9B6244B3474C901DBCAEB2F8A61E2D5DD6668B469DAD6CD85892",
-    "version": "0.0.2",
-    "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.2.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-03-06",
+      "sha512sum": "C713D0AC51B2DE07B99B58C3DD14CA3CF54E02AE1A5CF42A0497569543B6B17E43E27B80EC0A9B6244B3474C901DBCAEB2F8A61E2D5DD6668B469DAD6CD85892",
+      "version": "0.0.2",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-06",
+      "sha512sum": "2BED3AE1185F3E450AA690F17F1840EDC4376C99851A866018E1959818C506993ED23F473EF34C55133BB3FF340F475CD1EEA84CD8F21246346BE00CF7DD4D8A",
+      "version": "0.0.3",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.3.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "S-1D",

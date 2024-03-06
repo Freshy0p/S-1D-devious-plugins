@@ -1,7 +1,7 @@
 package net.unethicalite.motherlodemine.tasks;
 
 
-import net.runelite.api.NullObjectID;
+import net.runelite.api.ObjectID;
 import net.runelite.api.TileObject;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.TileObjects;
@@ -36,7 +36,7 @@ public class GoUp extends MotherlodeMineTask
     @Override
     public int execute()
     {
-        final TileObject ladder = TileObjects.getNearest(NullObjectID.NULL_19044);
+        final TileObject ladder = TileObjects.getNearest(ObjectID.LADDER_19047);
         if (ladder != null)
         {
             ladder.interact("Climb");
