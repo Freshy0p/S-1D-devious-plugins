@@ -35,6 +35,7 @@ rootProject.name = "unethicalite-plugins"
 
 include("s1d-solo-tempoross")
 include("s1d-wintertodt")
+include("s1d-mlm")
 //include("unethical-fighter")
 //include("unethical-butler")
 //include("unethical-birdhouses")
