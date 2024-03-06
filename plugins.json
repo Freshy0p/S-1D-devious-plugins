@@ -42,7 +42,7 @@
   "id": "sdsolotempoross-plugin",
   "releases": [{
     "date": "2024-03-05",
-    "sha512sum": "FB6D055A3C9D546B922546F26EC1FE650325626ED47159D760367CE43AB88B251D378180194371D0DA9831F3AF74EC7BFD3A017C1953E26EF3D709F808FC5487",
+    "sha512sum": "C677D829DC2A3896FDD4A2D6B07D92F6F301570E1E1E734EA53589478DAD46E47DA8CC3DD0A0D31CAD3294C64EEFBEE081C57D15747F56708CD633D0D9F464E8",
     "version": "0.0.15",
     "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.15.jar?raw=true",
     "requires": "^1.0.0"
@@ -53,11 +53,20 @@
   "name": "S-1D Wintertodt",
   "description": "does wintertodt",
   "id": "sdwintertodt-plugin",
-  "releases": [{
-    "date": "2024-03-05",
-    "sha512sum": "A0F373D9950D12C038911DCCF1E0883F83E97E248085089F0B5D5A7D6879B2F034B338A9E6F3444A85F1C03036724152D3C23EAAB12562E2EA58216B863FDCD3",
-    "version": "0.0.8",
-    "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.8.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-03-05",
+      "sha512sum": "A0F373D9950D12C038911DCCF1E0883F83E97E248085089F0B5D5A7D6879B2F034B338A9E6F3444A85F1C03036724152D3C23EAAB12562E2EA58216B863FDCD3",
+      "version": "0.0.8",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.8.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-06",
+      "sha512sum": "A7A3886B4A46D5028C9AAC2CA2FF788BB66AFA4C06C4E4C55B043E751AFC5B2E5F264634BB2DA565B78376A5C0B6D95514A44D5A3E716701651D56AC7107720C",
+      "version": "0.0.9",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.9.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }]

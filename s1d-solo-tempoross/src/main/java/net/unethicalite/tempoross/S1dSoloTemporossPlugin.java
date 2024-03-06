@@ -66,7 +66,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		Player player = client.getLocalPlayer();
 		if (player == null)
 		{
-			return 100;
+			return 600;
 		}
 		clickDelay = utils.calculateClickDelay(config.clickDelayMin(), config.clickDelayMax(), config.targetDelay(), config.deviation());
 		int animation = player.getAnimation();
@@ -228,7 +228,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		Widget intensityWidget = Widgets.get(437, 55);
 		if (!Widgets.isVisible(energyWidget) || !Widgets.isVisible(essenceWidget) || !Widgets.isVisible(intensityWidget))
 		{
-			return 100;
+			return 1000;
 		}
 
 		Matcher energyMatcher = DIGIT_PATTERN.matcher(energyWidget.getText());
@@ -236,7 +236,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		Matcher intensityMatcher = DIGIT_PATTERN.matcher(intensityWidget.getText());
 		if (!energyMatcher.find() || !essenceMatcher.find() || !intensityMatcher.find())
 		{
-			return 100;
+			return 1000;
 		}
 
 		ENERGY = Integer.parseInt(energyMatcher.group(0));

@@ -462,7 +462,6 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 						|| Inventory.contains(ItemID.BRUMA_ROOT) && localPlayer.distanceTo(currentBrazier) <= 4
 						|| currentBrazier == brokenBrazier && localPlayer.distanceTo(currentBrazier) <= 4
 						|| currentBrazier == unlitBrazier && localPlayer.distanceTo(currentBrazier) <= 4
-						|| Inventory.isFull()
 						|| getResourcesInInventory() >= getWintertodtEnergy())
 					{
 						if (currentBrazier == brokenBrazier
@@ -479,12 +478,13 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 						}
 						else if (currentBrazier == burningBrazier)
 						{
+
 							return State.FEED_BRAZIER;
 						}
 					}
 				}
 
-				if (getResourcesInInventory() < config.maxResources())
+				if (getResourcesInInventory() < config.maxResources() && !Inventory.isFull())
 				{
 					return State.CUT_TREE;
 				}
@@ -534,18 +534,32 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 					Bank.depositAllExcept(item -> item != null && item.getName().toLowerCase().contains(config.foodName().toLowerCase()) || item.getName().endsWith("axe") || item.getName().equals("Knife") || item.getName().equals("Hammer") || item.getName().equals("Tinderbox"));
 					sleep(Constants.GAME_TICK_LENGTH);
 
-					if (Bank.getFirst(i -> i != null && i.getName().toLowerCase().contains(config.foodName().toLowerCase())) == null)
+					//Bug, if raw or burnt version is in a earlier bank slot than the cooked, it will withdraw the raw/burnt food that can't be eaten
+
+					//Fix for bug, ignore food that starts with "Burnt" or "Raw"
+					if (Bank.getFirst(i -> i != null && i.getName().toLowerCase().contains(config.foodName().toLowerCase()) && !i.getName().startsWith("Burnt") && !i.getName().startsWith("Raw")) == null)
 					{
 						log.error("No {} was found in bank", config.foodName());
 						broadcastMessage("No " + config.foodName() + " was found in bank");
 						reset();
 						return -1;
 					}
+					//Old code
+//					if (Bank.getFirst(i -> i != null && i.getName().toLowerCase().contains(config.foodName().toLowerCase())) == null)
+//					{
+//						log.error("No {} was found in bank", config.foodName());
+//						broadcastMessage("No " + config.foodName() + " was found in bank");
+//						reset();
+//						return -1;
+//					}
 
 					int foodAmountToWithdraw = config.foodAmount() - Inventory.getCount(i -> i != null && i.getName().toLowerCase().contains(config.foodName().toLowerCase()));
 					if (foodAmountToWithdraw > 0)
 					{
-						Bank.withdraw(i -> i != null && i.getName().toLowerCase().contains(config.foodName().toLowerCase()), foodAmountToWithdraw, Bank.WithdrawMode.ITEM);
+						// apply bug fix to ignore food that starts with "Burnt" or "Raw" also check for "Big" for those collectors
+						Bank.withdraw(i -> i != null && i.getName().toLowerCase().contains(config.foodName().toLowerCase()) && !i.getName().startsWith("Burnt") && !i.getName().startsWith("Raw") && !i.getName().startsWith("Big"), foodAmountToWithdraw, Bank.WithdrawMode.ITEM);
+						//Old code
+						//Bank.withdraw(i -> i != null && i.getName().toLowerCase().contains(config.foodName().toLowerCase()), foodAmountToWithdraw, Bank.WithdrawMode.ITEM);
 						sleep(Constants.GAME_TICK_LENGTH);
 						sleepUntil(() -> Inventory.getCount(i -> i != null && i.getName().toLowerCase().contains(config.foodName().toLowerCase())) == config.foodAmount(), 3000);
 					}
