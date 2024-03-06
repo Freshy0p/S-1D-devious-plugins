@@ -253,11 +253,17 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 
 		if (messageNode.getValue().startsWith("The brazier has gone out"))
 		{
-			if (config.lightUnlitBrazier()
-				&& Inventory.contains(ItemID.TINDERBOX) || Inventory.contains(ItemID.BRUMA_TORCH) || Equipment.contains(ItemID.BRUMA_TORCH))
+			if (config.lightUnlitBrazier())
 			{
-				log.debug("Lighting brazier");
-				this.currentState = State.LIGHT_BRAZIER;
+				if (config.useBrumaTorch()
+					&& (Inventory.contains(ItemID.BRUMA_TORCH) || Equipment.contains("Bruma torch")))
+				{
+					this.currentState = State.LIGHT_BRAZIER;
+				}
+				else if (Inventory.contains(ItemID.TINDERBOX))
+				{
+					this.currentState = State.LIGHT_BRAZIER;
+				}
 			}
 		}
 
@@ -474,11 +480,20 @@ public class s1dWintertodtPlugin extends LoopedPlugin
 							return State.FIX_BRAZIER;
 						}
 						else if (currentBrazier == unlitBrazier
-							&& config.lightUnlitBrazier()
-							&& Inventory.contains(ItemID.TINDERBOX) || Inventory.contains(ItemID.BRUMA_TORCH) || Equipment.contains(ItemID.BRUMA_TORCH))
+							&& config.lightUnlitBrazier())
 						{
-							log.debug("Lighting brazier");
-							return State.LIGHT_BRAZIER;
+							if (config.useBrumaTorch())
+							{
+								if (Inventory.contains(ItemID.BRUMA_TORCH) || Equipment.contains("Bruma torch"))
+								{
+									return State.LIGHT_BRAZIER;
+								}
+							}
+							else if (Inventory.contains(ItemID.TINDERBOX))
+							{
+								return State.LIGHT_BRAZIER;
+							}
+
 						}
 						else if (currentBrazier == burningBrazier)
 						{
