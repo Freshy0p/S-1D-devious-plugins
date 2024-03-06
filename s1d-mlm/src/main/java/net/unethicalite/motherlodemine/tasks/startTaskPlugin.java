@@ -18,14 +18,14 @@ public class startTaskPlugin extends net.unethicalite.motherlodemine.tasks.Mothe
     @Override
     public boolean validate()
     {
-        return !running;
+        return false;
     }
 
     @Override
     public int execute()
     {
         this.setActivity(Activity.IDLE);
-        running = true;
+
         return 0;
     }
 }

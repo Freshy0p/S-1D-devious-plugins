@@ -1,6 +1,7 @@
 package net.unethicalite.motherlodemine.tasks;
 
 import net.runelite.api.TileObject;
+import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.motherlodemine.S1dMotherlodeMinePlugin;
@@ -35,8 +36,8 @@ public class Deposit extends MotherlodeMineTask
         if (hopper != null)
         {
             hopper.interact("Deposit");
-            this.setActivity(Activity.IDLE);
-            return 4000;
+            Time.sleepTicksUntil(() -> this.isCurrentActivity(Activity.IDLE), 15);
+            return 200;
         }
         return -1;
     }

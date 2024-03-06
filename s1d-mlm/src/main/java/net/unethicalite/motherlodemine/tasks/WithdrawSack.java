@@ -47,7 +47,7 @@ public class WithdrawSack extends MotherlodeMineTask
         if (sack != null)
         {
             this.setActivity(Activity.WITHDRAWING);
-            sack.interact("Fill");
+            sack.interact("Search");
             Time.sleepTicksUntil(() -> this.isCurrentActivity(Activity.IDLE), 20);
             return 0;
         }

@@ -1,6 +1,6 @@
 package net.unethicalite.motherlodemine.tasks;
 
-import net.runelite.api.Constants;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Item;
 import net.runelite.api.ItemID;
 import net.runelite.api.TileObject;
@@ -12,9 +12,8 @@ import net.unethicalite.motherlodemine.data.Activity;
 
 import javax.inject.Inject;
 
-import static net.unethicalite.api.commons.Time.sleep;
 import static net.unethicalite.api.commons.Time.sleepUntil;
-
+@Slf4j
 public class HandleBank extends MotherlodeMineTask
 {
     public HandleBank(S1dMotherlodeMinePlugin context)
@@ -50,22 +49,21 @@ public class HandleBank extends MotherlodeMineTask
     public int execute()
     {
         TileObject bank = TileObjects.getNearest(obj -> obj.hasAction("Use") && obj.getName().equals("Bank chest"));
-        if (Bank.isOpen() && this.isCurrentActivity(Activity.DEPOSITING))
+        if (Bank.isOpen())
         {
-            sleep(Constants.GAME_TICK_LENGTH);
+
             Bank.depositAllExcept(ItemID.IMCANDO_HAMMER,
                     ItemID.HAMMER,
                     ItemID.OPEN_GEM_BAG);
+            log.info("Depositing");
             final Item gemBag = Bank.Inventory.getFirst(ItemID.OPEN_GEM_BAG);
-            sleep(Constants.GAME_TICK_LENGTH);
-            if (gemBag != null && plugin.getClient().getTickCount() - lastGemBagEmpty > 200)
+
+            if (gemBag != null)
             {
+                log.info("Emptying gem bag");
                 gemBag.interact("Empty");
-                lastGemBagEmpty = plugin.getClient().getTickCount();
-                sleep(Constants.GAME_TICK_LENGTH);
+
             }
-            Bank.close();
-            this.setActivity(Activity.IDLE);
             return -1;
 
         }

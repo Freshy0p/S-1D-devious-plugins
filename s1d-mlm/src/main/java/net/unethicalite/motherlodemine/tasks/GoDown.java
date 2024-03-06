@@ -4,6 +4,7 @@ import net.runelite.api.NullObjectID;
 import net.runelite.api.TileObject;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.commons.Time;
+import net.unethicalite.api.entities.Players;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
@@ -27,7 +28,7 @@ public class GoDown extends MotherlodeMineTask
     {
         return this.isCurrentActivity(Activity.IDLE)
                 && this.isUpperFloor()
-                && Inventory.isFull();
+                && Inventory.isFull() || this.isSackFull() && this.isUpperFloor();
     }
 
     @Override
@@ -47,6 +48,12 @@ public class GoDown extends MotherlodeMineTask
 
             return 0;
         }
+        // If player x and y is greater than or equal to 3757, 5677, 0 then clear the rockfall
+        if (Players.getLocal().getWorldLocation().getX() >= 3757 && Players.getLocal().getWorldLocation().getY() >= 5677)
+        {
+            this.mineRockfall(3757, 5677);
+        }
+
         ladder.interact("Climb");
         Time.sleepTicksUntil(() -> !this.isUpperFloor(), 20);
         return 0;

@@ -34,7 +34,6 @@ public class FixWheel extends MotherlodeMineTask
         {
             this.setActivity(Activity.REPAIRING);
             brokenStrut.interact("Hammer");
-            this.setActivity(Activity.IDLE);
             return 4000;
         }
         return 0;

@@ -1,6 +1,7 @@
 package net.unethicalite.motherlodemine.tasks;
 
 
+import net.runelite.api.ItemID;
 import net.runelite.api.NullObjectID;
 import net.runelite.api.TileObject;
 import net.unethicalite.api.commons.Time;
@@ -26,7 +27,17 @@ public class GoUp extends MotherlodeMineTask
     @Override
     public boolean validate()
     {
-        return !this.isUpperFloor() && this.isCurrentActivity(Activity.IDLE) && !Inventory.contains("Pay-dirt");
+        return !this.isUpperFloor() && this.isCurrentActivity(Activity.IDLE) && !Inventory.contains("Pay-dirt") && !this.isSackFull() && !Inventory.contains(
+                ItemID.RUNITE_ORE,
+                ItemID.ADAMANTITE_ORE,
+                ItemID.MITHRIL_ORE,
+                ItemID.GOLD_ORE,
+                ItemID.COAL,
+                ItemID.UNCUT_SAPPHIRE,
+                ItemID.UNCUT_EMERALD,
+                ItemID.UNCUT_RUBY,
+                ItemID.UNCUT_DIAMOND,
+                ItemID.UNCUT_DRAGONSTONE);
 
     }
 
