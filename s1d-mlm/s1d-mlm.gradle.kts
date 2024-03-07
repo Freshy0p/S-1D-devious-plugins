@@ -1,4 +1,4 @@
-version = "0.0.9"
+version = "0.0.10"
 
 project.extra["PluginName"] = "S-1D Motherlode Mine"
 project.extra["PluginDescription"] = "Automates the Motherlode Mine minigame."

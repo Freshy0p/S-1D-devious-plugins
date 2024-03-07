@@ -28,7 +28,7 @@ import java.util.Set;
 
 @Extension
 @PluginDescriptor(
-        name = "<html>[<font color=#8f6b32>S-1D</font>] Motherlode Mine <font color=#8f6b32 size=\"5\">⛏</font>",
+        name = "<html>[<font color=#8f6b32>S-1D</font>] Motherlode Mine <font color=#8f6b32>⛏",
         enabledByDefault = false
 )
 @Slf4j
