@@ -53,6 +53,13 @@
       "version": "0.0.10",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.10.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-07",
+      "sha512sum": "2AE528AB392ABAA3D6180CF74AB37AB031116022A89F99CDEB9DC532EA1A7D2FCC7F36D40CBD0BEB2C4ECB2F7B174CE073D113766ADFA8D2D6DEB3D1E4164F28",
+      "version": "0.0.11",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.11.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
@@ -81,6 +88,13 @@
       "sha512sum": "9F2BDAC9D8C172ECD3D0E1EFEAAEC13ED6DF627442D4262430868FE7836FDFB980BEB1C463CB79826F7C4CA3511297E64D6A5F8F153F4FEF5F84CBA058409142",
       "version": "0.0.17",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.17.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-07",
+      "sha512sum": "A4F53654C7285F5B450128B4F6B65BD6EE2F080B485CC081DD4DD2D10E8B9929A64B04121CB625A45BB1197DC4848094449169055655D6A45B133D0BC9C322D8",
+      "version": "0.0.18",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.18.jar?raw=true",
       "requires": "^1.0.0"
     }
   ]
@@ -145,6 +159,13 @@
       "sha512sum": "B0BA2658C93DF7B7D6E6BF2CBD3656268BD1911037166FC8259DD12950079F4A0A0DCBDACAA23BCA6790A065DED71D5F6A82D5F5863DE32D45AF036CEE67C81B",
       "version": "0.0.15",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.15.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-07",
+      "sha512sum": "21C8E327FEFC922FC9C6282956F510564787693ACCBDF958A44389403C67535D30AF6D1E3662E69B8520DA9E74FB05846751493C36DE6C47895C4B51EE1257B8",
+      "version": "0.0.16",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.16.jar?raw=true",
       "requires": "^1.0.0"
     }
   ]
