@@ -35,7 +35,7 @@ import static net.unethicalite.tempoross.TemporossID.*;
 
 @Extension
 @PluginDescriptor(
-		name = "<html>[<font color=#18a9d9>S-1D</font>] Solo Tempoross  <font color=#18a9d9 size=\"6\">  \uD83D\uDC0B</html>",
+		name = "<html>[<font color=#18a9d9>S-1D</font>] Solo Tempoross  <font color=#18a9d9 size=\"5\">  \uD83D\uDC0B</html>",
 		enabledByDefault = false
 )
 @Slf4j
