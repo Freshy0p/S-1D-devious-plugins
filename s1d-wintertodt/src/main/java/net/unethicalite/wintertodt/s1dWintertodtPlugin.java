@@ -70,7 +70,7 @@ import static net.unethicalite.api.commons.Time.sleepUntil;
 
 @Extension
 @PluginDescriptor(
-	name = "<html>[<font color=#25c550>S-1D</font>] Wintertodt",
+	name = "<html>[<font color=#f44336>S-1D</font>] Wintertodt <font color=#f44336 size=\"6\">  \uD83C\uDF85",
 	description = "does wintertodt",
 	enabledByDefault = false,
 	tags =

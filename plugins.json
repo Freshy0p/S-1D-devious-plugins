@@ -32,6 +32,13 @@
       "version": "0.0.6",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.6.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-07",
+      "sha512sum": "7E831DCA08033E9FCE7250B91649A518D54C641FAE1F623F6AAAF0E31DD075B96880545C292FBD3D2558CACF6AB7CAE4A3ED8EF22B33714C8AE222492F7DC9C8",
+      "version": "0.0.8",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.8.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
@@ -40,13 +47,22 @@
   "name": "S-1D Solo Tempoross",
   "description": "Solo Tempoross",
   "id": "sdsolotempoross-plugin",
-  "releases": [{
-    "date": "2024-03-05",
-    "sha512sum": "D0B435E97C0D838D125E1B12DF42A48FC4F005007734614A1575DE8532E460DC0CE3A38FBDE8178B5360FC996264C4F06F88C6E7534B0B33B988E593A5D61988",
-    "version": "0.0.15",
-    "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.15.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-03-05",
+      "sha512sum": "D0B435E97C0D838D125E1B12DF42A48FC4F005007734614A1575DE8532E460DC0CE3A38FBDE8178B5360FC996264C4F06F88C6E7534B0B33B988E593A5D61988",
+      "version": "0.0.15",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.15.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-07",
+      "sha512sum": "EDF53C7D4851A9F710A633A81EBD567F70E01B4D328229478FF627EEDCEF75F7AB30AD2AC1995ED376658674C9845197FA7E6E821C2B2C5813AD75077BA67C04",
+      "version": "0.0.16",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.16.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "S-1D",
@@ -87,6 +103,13 @@
       "sha512sum": "9115B0B5F768B56A57A25C020D29F316BE5E135552BBE71FBE874616EA61942F6626AD4D68F09F98A4F38E6A9987A6DAC71AA2ABF7D691372D165D5DE437D509",
       "version": "0.0.12",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.12.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-07",
+      "sha512sum": "6A1493B3A03F93DBE87ACBBFD198AEE57C806A1D3C7D0323ED6549E8FBBF0AB2ABA982E9B2E462526E91BB3092ACFF63408E6136C5205E5E0FF2BEB6B658AF90",
+      "version": "0.0.13",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.13.jar?raw=true",
       "requires": "^1.0.0"
     }
   ]

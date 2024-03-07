@@ -24,7 +24,7 @@ public class HandleBank extends MotherlodeMineTask
     @Inject
     private S1dMotherlodeMinePlugin plugin;
 
-    private int lastGemBagEmpty;
+    private int lastGemBagEmpty = 0;
 
     @Override
     public boolean validate()
@@ -58,13 +58,12 @@ public class HandleBank extends MotherlodeMineTask
             log.info("Depositing");
             final Item gemBag = Bank.Inventory.getFirst(ItemID.OPEN_GEM_BAG);
 
-            if (gemBag != null)
+            if (gemBag != null && gemBag.getQuantity() > 0 && lastGemBagEmpty < 1)
             {
                 log.info("Emptying gem bag");
                 gemBag.interact("Empty");
-
+                lastGemBagEmpty++;
             }
-            return -1;
 
         }
         else if (bank != null)
@@ -73,6 +72,8 @@ public class HandleBank extends MotherlodeMineTask
             bank.interact("Use");
             sleepUntil(Bank::isOpen, 4000);
         }
+        if (!this.isSackFull())
+            lastGemBagEmpty = 0;
         return 0;
     }
 }

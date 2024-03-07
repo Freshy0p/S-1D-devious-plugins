@@ -31,12 +31,16 @@ public class Deposit extends MotherlodeMineTask
     public int execute()
     {
         this.setActivity(Activity.DEPOSITING);
-
         final TileObject hopper = TileObjects.getNearest("Hopper");
         if (hopper != null)
         {
+            if (this.getRemainingDeposits() <= 1)
+            {
+                this.setSackFull(true);
+            }
             hopper.interact("Deposit");
             Time.sleepTicksUntil(() -> this.isCurrentActivity(Activity.IDLE), 15);
+            this.refreshSackValues();
             return 200;
         }
         return -1;

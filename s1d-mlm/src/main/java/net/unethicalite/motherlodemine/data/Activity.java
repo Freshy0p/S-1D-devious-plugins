@@ -12,6 +12,8 @@ public class Activity
     public static final Activity ATTACKING = new Activity("Attacking");
     public static final Activity MINING = new Activity("Mining");
     public static final Activity REPAIRING = new Activity("Repairing");
+    // AFK Activity
+    public static final Activity AFK = new Activity("AFK");
 
     String name;
 }

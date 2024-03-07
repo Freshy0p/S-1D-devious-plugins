@@ -3,6 +3,7 @@ package net.unethicalite.motherlodemine;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Provides;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.*;
@@ -21,12 +22,13 @@ import net.unethicalite.motherlodemine.tasks.*;
 import org.pf4j.Extension;
 
 import javax.inject.Inject;
+import java.util.Random;
 import java.util.Set;
 
 
 @Extension
 @PluginDescriptor(
-        name = "<html>[<font color=#25c550>S-1D</font>] Motherlode Mine",
+        name = "<html>[<font color=#8f6b32>S-1D</font>] <font color=#8f6b32 size=\"6\">⛏</font> Motherlode Mine <font color=#8f6b32 size=\"6\">⛏</font>",
         enabledByDefault = false
 )
 @Slf4j
@@ -44,6 +46,7 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
     public int maxSackSize;
     public TileObject oreVein;
     @Getter
+    @Setter
     public boolean sackFull;
     @Inject
     @Getter
@@ -52,6 +55,7 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
 
     private Activity currentActivity;
     private Activity previousActivity;
+    @Setter
     protected int taskCooldown;
 
     public void setActivity(Activity activity)
@@ -148,7 +152,10 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
             case AnimationID.MINING_MOTHERLODE_GILDED:
             case AnimationID.MINING_MOTHERLODE_INFERNAL:
             case AnimationID.MINING_MOTHERLODE_3A:
-                setActivity(Activity.MINING);
+                if (!isCurrentActivity(Activity.MINING))
+                {
+                    setActivity(Activity.MINING);
+                }
                 break;
             default:
         }
@@ -165,8 +172,9 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
             if (wallObject.getWorldLocation().equals(oreVein.getWorldLocation()))
             {
                 log.info("Vein i was mining turned into a depleted vein");
+
                 setOreVein(null);
-                setActivity(Activity.IDLE);
+                setTaskCooldown();
             }
         }
     }
@@ -178,7 +186,7 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
                 && event.getGameObject().getName().equals("Broken strut"))
         {
             log.info("Strut despawned");
-            setActivity(Activity.IDLE);
+            setTaskCooldown();
         }
     }
     @Subscribe
@@ -188,7 +196,16 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
         {
             if (taskCooldown > 0)
             {
+                if (!isCurrentActivity(Activity.AFK))
+                {
+                    setActivity(Activity.AFK);
+                }
+                log.info("Task cooldown: " + taskCooldown);
                 taskCooldown--;
+            }
+            else if (isCurrentActivity(Activity.AFK))
+            {
+                setActivity(Activity.IDLE);
             }
         }
     }
@@ -235,7 +252,7 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
     {
         if (isRunning() && inMotherlodeMine())
         {
-            log.info("Varbit changed in MLM");
+            log.info("remaining deposits: " + getRemainingDeposits());
             refreshSackValues();
             log.info("Sack size: " + curSackSize + "/" + maxSackSize);
             if (curSackSize >= maxSackSize - 26)
@@ -244,7 +261,12 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
             }
         }
     }
-
+    // get random task cooldown
+    public void setTaskCooldown()
+    {
+        taskCooldown = new Random().nextInt(config.taskCooldownMax() - config.taskCooldownMin() + 1)
+                + config.taskCooldownMin();
+    }
     public boolean isUpperFloor()
     {
         return Perspective.getTileHeight(client, client.getLocalPlayer().getLocalLocation(), 0) < UPPER_FLOOR_HEIGHT;
@@ -278,12 +300,26 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
             return MiningArea.UPSTAIRS;
 
     }
+
+    // function to calculate remaining deposits
+    public int getRemainingDeposits()
+    {
+        int remainingDeposits = 0;
+        if (curSackSize < maxSackSize - 26)
+        {
+            remainingDeposits = (maxSackSize - curSackSize) / 26;
+        }
+        return remainingDeposits;
+    }
     public void refreshSackValues()
     {
         curSackSize = Vars.getBit(Varbits.SACK_NUMBER);
         boolean sackUpgraded = Vars.getBit(Varbits.SACK_UPGRADED) == 1;
         maxSackSize = sackUpgraded ? SACK_LARGE_SIZE : SACK_SIZE;
-
+        if (curSackSize >= maxSackSize - 26)
+        {
+            sackFull = true;
+        }
         if (curSackSize == 0)
         {
             sackFull = false;

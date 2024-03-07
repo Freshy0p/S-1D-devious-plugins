@@ -3,7 +3,6 @@ package net.unethicalite.motherlodemine;
 import net.runelite.client.config.Button;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
-import net.unethicalite.motherlodemine.data.Activity;
 
 @ConfigGroup("s1dmlm")
 public interface Config extends net.runelite.client.config.Config
@@ -42,15 +41,27 @@ public interface Config extends net.runelite.client.config.Config
         return new Button();
     }
 
-    // Activity config
+    // Task cooldown minimum ticks
     @ConfigItem(
-            keyName = "activity",
-            name = "Activity",
-            description = "Activity to perform",
+            keyName = "taskCooldownMin",
+            name = "Task Cooldown Min",
+            description = "Minimum ticks between tasks",
             position = 2
     )
-    default Activity activity()
+    default int taskCooldownMin()
     {
-        return Activity.IDLE;
+        return 5;
+    }
+
+    // Task cooldown maximum ticks
+    @ConfigItem(
+            keyName = "taskCooldownMax",
+            name = "Task Cooldown Max",
+            description = "Maximum ticks between tasks",
+            position = 3
+    )
+    default int taskCooldownMax()
+    {
+        return 10;
     }
 }

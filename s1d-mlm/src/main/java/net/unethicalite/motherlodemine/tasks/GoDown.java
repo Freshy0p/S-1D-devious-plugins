@@ -34,6 +34,11 @@ public class GoDown extends MotherlodeMineTask
     @Override
     public int execute()
     {
+        // If player x and y is greater than or equal to 3757, 5677, 0 then clear the rockfall
+        if (Players.getLocal().getWorldLocation().getX() >= 3757 && Players.getLocal().getWorldLocation().getY() >= 5677)
+        {
+            this.mineRockfall(3757, 5677);
+        }
         final TileObject ladder = TileObjects.getNearest(NullObjectID.NULL_19045);
         if (ladder == null || !ladder.hasAction("Climb"))
         {
@@ -48,14 +53,10 @@ public class GoDown extends MotherlodeMineTask
 
             return 0;
         }
-        // If player x and y is greater than or equal to 3757, 5677, 0 then clear the rockfall
-        if (Players.getLocal().getWorldLocation().getX() >= 3757 && Players.getLocal().getWorldLocation().getY() >= 5677)
-        {
-            this.mineRockfall(3757, 5677);
-        }
 
         ladder.interact("Climb");
         Time.sleepTicksUntil(() -> !this.isUpperFloor(), 20);
+        this.setTaskCooldown();
         return 0;
     }
 }
