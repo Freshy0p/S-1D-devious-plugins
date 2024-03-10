@@ -52,6 +52,11 @@
 		<module name="WhitespaceAround">
 			<property name="allowEmptyTypes" value="true"/>
 		</module>
+		<!-- ignore LeftCurlyCheck  -->
+		<module name="LeftCurlyCheck">
+			<property name="option" value="nl"/>
+			<property name="tokens" value="LITERAL_ELSE"/>
+		</module>
 		<module name="WhitespaceAfter">
 			<property name="tokens" value="COMMA"/>
 		</module>
