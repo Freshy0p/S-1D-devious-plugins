@@ -1,15 +1,25 @@
 package net.unethicalite.fighter;
 
 import com.google.inject.Provides;
-import net.runelite.api.Client;
-import net.runelite.api.ItemID;
+import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.*;
+import net.runelite.api.coords.WorldPoint;
+import net.runelite.api.events.ChatMessage;
 import net.runelite.api.util.Text;
+import net.runelite.client.config.ConfigManager;
+import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.game.ItemManager;
+import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.util.WildcardMatcher;
+import net.unethicalite.api.commons.Time;
+import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.Players;
 import net.unethicalite.api.entities.TileItems;
+import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Combat;
 import net.unethicalite.api.game.Game;
+import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.magic.Magic;
 import net.unethicalite.api.movement.Movement;
@@ -19,21 +29,11 @@ import net.unethicalite.api.plugins.Plugins;
 import net.unethicalite.api.utils.MessageUtils;
 import net.unethicalite.api.widgets.Dialog;
 import net.unethicalite.api.widgets.Prayers;
-import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.Item;
-import net.runelite.api.NPC;
-import net.runelite.api.Player;
-import net.runelite.api.TileItem;
-import net.runelite.api.coords.WorldPoint;
-import net.runelite.api.events.ChatMessage;
-import net.runelite.client.config.ConfigManager;
-import net.runelite.client.eventbus.Subscribe;
-import net.runelite.client.game.ItemManager;
-import net.runelite.client.plugins.PluginDescriptor;
+import net.unethicalite.fighter.utils.S1dBank;
 import org.pf4j.Extension;
 
 import javax.inject.Inject;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,8 +44,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @PluginDescriptor(
-		name = "Unethical Fighter",
-		description = "A simple auto fighter",
+		name = "S-1D Fighter",
+		description = "A simple fighter plugin that can bank, loot, and alch. It also has loot only mode.",
 		enabledByDefault = false
 )
 @Slf4j
@@ -144,7 +144,7 @@ public class FighterPlugin extends LoopedPlugin
 
 		if (Movement.isWalking())
 		{
-			return -4;
+			return -1;
 		}
 
 		if (config.flick() && Prayers.isQuickPrayerEnabled())
@@ -200,6 +200,33 @@ public class FighterPlugin extends LoopedPlugin
 			}
 		}
 
+		int minimumFreeSlots = config.minFreeSlots();
+		if (Inventory.getFreeSlots() <= minimumFreeSlots && config.bank())
+		{
+			if(Bank.isOpen())
+			{
+				S1dBank.depositAllExcept(false, 1);
+				Time.sleepTick();
+				Bank.close();
+				return -1;
+			}
+			NPC banker = NPCs.getNearest(npc -> npc.hasAction("Collect"));
+			if (banker != null && !Bank.isOpen())
+			{
+				banker.interact("Bank");
+				Time.sleepTicksUntil(Bank::isOpen, 20);
+				return -1;
+			}
+
+			TileObject bank = TileObjects.getFirstSurrounding(client.getLocalPlayer().getWorldLocation(), 10, obj -> obj.hasAction("Collect") || obj.getName().startsWith("Bank"));
+			if (bank != null && banker == null && !Bank.isOpen())
+			{
+				bank.interact("Bank", "Use");
+				Time.sleepTicksUntil(Bank::isOpen, 20);
+				return 0;
+			}
+		}
+
 		Player local = Players.getLocal();
 		TileItem loot = TileItems.getFirstSurrounding(center, config.attackRange(), x ->
 				!notOurItems.contains(x)
@@ -210,11 +237,11 @@ public class FighterPlugin extends LoopedPlugin
 			if (!Reachable.isInteractable(loot.getTile()))
 			{
 				Movement.walkTo(loot.getTile().getWorldLocation());
-				return -4;
+				return -1;
 			}
 
 			loot.pickup();
-			return -3;
+			return -1;
 		}
 
 		if (config.alching())

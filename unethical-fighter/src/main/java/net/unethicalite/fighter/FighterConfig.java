@@ -1,10 +1,6 @@
 package net.unethicalite.fighter;
 
-import net.runelite.client.config.Config;
-import net.runelite.client.config.ConfigGroup;
-import net.runelite.client.config.ConfigItem;
-import net.runelite.client.config.ConfigSection;
-import net.runelite.client.config.Range;
+import net.runelite.client.config.*;
 
 @ConfigGroup("hootfighter")
 public interface FighterConfig extends Config
@@ -12,7 +8,7 @@ public interface FighterConfig extends Config
 	@ConfigSection(
 			name = "General",
 			description = "General settings",
-			position = 991,
+			position = 990,
 			closedByDefault = true
 	)
 	String general = "General";
@@ -20,11 +16,19 @@ public interface FighterConfig extends Config
 	@ConfigSection(
 			name = "Health",
 			description = "General settings",
-			position = 992,
+			position = 991,
 			closedByDefault = true
 	)
 	String health = "Health";
 
+	//Att section for Banking
+	@ConfigSection(
+			name = "Banking",
+			description = "Banking settings",
+			position = 992,
+			closedByDefault = true
+	)
+	String banking = "Banking";
 	@ConfigSection(
 			name = "Loot",
 			description = "Loot settings",
@@ -128,6 +132,32 @@ public interface FighterConfig extends Config
 	default boolean buryBones()
 	{
 		return true;
+	}
+
+	@ConfigItem(
+			keyName = "bank",
+			name = "Bank",
+			description = "If enabled, will bank items when inventory is full. If disabled, will just stop looting",
+			position = 0,
+			section = banking
+	)
+	default boolean bank()
+	{
+		return true;
+	}
+
+	//Minimum free inventory slots to bank
+	@Range(max = 28)
+	@ConfigItem(
+			keyName = "minFreeSlots",
+			name = "Min. free slots",
+			description = "Minimum free inventory slots to bank",
+			position = 1,
+			section = banking
+	)
+	default int minFreeSlots()
+	{
+		return 5;
 	}
 
 	@ConfigItem(

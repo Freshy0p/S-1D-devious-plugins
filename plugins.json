@@ -208,23 +208,14 @@
 }, {
   "projectUrl": "",
   "provider": "S-1D",
-  "name": "Unethical Fighter",
-  "description": "Simple fighter, supports eating, looting, alching, prayer potions, prayer flicking",
-  "id": "unethicalfighter-plugin",
-  "releases": [
-    {
-      "date": "2024-03-11",
-      "sha512sum": "4AD27488532BEBA200D4A80E07A751B98892134B274DEFE5811100CD5555BC89199E8E67893BB49961FDF498925C6B616243540EB293709BC0BA2EEFD151FD38",
-      "version": "0.0.7",
-      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/unethical-fighter-0.0.7.jar?raw=true",
-      "requires": "^1.0.0"
-    },
-    {
-      "date": "2024-03-11",
-      "sha512sum": "F059575D5ABF284FB9F4684466859A9E5DDD3554ECD4AEA38C762069E3C7DAC4CE5CC08BE5AC03D2A21BC43D24A81F3F13371F0225B90B2FF85B2691C6367FCF",
-      "version": "0.0.8",
-      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/unethical-fighter-0.0.8.jar?raw=true",
-      "requires": "^1.0.0"
-    }
-  ]
+  "name": "S-1D Fighter",
+  "description": "Simple fighter, supports eating, looting, alching, prayer potions, prayer flicking also supports loot only mode.",
+  "id": "sdfighter-plugin",
+  "releases": [{
+    "date": "2024-03-11",
+    "sha512sum": "2407BD88646617C2D662FB5EE80D7999F64CF543A23BD629126E3F0982B19C038EBC07FE5BA9221638A101127E659B988FDDED7D17A29B2A5422402C7EB792FD",
+    "version": "0.0.9",
+    "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/unethical-fighter-0.0.9.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
 }]
