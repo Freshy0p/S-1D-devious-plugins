@@ -11,8 +11,7 @@ import net.unethicalite.api.items.Bank;
 import net.unethicalite.fletcher.S1dFletcherPlugin;
 import net.unethicalite.fletcher.data.Activity;
 import net.unethicalite.fletcher.data.Mode;
-
-import java.util.Optional;
+import net.unethicalite.fletcher.utils.S1dBank;
 
 public class BankHandle extends FletcherTask {
     public BankHandle(S1dFletcherPlugin context) {
@@ -35,8 +34,9 @@ public class BankHandle extends FletcherTask {
             this.setActivity(Activity.BANKING);
             this.setTimesBanked(this.getTimesBanked() + 1);
             if(this.isMode(Mode.FLETCHING_SHORTBOW) || this.isMode(Mode.FLETCHING_LONGBOW) || this.isMode(Mode.FLETCHING_SHIELD) || this.isMode(Mode.FLETCHING_STOCKS) || this.isMode(Mode.FLETCHING_SHAFTS)) {
-                if(this.hasFinishedProduct() && !this.isMode(Mode.FLETCHING_SHAFTS)){
-                    Bank.depositAllExcept(ItemID.KNIFE);
+                if(!this.isMode(Mode.FLETCHING_SHAFTS)){
+
+                    S1dBank.depositAllExcept(false,ItemID.KNIFE);
                     //sleep one tick
                     Time.sleep(Constants.GAME_TICK_LENGTH);
                 }
@@ -51,11 +51,11 @@ public class BankHandle extends FletcherTask {
 
                 // if we are stringing longbow or shortbow
             } else if (this.isMode(Mode.STRINGING_LONGBOW) || this.isMode(Mode.STRINGING_SHORTBOW)) {
-                if(this.hasFinishedProduct()){
+
                     Bank.depositInventory();
                     //sleep one tick
                     Time.sleep(Constants.GAME_TICK_LENGTH);
-                }
+
                 if(this.isMode(Mode.STRINGING_LONGBOW)) {
                     // Withdraw 14 bow strings and 14 unstrung bows
                     Bank.withdraw(this.getMaterial().getProductID()[2], 14, Bank.WithdrawMode.ITEM);
