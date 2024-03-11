@@ -46,6 +46,7 @@ public class FighterOverlay extends Overlay
 
 		if (config.drawRadius())
 		{
+
 			List<Tile> tiles = Tiles.getSurrounding(center, config.attackRange());
 			for (Tile tile : tiles)
 			{

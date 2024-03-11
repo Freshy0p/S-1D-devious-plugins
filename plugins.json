@@ -1,6 +1,28 @@
 [{
   "projectUrl": "",
   "provider": "S-1D",
+  "name": "S-1D Fletcher",
+  "description": "Automate fletching, select custom task or allow the plugin to choose the best task for you.",
+  "id": "sdfletcher-plugin",
+  "releases": [
+    {
+      "date": "2024-03-11",
+      "sha512sum": "93AF2F56C93B1612C7CB5FD012EEF286CA65E274F98D6D52B1B57D2749B4C606216E667A382FCEE31FEDF2CA9C4546FFBE660A3A151827101AD0DB0FAECCDEEF",
+      "version": "0.0.2",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-fletcher-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-11",
+      "sha512sum": "9B566D15515A8E1AFA1A15CCBAC91AD6FE9CE16AD469E7A17CA035C00817FE8B00A4440065AFF80CB475498C6C865C1FDCB33C63181635A37D0AAE89E3A08F1A",
+      "version": "0.0.3",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-fletcher-0.0.3.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
+}, {
+  "projectUrl": "",
+  "provider": "S-1D",
   "name": "S-1D Motherlode Mine",
   "description": "Automates the Motherlode Mine minigame.",
   "id": "sdmotherlodemine-plugin",
@@ -56,7 +78,7 @@
     },
     {
       "date": "2024-03-07",
-      "sha512sum": "2AE528AB392ABAA3D6180CF74AB37AB031116022A89F99CDEB9DC532EA1A7D2FCC7F36D40CBD0BEB2C4ECB2F7B174CE073D113766ADFA8D2D6DEB3D1E4164F28",
+      "sha512sum": "0BC3D0C1B36160A7D06F92A52955FC98C010F4ABC1189A28854EAC314AB25447622FC359E3C07770E1D651C2604D1CC34B98AE3444DB2FCC5300988AAD87EDE4",
       "version": "0.0.11",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.11.jar?raw=true",
       "requires": "^1.0.0"
@@ -92,9 +114,16 @@
     },
     {
       "date": "2024-03-07",
-      "sha512sum": "A4F53654C7285F5B450128B4F6B65BD6EE2F080B485CC081DD4DD2D10E8B9929A64B04121CB625A45BB1197DC4848094449169055655D6A45B133D0BC9C322D8",
+      "sha512sum": "AC14A4B0D4E2E6F62881F3BB60508AB201AD6122F6F6D3370A773B50B1F6F31F5107E36FF4F69C51BE609BE63397D9DE5C9C2174AC4DE6AFA1054B7AC0A3C2C0",
       "version": "0.0.18",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.18.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-11",
+      "sha512sum": "1BB1908698C196B774482232513F4B48E7C45EE35549A65D24062C41C40C759259A82B173015B63C2DE93C217C1AFD5B8C315B622186B464C9D2B5CC9C2B7A5A",
+      "version": "0.0.25",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.25.jar?raw=true",
       "requires": "^1.0.0"
     }
   ]
@@ -163,9 +192,31 @@
     },
     {
       "date": "2024-03-07",
-      "sha512sum": "21C8E327FEFC922FC9C6282956F510564787693ACCBDF958A44389403C67535D30AF6D1E3662E69B8520DA9E74FB05846751493C36DE6C47895C4B51EE1257B8",
+      "sha512sum": "464D75E1BD2267C9309BDA4B09365E2194166E5832FC6FEB76F42F2DEA43E6C2CFDDB2E55673768DA6406051D14BFEB6F943E11436E899B295B0D744C66ECEEB",
       "version": "0.0.16",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.16.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
+}, {
+  "projectUrl": "",
+  "provider": "S-1D",
+  "name": "Unethical Fighter",
+  "description": "Simple fighter, supports eating, looting, alching, prayer potions, prayer flicking",
+  "id": "unethicalfighter-plugin",
+  "releases": [
+    {
+      "date": "2024-03-11",
+      "sha512sum": "4AD27488532BEBA200D4A80E07A751B98892134B274DEFE5811100CD5555BC89199E8E67893BB49961FDF498925C6B616243540EB293709BC0BA2EEFD151FD38",
+      "version": "0.0.7",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/unethical-fighter-0.0.7.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-11",
+      "sha512sum": "EDEEC7E24CB6C6FA9B733DD7E16D28F09BA26449BA56E786F1065F2FA1711A381DE9BCC7255A50AF18A891D3D864D56A46FFFEE15B00EA5F193A551CABD6EF6C",
+      "version": "0.0.8",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/unethical-fighter-0.0.8.jar?raw=true",
       "requires": "^1.0.0"
     }
   ]

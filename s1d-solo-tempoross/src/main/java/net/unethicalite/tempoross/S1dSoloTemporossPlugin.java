@@ -10,6 +10,7 @@ import net.runelite.api.widgets.Widget;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.Players;
 import net.unethicalite.api.entities.TileObjects;
@@ -30,6 +31,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static net.unethicalite.tempoross.TemporossID.*;
 
@@ -54,6 +56,10 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 	@Inject
 	private ConfigManager configManager;
 	private int waves = 0;
+
+	private int fireClouds = 0;
+
+	private boolean isFilling = false;
 	private TemporossWorkArea workArea = null;
 
 	private int clickDelay = 0;
@@ -73,8 +79,10 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		if (!client.isInInstancedRegion())
 		{
 			waves = 0;
+			fireClouds = 0;
 			workArea = null;
 			incomingWave = false;
+			isFilling = false;
 			scriptState = State.INITIAL_CATCH;
 
 			if (player.isMoving() || player.isAnimating())
@@ -122,12 +130,16 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 			workArea = area;
 			return -1;
 		}
-
-		NPC leave = NPCs.getNearest(x -> x.hasAction("Leave"));
-		if (leave != null)
+		// Get the closest NPC that has the action "Leave" based on distancepath to the player
+		NPC exitNpc = NPCs.getAll(x -> x.hasAction("Leave")).stream()
+				.min(Comparator.comparing(x -> x.getWorldLocation().distanceToPath(client, player.getWorldLocation())))
+				.orElse(null);
+		if (exitNpc != null)
 		{
-			leave.interact("Leave");
-			return -6;
+			exitNpc.interact("Leave");
+			log.info("Leaving");
+			Time.sleepTicksUntil(() -> !client.isInInstancedRegion(), 20);
+			return 1;
 		}
 
 		if (getPhase() >= 2 )
@@ -178,6 +190,18 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 
 			workArea.getBucketCrate().interact("Take");
 			return -2;
+		}
+		int emptyBucketCount = Inventory.getCount(ITEM_WATER_BUCKET);
+		// check if we have any water filled buckets, if not check if we are near the pump and if we are, use the pump
+		if (emptyBucketCount <= 0 && workArea.getPump().getWorldLocation().distanceToPath(client, player.getWorldLocation()) <= 10 && fireClouds == 0)
+		{
+			if (workArea.getPump().equals(player.getInteracting()))
+			{
+				return clickDelay;
+			}
+			workArea.getPump().interact("Use");
+			Time.sleepTicksUntil(() -> Inventory.getCount(ITEM_EMPTY_BUCKET) == 0, 10);
+			return clickDelay;
 		}
 
 		int ropeCount = Inventory.getCount(ITEM_ROPE);
@@ -251,19 +275,37 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		 */
 
 		List<NPC> fires = NPCs.getAll(x -> x.getId() == NPC_FIRE);
-		NPC fire = fires.stream()
-				.min(Comparator.comparing(x -> x.getWorldLocation().distanceTo(player.getWorldLocation())))
-				.orElse(null);
-		if (fire != null && fire.getWorldLocation().distanceToPath(client, player.getWorldLocation()) <= 10)
+
+		// get the 4 closest fires to the totem pole, and sort them by distance to the player and limit to 8
+		List<NPC> closestFires = fires.stream()
+				.filter(x -> x.getWorldLocation().distanceToPath(client,player.getWorldLocation()) <= 40)
+				.sorted(Comparator.comparing(x -> x.getWorldLocation().distanceTo(player.getWorldLocation())))
+				.limit(8)
+				.collect(Collectors.toList());
+		//Douse all the fires that are close to the player if we don't have any water buckets in the inventory fill them up first
+		if (!closestFires.isEmpty() && !isFilling)
 		{
-			if (fire.equals(player.getInteracting()))
+			if (emptyBucketCount <= 0 && workArea.getPump().getWorldLocation().distanceToPath(client, player.getWorldLocation()) <= 40)
 			{
+				if (workArea.getPump().equals(player.getInteracting()))
+				{
+					return clickDelay;
+				}
+				workArea.getPump().interact("Use");
+				Time.sleepTicksUntil(() -> Inventory.getCount(ITEM_EMPTY_BUCKET) == 0, 20);
 				return clickDelay;
 			}
-			fire.interact("Douse");
-			return clickDelay;
+			for (NPC closestFire : closestFires)
+			{
+				if (closestFire.equals(player.getInteracting()))
+				{
+					return clickDelay;
+				}
+				closestFire.interact("Douse");
+				log.info("Dousing fire");
+				return clickDelay;
+			}
 		}
-
 
 		TileObject damagedMast = TileObjects.getFirstAt(Tiles.getAt(workArea.getMastPoint()), OBJECT_DAMAGED_MAST);
 		if (damagedMast != null && damagedMast.getWorldLocation().distanceToPath(client, player.getWorldLocation()) < 15)
@@ -272,7 +314,22 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 			{
 				return clickDelay;
 			}
+			log.info("Repairing mast");
 			damagedMast.interact("Repair");
+			Time.sleepTick();
+			return clickDelay;
+		}
+
+		TileObject damagedTotem = TileObjects.getFirstAt(Tiles.getAt(workArea.getTotemPoint()), OBJECT_DAMAGED_TOTEM);
+		if (damagedTotem != null && damagedTotem.getWorldLocation().distanceToPath(client, player.getWorldLocation()) < 15)
+		{
+			if (damagedTotem.equals(player.getInteracting()))
+			{
+				return clickDelay;
+			}
+			log.info("Repairing totem");
+			damagedTotem.interact("Repair");
+			Time.sleepTick();
 			return clickDelay;
 		}
 
@@ -283,7 +340,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 			{
 				if (tether == null)
 				{
-					log.warn("Can't find tether object");
+					log.info("Can't find tether object");
 					return -1;
 				}
 				if (tether.equals(player.getInteracting()))
@@ -291,6 +348,8 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 					return clickDelay;
 				}
 				tether.interact("Tether");
+				log.info("Tethering");
+				Time.sleepTicksUntil(() -> Players.getLocal().getGraphic() == GRAPHIC_TETHERED, 10);
 				return clickDelay;
 			}
 
@@ -300,15 +359,11 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		if (tether != null && Players.getLocal().getGraphic() == GRAPHIC_TETHERED)
 		{
 			tether.interact("Untether");
+			log.info("Untethering");
+			Time.sleepTick();
 			return -2;
 		}
 
-		NPC exitNpc = NPCs.getNearest(NPC_EXIT);
-		if (exitNpc != null)
-		{
-			exitNpc.interact("Leave");
-			return 10000;
-		}
 
 		NPC doubleSpot = NPCs.getNearest(NPC_DOUBLE_FISH_SPOT);
 		if (scriptState == State.INITIAL_COOK && doubleSpot != null)
@@ -324,6 +379,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 
 		if (scriptState == null)
 		{
+			log.info("Script state is null, resetting to third catch");
 			scriptState = State.THIRD_CATCH;
 		}
 
@@ -332,25 +388,22 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 			scriptState = scriptState.next;
 			if (scriptState == null)
 			{
+				log.info("Script looped, resetting to third catch");
 				scriptState = State.THIRD_CATCH;
 			}
 		}
 
 		NPC temporossPool = NPCs.getNearest(NPC_VULN_WHIRLPOOL);
-		if (temporossPool != null && scriptState != State.SECOND_FILL && scriptState != State.ATTACK_TEMPOROSS)
+		if (temporossPool != null && scriptState != State.SECOND_FILL && scriptState != State.ATTACK_TEMPOROSS && ENERGY < 94)
 		{
 			scriptState = State.ATTACK_TEMPOROSS;
 		}
-		if (temporossPool != null && scriptState == State.ATTACK_TEMPOROSS && ENERGY >= 95)
-		{
-			scriptState = null;
-		}
+
 
 		int rawFishCount = Inventory.getCount(ITEM_RAW_FISH);
 
 		// Filter out dangerous NPCs
 		final Predicate<NPC> filterDangerousNPCs = (NPC npc) -> !inCloud(npc.getWorldLocation(), 1);
-		log.info("State: " + scriptState);
 		/**
 		 * Gather tasks
 		 */
@@ -359,6 +412,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 			case INITIAL_CATCH:
 			case SECOND_CATCH:
 			case THIRD_CATCH:
+				isFilling = false;
 				if (inCloud(player.getWorldLocation(), 10))
 				{
 					Movement.walkNextTo(getClosestCloudOrFire(player.getWorldLocation(), 10));
@@ -385,32 +439,50 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 					}
 
 					fishSpot.interact("Harpoon");
+					if (fishSpot.getId() == NPC_DOUBLE_FISH_SPOT)
+					{
+						log.info("Interacting with double fish spot");
+					}
+					else
+					{
+						log.info("Interacting with single fish spot");
+					}
+					Time.sleepTick();
 					return clickDelay;
 				}
 				else
 				{
 					// if fish are null walk to the totem pole since it's in the center of the fish spots.
 					Movement.walkTo(workArea.getTotemPoint());
+					log.warn("Can't find the fish spot, Walking to the totem pole");
+					Time.sleep(Constants.GAME_TICK_LENGTH);
 					return clickDelay;
 				}
 
 			case INITIAL_COOK:
 			case SECOND_COOK:
 			case THIRD_COOK:
+				isFilling = false;
 				TileObject range = workArea.getRange();
 				if (range != null && rawFishCount > 0)
 				{
-					if ((player.getAnimation() == ANIMATION_COOK || player.isMoving()) && !Dialog.isOpen() && !range.equals(player.getInteracting()))
+					// check if we currently is interacting with the range or player is animating or moving
+					if (range.equals(player.getInteracting()) || player.getAnimation() == ANIMATION_COOK || player.isMoving())
 					{
 						return clickDelay;
 					}
 
 					range.interact("Cook-at");
+					log.info("Interacting with range");
+					Time.sleepTicksUntil(() -> player.getAnimation() == ANIMATION_COOK, 10);
+					Time.sleep(Constants.GAME_TICK_LENGTH);
 					return clickDelay;
 				}
 				else if (range == null)
 				{
+					log.warn("Can't find the range, Walking to the range");
 					Movement.walkTo(workArea.getRangePoint());
+					Time.sleepTick();
 					return clickDelay;
 				}
 
@@ -429,6 +501,8 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 					if (ammoCrate != null)
 					{
 						Movement.walk(ammoCrate.getWorldLocation());
+						log.info("Walking to ammo crate");
+						Time.sleepTick();
 						return clickDelay;
 					}
 				}
@@ -442,20 +516,25 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 				if (ammoCrate != null && (!ammoCrate.equals(player.getInteracting()) || Dialog.isOpen()))
 				{
 					ammoCrate.interact("Fill");
+					log.info("Interacting with ammo crate");
+					isFilling = true;
+					Time.sleepTick();
 					return -2;
 				}
 				else if (ammoCrate == null)
 				{
-					log.warn("Can't find the ammo crate");
-
+					log.info("Can't find the ammo crate");
+					log.info("Walking to the ammo crate");
 					walkToSafePoint();
 				}
 				break;
 
 			case ATTACK_TEMPOROSS:
+				isFilling = false;
 				if (temporossPool != null && (!temporossPool.equals(player.getInteracting()) || Dialog.isOpen()))
 				{
 					temporossPool.interact("Harpoon");
+					log.info("Attacking Tempoross");
 					return 5000;
 				}
 				else if (temporossPool == null)
@@ -466,10 +545,14 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 						scriptState = null;
 						return -1;
 					}
-
+					log.info("Can't find Tempoross, Walking to the Tempoross pool");
 					walkToSafePoint();
 				}
-
+				if(ENERGY >= 95)
+				{
+					log.info("Energy is full, stop attacking tempoross");
+					scriptState = null;
+				}
 				break;
 		}
 
@@ -478,7 +561,7 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 
 	enum State
 	{
-		ATTACK_TEMPOROSS(() -> ENERGY >= 95,  null),
+		ATTACK_TEMPOROSS(() -> ENERGY >= 94,  null),
 		SECOND_FILL(() -> getCookedFish() == 0, ATTACK_TEMPOROSS),
 		THIRD_COOK(() -> getCookedFish() == 19 || INTENSITY >= 92, SECOND_FILL),
 		THIRD_CATCH(() -> getAllFish() >= 19, THIRD_COOK),
@@ -549,15 +632,25 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 
 		if (type == ChatMessageType.GAMEMESSAGE)
 		{
-			if (message.equals("<col=d30b0b>A colossal wave closes in...</col>"))
+			if (message.contains("A colossal wave closes in"))
 			{
 				waves++;
 				incomingWave = true;
+				log.info("Wave {}", waves);
 			}
 
 			if (message.contains("the rope keeps you securely") || message.contains("the wave slams into you"))
 			{
 				incomingWave = false;
+				log.info("Wave passed");
+			}
+			if (message.contains("A strong wind blows as clouds roll in"))
+			{
+				fireClouds++;
+				log.info("Clouds {}", fireClouds);
+			}
+			{
+
 			}
 		}
 	}
