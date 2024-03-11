@@ -28,7 +28,7 @@
     },
     {
       "date": "2024-03-11",
-      "sha512sum": "DD14BEAC57492514771AFCFB3ABF3BA558B2C1AC36F74AA8F240BBA3C53A452EE97C0880AA029AB917DFCC477A6A38554B22B4824B93FB1E88648E86CCC884E8",
+      "sha512sum": "7A95B50CCE93FC419A495ED832C9911BE1F1B4A71F57A0D7DD819E8FE29B247B414A5BEA027CD68B8D086B8510848A30B860030224660F3DD0857C0196CF526C",
       "version": "0.0.5",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-fletcher-0.0.5.jar?raw=true",
       "requires": "^1.0.0"
@@ -226,6 +226,19 @@
       "requires": "^1.0.0"
     }
   ]
+}, {
+  "projectUrl": "",
+  "provider": "S-1D",
+  "name": "S-1D Zeah Blood Runes",
+  "description": "Crafts blood runes",
+  "id": "sdzeahbloodrunes-plugin",
+  "releases": [{
+    "date": "2024-03-12",
+    "sha512sum": "36BA81717AD1B789EF2FDBECAA9AF7F037C9DC2FF1FE4053B5E15A90E2A9319ECEC8583B769BE650F7A8551400893EF57194FDC849EC92A1149B36BEE78371DA",
+    "version": "0.0.4",
+    "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-zeah-bloodrunes-0.0.4.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
 }, {
   "projectUrl": "",
   "provider": "S-1D",

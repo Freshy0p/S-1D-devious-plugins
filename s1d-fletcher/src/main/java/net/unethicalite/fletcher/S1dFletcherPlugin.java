@@ -389,7 +389,7 @@ public class S1dFletcherPlugin extends TaskPlugin
             setXpRemaining(getNextLevelExperience() - client.getSkillExperience(Skill.FLETCHING));
             if (client.getRealSkillLevel(Skill.FLETCHING) > getStartedLevel())
             {
-                setLevelsGained(getLevelsGained() + 1);
+                setLevelsGained(client.getRealSkillLevel(Skill.FLETCHING) - getStartedLevel());
             }
             logsFletched++;
         }

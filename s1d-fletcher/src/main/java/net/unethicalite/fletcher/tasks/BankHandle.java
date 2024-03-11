@@ -8,6 +8,7 @@ import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.items.Bank;
+import net.unethicalite.api.items.DepositBox;
 import net.unethicalite.fletcher.S1dFletcherPlugin;
 import net.unethicalite.fletcher.data.Activity;
 import net.unethicalite.fletcher.data.Mode;
@@ -37,6 +38,7 @@ public class BankHandle extends FletcherTask {
                 if(!this.isMode(Mode.FLETCHING_SHAFTS)){
 
                     S1dBank.depositAllExcept(false,ItemID.KNIFE);
+                    DepositBox.depositInventory();
                     //sleep one tick
                     Time.sleep(Constants.GAME_TICK_LENGTH);
                 }
