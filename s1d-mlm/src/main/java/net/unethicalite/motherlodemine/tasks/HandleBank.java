@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Item;
 import net.runelite.api.ItemID;
 import net.runelite.api.TileObject;
+import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
@@ -24,12 +25,11 @@ public class HandleBank extends MotherlodeMineTask
     @Inject
     private S1dMotherlodeMinePlugin plugin;
 
-    private int lastGemBagEmpty = 0;
 
     @Override
     public boolean validate()
     {
-        return this.isCurrentActivity(Activity.IDLE)
+        return (this.isCurrentActivity(Activity.IDLE) || this.isCurrentActivity(Activity.BANKING))
                 && !this.isUpperFloor()
                 && Inventory.contains(
                 ItemID.RUNITE_ORE,
@@ -48,32 +48,21 @@ public class HandleBank extends MotherlodeMineTask
     @Override
     public int execute()
     {
-        TileObject bank = TileObjects.getNearest(obj -> obj.hasAction("Use") && obj.getName().equals("Bank chest"));
         if (Bank.isOpen())
         {
-
-            Bank.depositAllExcept(ItemID.IMCANDO_HAMMER,
-                    ItemID.HAMMER,
-                    ItemID.OPEN_GEM_BAG);
+            this.setActivity(Activity.BANKING);
+            Bank.depositAllExcept(ItemID.HAMMER,ItemID.OPEN_GEM_BAG);
             log.info("Depositing");
-            final Item gemBag = Bank.Inventory.getFirst(ItemID.OPEN_GEM_BAG);
-
-            if (gemBag != null && gemBag.getQuantity() > 0 && lastGemBagEmpty < 1)
-            {
-                log.info("Emptying gem bag");
-                gemBag.interact("Empty");
-                lastGemBagEmpty++;
-            }
+            return -1;
 
         }
-        else if (bank != null)
+        TileObject bank = TileObjects.getNearest(obj -> obj.hasAction("Use") && obj.getName().equals("Bank chest"));
+        if (bank != null && !Bank.isOpen() && this.isCurrentActivity(Activity.IDLE))
         {
-            this.setActivity(Activity.DEPOSITING);
             bank.interact("Use");
             sleepUntil(Bank::isOpen, 4000);
+            return -1;
         }
-        if (!this.isSackFull())
-            lastGemBagEmpty = 0;
         return 0;
     }
 }

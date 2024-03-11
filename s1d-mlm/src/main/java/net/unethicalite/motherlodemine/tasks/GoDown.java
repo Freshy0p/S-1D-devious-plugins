@@ -56,7 +56,7 @@ public class GoDown extends MotherlodeMineTask
 
         ladder.interact("Climb");
         Time.sleepTicksUntil(() -> !this.isUpperFloor(), 20);
-        this.setTaskCooldown();
+        this.setActivity(Activity.IDLE);
         return 0;
     }
 }

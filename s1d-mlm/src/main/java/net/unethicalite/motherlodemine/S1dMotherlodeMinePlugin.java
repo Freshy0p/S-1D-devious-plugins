@@ -52,6 +52,10 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
     @Getter
     private Client client;
 
+    @Getter
+    @Setter
+    private int lastGemBagEmpty;
+
 
     private Activity currentActivity;
     private Activity previousActivity;
@@ -124,6 +128,7 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
         if (curSackSize >= maxSackSize - 26)
         {
             sackFull = true;
+            setLastGemBagEmpty(0);
         }
     }
 
@@ -237,6 +242,23 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
                 setActivity(Activity.IDLE);
             }
         }
+        else if (isCurrentActivity(Activity.BANKING))
+        {
+            if (!Inventory.contains(
+                    ItemID.RUNITE_ORE,
+                    ItemID.ADAMANTITE_ORE,
+                    ItemID.MITHRIL_ORE,
+                    ItemID.GOLD_ORE,
+                    ItemID.COAL,
+                    ItemID.UNCUT_SAPPHIRE,
+                    ItemID.UNCUT_EMERALD,
+                    ItemID.UNCUT_RUBY,
+                    ItemID.UNCUT_DIAMOND,
+                    ItemID.UNCUT_DRAGONSTONE))
+            {
+                setActivity(Activity.IDLE);
+            }
+        }
         else if (isCurrentActivity(Activity.MINING))
         {
             if (Inventory.isFull())
@@ -257,6 +279,7 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
             log.info("Sack size: " + curSackSize + "/" + maxSackSize);
             if (curSackSize >= maxSackSize - 26)
             {
+
                 sackFull = true;
             }
         }
@@ -322,6 +345,7 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
         }
         if (curSackSize == 0)
         {
+            setLastGemBagEmpty(0);
             sackFull = false;
         }
     }
