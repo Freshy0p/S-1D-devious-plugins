@@ -2,17 +2,14 @@ package net.unethicalite.fletcher;
 
 
 import com.google.inject.Provides;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.ItemID;
 import net.runelite.api.Skill;
-import net.runelite.api.TileObject;
 import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.events.GameTick;
-import net.runelite.api.widgets.Widget;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -31,14 +28,12 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.function.Predicate;
 
 @Extension
 @PluginDescriptor(
-        name = "<html>[<font color=#f44336>\uD83D\uDC24</font>] Fletcher</html>",
+        name = "<html>[<font color=#93C47D>\uD83D\uDC24</font>] Fletcher</html>",
         description = "Fletches logs into unstrung shortbows, longbows, Stocks, Shields or Arrow shafts. Supports banking, and stringing bows.",
         enabledByDefault = false,
         tags =

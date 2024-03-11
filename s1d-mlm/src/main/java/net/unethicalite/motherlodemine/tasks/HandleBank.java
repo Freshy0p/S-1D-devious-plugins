@@ -1,7 +1,6 @@
 package net.unethicalite.motherlodemine.tasks;
 
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.Item;
 import net.runelite.api.ItemID;
 import net.runelite.api.TileObject;
 import net.unethicalite.api.commons.Time;
@@ -10,6 +9,7 @@ import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.motherlodemine.S1dMotherlodeMinePlugin;
 import net.unethicalite.motherlodemine.data.Activity;
+import net.unethicalite.motherlodemine.utils.S1dBank;
 
 import javax.inject.Inject;
 
@@ -51,8 +51,9 @@ public class HandleBank extends MotherlodeMineTask
         if (Bank.isOpen())
         {
             this.setActivity(Activity.BANKING);
-            Bank.depositAllExcept(ItemID.HAMMER,ItemID.OPEN_GEM_BAG);
+            S1dBank.depositAllExcept(false,ItemID.HAMMER,ItemID.OPEN_GEM_BAG);
             log.info("Depositing");
+            Time.sleepTicksUntil(() -> this.isCurrentActivity(Activity.IDLE), 10);
             return -1;
 
         }

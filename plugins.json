@@ -25,6 +25,13 @@
       "version": "0.0.4",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-fletcher-0.0.4.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-11",
+      "sha512sum": "DD14BEAC57492514771AFCFB3ABF3BA558B2C1AC36F74AA8F240BBA3C53A452EE97C0880AA029AB917DFCC477A6A38554B22B4824B93FB1E88648E86CCC884E8",
+      "version": "0.0.5",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-fletcher-0.0.5.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
@@ -88,6 +95,13 @@
       "sha512sum": "2AE528AB392ABAA3D6180CF74AB37AB031116022A89F99CDEB9DC532EA1A7D2FCC7F36D40CBD0BEB2C4ECB2F7B174CE073D113766ADFA8D2D6DEB3D1E4164F28",
       "version": "0.0.11",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.11.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-11",
+      "sha512sum": "E6C9ADFEA57DE51B92EA9D3BB55BD0387FD4A744DC95F2908516ACD28CE31C4A7709963108176532AA0F1186A1CB4A6B2E1F3674E30C5794A7198513011950DE",
+      "version": "0.0.12",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.12.jar?raw=true",
       "requires": "^1.0.0"
     }
   ]
@@ -203,6 +217,13 @@
       "version": "0.0.16",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.16.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-11",
+      "sha512sum": "C75EC3440A6F6C70004E8016B28797C8D1F0B781D146187DEC29D980C612C01D0D05E7AFE827CFE79263ABCE72A8F775ACA01CD171ED29A5AC559DDBD6B51C77",
+      "version": "0.0.17",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.17.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
@@ -211,11 +232,20 @@
   "name": "S-1D Fighter",
   "description": "Simple fighter, supports eating, looting, alching, prayer potions, prayer flicking also supports loot only mode.",
   "id": "sdfighter-plugin",
-  "releases": [{
-    "date": "2024-03-11",
-    "sha512sum": "2407BD88646617C2D662FB5EE80D7999F64CF543A23BD629126E3F0982B19C038EBC07FE5BA9221638A101127E659B988FDDED7D17A29B2A5422402C7EB792FD",
-    "version": "0.0.9",
-    "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/unethical-fighter-0.0.9.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-03-11",
+      "sha512sum": "2407BD88646617C2D662FB5EE80D7999F64CF543A23BD629126E3F0982B19C038EBC07FE5BA9221638A101127E659B988FDDED7D17A29B2A5422402C7EB792FD",
+      "version": "0.0.9",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/unethical-fighter-0.0.9.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-11",
+      "sha512sum": "BF5FB81FA9DDAE39E5B9A59AC71DAFC4418C33696FF8A21A9C2AECC2CF1BB4DAD91F8F7416E0CA5CF4D1BC97AA3980DA125EBD6B0DA0184F6C33BA05996562C7",
+      "version": "0.0.10",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/unethical-fighter-0.0.10.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }]

@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @PluginDescriptor(
-		name = "S-1D Fighter",
+		name = "<html>[<font color=#f44336>\uD83D\uDC24</font>] Fighter",
 		description = "A simple fighter plugin that can bank, loot, and alch. It also has loot only mode.",
 		enabledByDefault = false
 )
