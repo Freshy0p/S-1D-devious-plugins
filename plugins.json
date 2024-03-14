@@ -232,13 +232,22 @@
   "name": "S-1D Zeah Blood Runes",
   "description": "Crafts blood runes",
   "id": "sdzeahbloodrunes-plugin",
-  "releases": [{
-    "date": "2024-03-12",
-    "sha512sum": "BEED67FB32217A76341C2550F02CC4A978AF85303931EC8ACDF8152BF431EE36BD190307F75E52D55B36B2361D569FB00B04A7134646BED3CE01D137C1011C14",
-    "version": "0.0.4",
-    "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-zeah-bloodrunes-0.0.4.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-03-12",
+      "sha512sum": "BEED67FB32217A76341C2550F02CC4A978AF85303931EC8ACDF8152BF431EE36BD190307F75E52D55B36B2361D569FB00B04A7134646BED3CE01D137C1011C14",
+      "version": "0.0.4",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-zeah-bloodrunes-0.0.4.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-14",
+      "sha512sum": "0D613635150D2B8F169B1A05F5048BACEE5952A1AD5B0E3594A296CC48FEBFADC431DD6886B6B042B8B0AA2A21DF05E0D4B1B3E390AB809E4B93043C7A4475C6",
+      "version": "0.0.5",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-zeah-bloodrunes-0.0.5.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "S-1D",
