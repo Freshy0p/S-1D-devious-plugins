@@ -64,4 +64,16 @@ public interface Config extends net.runelite.client.config.Config
     {
         return 10;
     }
+
+    // Assisted mining setting
+    @ConfigItem(
+            keyName = "assistedMining",
+            name = "Assisted Mining",
+            description = "Assisted mining allows the script to mine untill inventory is full.",
+            position = 4
+    )
+    default boolean assistedMining()
+    {
+        return false;
+    }
 }

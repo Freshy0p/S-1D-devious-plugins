@@ -24,7 +24,8 @@ public class Deposit extends MotherlodeMineTask
         return this.isCurrentActivity(Activity.IDLE)
                 && !this.isUpperFloor()
                 && Inventory.contains("Pay-dirt")
-                && Inventory.isFull();
+                && Inventory.isFull()
+                && !this.isAssistedMining();
     }
 
     @Override

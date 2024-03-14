@@ -23,7 +23,8 @@ public class FixWheel extends MotherlodeMineTask
         return this.isCurrentActivity(Activity.IDLE)
                 && !this.isUpperFloor()
                 && this.wasPreviousActivity(Activity.DEPOSITING)
-                && TileObjects.getAll(ObjectID.BROKEN_STRUT).size() == 2;
+                && TileObjects.getAll(ObjectID.BROKEN_STRUT).size() == 2
+                && !this.isAssistedMining();
     }
 
     @Override

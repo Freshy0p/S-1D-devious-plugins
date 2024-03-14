@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.*;
+import net.runelite.api.MenuEntry;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -61,6 +62,12 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
     private Activity previousActivity;
     @Setter
     protected int taskCooldown;
+    private boolean startedScript;
+
+    // Assisted mining
+    @Getter
+    @Setter
+    private boolean assistedMining;
 
     public void setActivity(Activity activity)
     {
@@ -107,7 +114,8 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
                 new GoDown(this),
                 new GoUp(this),
                 new HandleBank(this),
-                new WithdrawSack(this)
+                new WithdrawSack(this),
+                new AssistedMine(this)
     };
 
     @Override
@@ -119,6 +127,8 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
     @Override
     protected void startUp()
     {
+        setAssistedMining(config.assistedMining());
+        startedScript = false;
         refreshSackValues();
 
         setActivity(Activity.IDLE);
@@ -184,6 +194,25 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
         }
     }
     @Subscribe
+    public void onConfigButtonPressed(ConfigButtonClicked event)
+    {
+        if (!event.getGroup().contains("s1dmlm") || !event.getKey().toLowerCase().contains("start"))
+        {
+            return;
+        }
+
+        if (startedScript)
+        {
+            startedScript = false;
+            log.info("Script stopped");
+        }
+        else
+        {
+            startedScript = true;
+            log.info("Script started");
+        }
+    }
+    @Subscribe
     public void onGameObjectDespawned(GameObjectDespawned event)
     {
 
@@ -197,7 +226,14 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
     @Subscribe
     public void onGameTick(GameTick event)
     {
-        if (isRunning() && inMotherlodeMine())
+        if (!startedScript)
+        {
+            if (isCurrentActivity(Activity.AFK))
+                return;
+            setActivity(Activity.AFK);
+            return;
+        }
+        if (isRunning() && inMotherlodeMine() && !isAssistedMining())
         {
             if (taskCooldown > 0)
             {
@@ -212,6 +248,32 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
             {
                 setActivity(Activity.IDLE);
             }
+        }
+        // if the player has the assisted mining option enabled and is in the motherlode mine area
+        if (isRunning() && inMotherlodeMine() && isAssistedMining())
+        {
+            // check if there is a taskcooldown
+            if (taskCooldown > 0)
+            {
+                // if there is a taskcooldown, set the activity to afk
+                if (!isCurrentActivity(Activity.AFK))
+                {
+                    setActivity(Activity.AFK);
+                    previousActivity = Activity.ASSISTED_MINING;
+                }
+                log.info("Task cooldown: " + taskCooldown);
+                taskCooldown--;
+            }
+            else if (isCurrentActivity(Activity.AFK) && wasPreviousActivity(Activity.ASSISTED_MINING))
+            {
+                setActivity(Activity.ASSISTED_MINING);
+            }
+            else if (isCurrentActivity(Activity.AFK))
+            {
+                setActivity(Activity.IDLE);
+            }
+
+
         }
     }
     @Subscribe
@@ -284,6 +346,53 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
             }
         }
     }
+
+    //check if the object we are hovering over has the option to mine
+    @Subscribe
+    public void onMenuEntryAdded(MenuEntryAdded event)
+    {
+        if (isRunning() && inMotherlodeMine() && config.assistedMining())
+        {
+            if (event.getType() == MenuAction.GAME_OBJECT_FIRST_OPTION.getId())
+            {
+                if (event.getOption().equals("Mine"))
+                {
+                    //replace the default menu entry with the custom one and give it a custom color
+                    event.getMenuEntry().setOption("<col=ff0000>Mineer</col>");
+
+                    //event.getMenuEntry().setOption("Mineer");
+                    //addMenuEntry(event, "Mineer");
+                }
+            }
+        }
+    }
+
+    // subscribe to the menu entry click event
+    @Subscribe
+    public void onMenuOptionClicked(MenuOptionClicked event)
+    {
+        if (isRunning() && inMotherlodeMine())
+        {
+            if (event.getMenuOption().contains("Mineer"))
+            {
+                setActivity(Activity.ASSISTED_MINING);
+            }
+        }
+    }
+
+    private void addMenuEntry(MenuEntryAdded event, String option) { //TODO: Update to new menu entry
+        client.createMenuEntry(-1).setOption(option)
+                .setTarget(event.getTarget())
+                .setIdentifier(0)
+                .setParam1(0)
+                .setParam1(0)
+                .setType(MenuAction.RUNELITE);
+    }
+
+    // replace the default menu entry with the custom one
+
+
+
     // get random task cooldown
     public void setTaskCooldown()
     {

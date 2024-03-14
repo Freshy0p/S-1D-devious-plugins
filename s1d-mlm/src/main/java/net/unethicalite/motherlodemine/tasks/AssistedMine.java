@@ -12,9 +12,9 @@ import net.unethicalite.motherlodemine.data.Activity;
 import javax.inject.Inject;
 
 @Slf4j
-public class Mine extends MotherlodeMineTask
+public class AssistedMine extends MotherlodeMineTask
 {
-    public Mine(S1dMotherlodeMinePlugin context)
+    public AssistedMine(S1dMotherlodeMinePlugin context)
     {
         super(context);
     }
@@ -28,9 +28,8 @@ public class Mine extends MotherlodeMineTask
     public boolean validate()
     {
         oreVein = MiningArea.UPSTAIRS.getNearestOreVein();
-        return this.isCurrentActivity(Activity.IDLE) && !this.isSackFull()
-                && !Inventory.isFull() && (oreVein = MiningArea.UPSTAIRS.getNearestOreVein()) != null && this.isUpperFloor()
-                && !this.isAssistedMining();
+        return this.isCurrentActivity(Activity.ASSISTED_MINING) && !this.isSackFull()
+                && !Inventory.isFull() && (oreVein = MiningArea.UPSTAIRS.getNearestOreVein()) != null && this.isUpperFloor();
     }
 
     @Override

@@ -37,7 +37,8 @@ public class WithdrawSack extends MotherlodeMineTask
                 ItemID.UNCUT_EMERALD,
                 ItemID.UNCUT_RUBY,
                 ItemID.UNCUT_DIAMOND,
-                ItemID.UNCUT_DRAGONSTONE);
+                ItemID.UNCUT_DRAGONSTONE)
+                && !this.isAssistedMining();
     }
 
     @Override

@@ -41,7 +41,8 @@ public class HandleBank extends MotherlodeMineTask
                 ItemID.UNCUT_EMERALD,
                 ItemID.UNCUT_RUBY,
                 ItemID.UNCUT_DIAMOND,
-                ItemID.UNCUT_DRAGONSTONE);
+                ItemID.UNCUT_DRAGONSTONE)
+                && !this.isAssistedMining();
 
     }
 
@@ -51,7 +52,11 @@ public class HandleBank extends MotherlodeMineTask
         if (Bank.isOpen())
         {
             this.setActivity(Activity.BANKING);
-            S1dBank.depositAllExcept(false,ItemID.HAMMER,ItemID.OPEN_GEM_BAG);
+
+            // Get the Pickaxe id if there is a pickaxe in the inventory
+            int pickaxeId = Inventory.getFirst(item -> item.getName().contains("pickaxe")).getId();
+
+            S1dBank.depositAllExcept(true,ItemID.HAMMER,ItemID.OPEN_GEM_BAG,pickaxeId);
             log.info("Depositing");
             Time.sleepTicksUntil(() -> this.isCurrentActivity(Activity.IDLE), 10);
             return -1;

@@ -103,6 +103,13 @@
       "version": "0.0.12",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.12.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-14",
+      "sha512sum": "D90E067B4DAC24DE7F4C4AC2FDBD825ECDBC63AAD549441CB59BA0D788351A263352A053D02E6B66AB7C128EEE1215132CC5380B7FA4470D7AEB6C14B7CB734A",
+      "version": "0.0.13",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.13.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
@@ -278,7 +285,7 @@
     },
     {
       "date": "2024-03-14",
-      "sha512sum": "5D8679B76BBADAE43EE045A72C4BDE9676A72E622E8232017AFFEC760C5AB99EF69F54D73E4F2EA989D562F1A452CCE9ADAF4F327E53D630DCB32FF90621056B",
+      "sha512sum": "B00B4FEF6E616DC964C756E9A895EB1439647E237C9069CB1B8FE2052CFC5B9DC0DEA95FC0EDD7324471115AD3515FCDC6791ECF5DC9E4905E77D034A78514AC",
       "version": "0.0.12",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/unethical-fighter-0.0.12.jar?raw=true",
       "requires": "^1.0.0"

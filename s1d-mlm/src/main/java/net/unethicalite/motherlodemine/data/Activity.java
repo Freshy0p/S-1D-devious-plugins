@@ -14,6 +14,8 @@ public class Activity
     public static final Activity REPAIRING = new Activity("Repairing");
     // AFK Activity
     public static final Activity AFK = new Activity("AFK");
+    // Assisted Mining Activity
+    public static final Activity ASSISTED_MINING = new Activity("Assisted Mining");
 
     String name;
 }

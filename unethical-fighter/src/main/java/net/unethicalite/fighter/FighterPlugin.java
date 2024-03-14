@@ -140,6 +140,7 @@ public class FighterPlugin extends LoopedPlugin
 	{
 		startedScript = false;
 		menuFight = false;
+		resetCenter();
 	}
 
 	@Subscribe
@@ -469,6 +470,16 @@ public class FighterPlugin extends LoopedPlugin
 				"hootfighter",
 				"centerTile",
 				String.format("%s %s %s", worldPoint.getX(), worldPoint.getY(), worldPoint.getPlane())
+		);
+	}
+
+	// reset Center to nothing
+	private void resetCenter()
+	{
+		configManager.setConfiguration(
+				"hootfighter",
+				"centerTile",
+				""
 		);
 	}
 

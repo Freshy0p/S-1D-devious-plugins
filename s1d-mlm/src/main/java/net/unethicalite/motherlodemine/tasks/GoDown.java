@@ -28,7 +28,9 @@ public class GoDown extends MotherlodeMineTask
     {
         return this.isCurrentActivity(Activity.IDLE)
                 && this.isUpperFloor()
-                && Inventory.isFull() || this.isSackFull() && this.isUpperFloor();
+                && Inventory.isFull()
+                && !this.isAssistedMining() || this.isSackFull() && this.isUpperFloor()
+                && !this.isAssistedMining();
     }
 
     @Override
