@@ -83,6 +83,10 @@ public class FighterPlugin extends LoopedPlugin
 	private boolean startedScript = false;
 	private boolean menuFight = false;
 
+	private boolean isFighting = false;
+
+	private boolean isLooting = false;
+
 	@Override
 	public void startUp() throws Exception
 	{
@@ -325,16 +329,19 @@ public class FighterPlugin extends LoopedPlugin
 				!notOurItems.contains(x)
 						&& !shouldNotLoot(x) && (shouldLootByName(x) || shouldLootUntradable(x) || shouldLootByValue(x))
 		);
-		if (loot != null && canPick(loot))
+		if (loot != null && canPick(loot) && !local.isMoving() && !isFighting)
 		{
 			if (!Reachable.isInteractable(loot.getTile()))
 			{
 				Movement.walkTo(loot.getTile().getWorldLocation());
 				return -1;
 			}
-
 			loot.pickup();
+			isLooting = true;
 			return -1;
+		}
+		else {
+			isLooting = false;
 		}
 
 		if (config.alching())
@@ -386,15 +393,17 @@ public class FighterPlugin extends LoopedPlugin
 			);
 			if (mob == null)
 			{
-				if (local.getWorldLocation().distanceTo(center) < 3)
+				if (local.getWorldLocation().distanceTo(center) < 3 && !isLooting)
 				{
 					MessageUtils.addMessage("No attackable monsters in area");
+					isFighting = false;
 					return -1;
 				}
 
 				Movement.walkTo(center);
 				return -4;
 			}
+
 
 			if (!Reachable.isInteractable(mob))
 			{
@@ -403,6 +412,7 @@ public class FighterPlugin extends LoopedPlugin
 			}
 
 			mob.interact("Attack");
+			isFighting = true;
 			return -3;
 		}
 		return  -1;

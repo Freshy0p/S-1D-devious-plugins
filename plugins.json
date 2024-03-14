@@ -275,6 +275,13 @@
       "version": "0.0.11",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/unethical-fighter-0.0.11.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-03-14",
+      "sha512sum": "5D8679B76BBADAE43EE045A72C4BDE9676A72E622E8232017AFFEC760C5AB99EF69F54D73E4F2EA989D562F1A452CCE9ADAF4F327E53D630DCB32FF90621056B",
+      "version": "0.0.12",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/unethical-fighter-0.0.12.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }]
