@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.ChatMessage;
+import net.runelite.api.events.ConfigButtonClicked;
+import net.runelite.api.events.MenuEntryAdded;
+import net.runelite.api.events.MenuOptionClicked;
 import net.runelite.api.util.Text;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -34,6 +37,7 @@ import org.pf4j.Extension;
 
 import javax.inject.Inject;
 import javax.swing.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -75,6 +79,9 @@ public class FighterPlugin extends LoopedPlugin
 	private FighterOverlay fighterOverlay;
 
 	private final List<TileItem> notOurItems = new ArrayList<>();
+
+	private boolean startedScript = false;
+	private boolean menuFight = false;
 
 	@Override
 	public void startUp() throws Exception
@@ -124,9 +131,95 @@ public class FighterPlugin extends LoopedPlugin
 		}
 	}
 
+	// reset method
+	public void reset()
+	{
+		startedScript = false;
+		menuFight = false;
+	}
+
+	@Subscribe
+	public void onConfigButtonPressed(ConfigButtonClicked event)
+	{
+		if (!event.getGroup().contains("hootfighter")
+				|| !event.getKey().toLowerCase().contains("start"))
+		{
+			return;
+		}
+
+		if (startedScript)
+		{
+			reset();
+		}
+		else
+		{
+			startedScript = true;
+		}
+	}
+
+	@Subscribe
+	private void onMenuOptionClicked(MenuOptionClicked event)
+	{
+		// check if config is enabled
+		if (!config.insertMenu())
+		{
+			return;
+		}
+
+		// check if the selected option is our custom option "S1-D Fight"
+		if (event.getMenuOption().equals("S1-D Fight"))
+		{
+			menuFight = true;
+			//get the name of the npc we are fighting
+			String npcName = event.getMenuTarget();
+			// strip the color codes from the name
+			npcName = npcName.replaceAll("<[^>]*>", "");
+			//strip the level from the name
+			npcName = npcName.replaceAll("\\(.*\\)", "");
+
+
+
+
+
+			//set the npc name to the config
+			configManager.setConfiguration("hootfighter", "monster", npcName);
+			startedScript = true;
+		}
+		else if (event.getMenuOption().equals("Stop S1-D Fight"))
+		{
+
+			reset();
+
+		}
+	}
+	@Subscribe
+	private void onMenuEntryAdded(MenuEntryAdded event) {
+		if (!config.insertMenu() || !event.getOption().equals("Attack")) {
+			return;
+		}
+
+		if (!menuFight) {
+			addMenuEntry(event, "S1-D Fight");
+		} else {
+			addMenuEntry(event, "Stop S1-D Fight");
+		}
+	}
+
+	private void addMenuEntry(MenuEntryAdded event, String option) { //TODO: Update to new menu entry
+		client.createMenuEntry(-1).setOption(option)
+				.setTarget(event.getTarget())
+				.setIdentifier(0)
+				.setParam1(0)
+				.setParam1(0)
+				.setType(MenuAction.RUNELITE);
+	}
 	@Override
 	protected int loop()
 	{
+		if (!startedScript)
+		{
+			return -1;
+		}
 		WorldPoint center = getCenter();
 		if (center == null)
 		{
@@ -137,7 +230,7 @@ public class FighterPlugin extends LoopedPlugin
 
 			return -1;
 		}
-		if (Game.isLoggedIn())
+		if (Game.isLoggedIn() && config.lootOnlyMode())
 		{
 			setCenter(Players.getLocal().getWorldLocation());
 		}

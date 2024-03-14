@@ -85,6 +85,17 @@ public interface FighterConfig extends Config
 	)
 	String debug = "Debug";
 
+	// Add start/stop button
+	@ConfigItem(
+			keyName = "startButton",
+			name = "Start/Stop",
+			description = "Test button that changes variable value",
+			position = 350
+	)
+	default Button startButton() {
+		return new Button();
+	}
+
 	@ConfigItem(
 			keyName = "monster",
 			name = "Monster",
@@ -95,6 +106,19 @@ public interface FighterConfig extends Config
 	default String monster()
 	{
 		return "Chicken";
+	}
+
+	//insert Menu
+	@ConfigItem(
+			keyName = "instertMenu",
+			name = "Enable menu option",
+			description = "Insert menu option to attack monster",
+			position = 0,
+			section = general
+	)
+	default boolean insertMenu()
+	{
+		return true;
 	}
 
 	@Range(max = 100)

@@ -45,11 +45,20 @@ public class ChipEssence extends SessionUpdater implements Task
                 {
                     return -1;
                 }
-                //Sleep between each chisel use to avoid spam clicking
-                //calculate the number of actions per tick
-                int actionsPerTick = 3;
-                //Sleep for the correct amount of milliseconds to do 3 actions per tick(600ms)
-                Time.sleep(600 / actionsPerTick);
+
+                // Sleep random time to avoid bot detection
+                // set base number of actions per tick to 2
+                int actionsPerTick = 2;
+                // set base deviation to 50ms
+
+                int deviation = 50;
+                // set base tick time to 600
+                int tickTime = 600;
+
+                // sleep for a random time based on the base tick time, actions per tick and deviation
+                Time.sleep((int) (tickTime / actionsPerTick + Math.random() * deviation));
+
+
 
         }
         return -4;
