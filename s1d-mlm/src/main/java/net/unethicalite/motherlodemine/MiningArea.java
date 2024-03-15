@@ -3,6 +3,7 @@ package net.unethicalite.motherlodemine;
 import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.runelite.api.Player;
 import net.runelite.api.TileObject;
 import net.runelite.api.coords.Direction;
 import net.runelite.api.coords.WorldPoint;
@@ -22,6 +23,13 @@ public enum MiningArea
             new RectangularArea(
                     new WorldPoint(3747, 5676, 0),
                     new WorldPoint(3754, 5684, 0)
+            ),
+            null
+    ),
+    INSIDE(
+            new RectangularArea(
+                    new WorldPoint(3758, 5645, 0),
+                    new WorldPoint(3731, 5653, 0)
             ),
             null
     ),
@@ -47,12 +55,12 @@ public enum MiningArea
     private final Set<WorldPoint> ignorePoints;
 
     // Get nearest ore vein(wallObject) to player
-    public TileObject getNearestOreVein()
+    public TileObject getNearestOreVein(boolean avoidPlayers)
     {
-        List<TileObject> oreVeins = TileObjects.getAll(x -> x.getName().equals("Ore vein") && x.hasAction("Mine"));
+        List<TileObject> oreVeins = TileObjects.getAll(x -> x.getName().equals("Ore vein") && x.hasAction("Mine") && miningArea.contains(x.getWorldLocation()));
         if (oreVeins.isEmpty())
         {
-            oreVeins = TileObjects.getAll(x -> x.getName().equals("Ore vein") && x.hasAction("Mineer"));
+            oreVeins = TileObjects.getAll(x -> x.getName().equals("Ore vein") && x.hasAction("Mineer") && miningArea.contains(x.getWorldLocation()));
         }
 
         if (oreVeins.isEmpty())
@@ -70,6 +78,14 @@ public enum MiningArea
 
                 if (Reachable.isWalkable(neighbor))
                 {
+                    // if another player is mining the vein, skip it to avoid competition
+                    Player nearbyPlayer = Players.getNearest(x -> x.getWorldLocation().distanceToHypotenuse(neighbor) < 1);
+                    if (avoidPlayers && nearbyPlayer != null && nearbyPlayer != Players.getLocal())
+                    {
+                        continue;
+                    }
+
+
                     final float distance = current.distanceToHypotenuse(neighbor);
                     if (distance < nearestDistance)
                     {

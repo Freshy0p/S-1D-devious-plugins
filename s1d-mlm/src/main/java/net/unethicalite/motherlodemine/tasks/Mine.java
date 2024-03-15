@@ -1,6 +1,7 @@
 package net.unethicalite.motherlodemine.tasks;
 
 import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.ItemID;
 import net.runelite.api.TileObject;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.items.Inventory;
@@ -27,10 +28,25 @@ public class Mine extends MotherlodeMineTask
     @Override
     public boolean validate()
     {
-        oreVein = MiningArea.UPSTAIRS.getNearestOreVein();
+
+        if (this.isUpstairs())
+            oreVein = this.getMiningArea().getNearestOreVein(false);
+        else
+            oreVein = this.getMiningArea().getNearestOreVein(true);
         return this.isCurrentActivity(Activity.IDLE) && !this.isSackFull()
-                && !Inventory.isFull() && (oreVein = MiningArea.UPSTAIRS.getNearestOreVein()) != null && this.isUpperFloor()
-                && !this.isAssistedMining();
+                && !Inventory.isFull() && oreVein != null
+                && !this.isAssistedMining()
+                && !Inventory.contains(
+                ItemID.RUNITE_ORE,
+                ItemID.ADAMANTITE_ORE,
+                ItemID.MITHRIL_ORE,
+                ItemID.GOLD_ORE,
+                ItemID.COAL,
+                ItemID.UNCUT_SAPPHIRE,
+                ItemID.UNCUT_EMERALD,
+                ItemID.UNCUT_RUBY,
+                ItemID.UNCUT_DIAMOND,
+                ItemID.UNCUT_DRAGONSTONE);
     }
 
     @Override

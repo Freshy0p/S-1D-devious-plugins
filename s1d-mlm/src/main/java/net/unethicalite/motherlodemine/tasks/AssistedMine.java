@@ -27,9 +27,14 @@ public class AssistedMine extends MotherlodeMineTask
     @Override
     public boolean validate()
     {
-        oreVein = MiningArea.UPSTAIRS.getNearestOreVein();
+        if (this.isUpstairs())
+            oreVein = this.getMiningArea().getNearestOreVein(false);
+        else
+            oreVein = this.getMiningArea().getNearestOreVein(true);
+
+
         return this.isCurrentActivity(Activity.ASSISTED_MINING) && !this.isSackFull()
-                && !Inventory.isFull() && (oreVein = MiningArea.UPSTAIRS.getNearestOreVein()) != null && this.isUpperFloor();
+                && !Inventory.isFull() && oreVein != null;
     }
 
     @Override
@@ -38,8 +43,7 @@ public class AssistedMine extends MotherlodeMineTask
         this.setOreVein(oreVein);
         this.setActivity(Activity.MINING);
         oreVein.interact("Mine");
-        log.info("Mining");
-        Time.sleepTicksUntil(() -> this.isCurrentActivity(Activity.IDLE), 30);
+        Time.sleepTicksUntil(() -> this.isCurrentActivity(Activity.IDLE), 10);
         return 1;
     }
 }

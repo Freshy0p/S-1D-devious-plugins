@@ -54,9 +54,9 @@ public class HandleBank extends MotherlodeMineTask
             this.setActivity(Activity.BANKING);
 
             // Get the Pickaxe id if there is a pickaxe in the inventory
-            int pickaxeId = Inventory.getFirst(item -> item.getName().contains("pickaxe")).getId();
 
-            S1dBank.depositAllExcept(true,ItemID.HAMMER,ItemID.OPEN_GEM_BAG,pickaxeId);
+
+            S1dBank.depositAllExcept(true,ItemID.HAMMER,ItemID.OPEN_GEM_BAG);
             log.info("Depositing");
             Time.sleepTicksUntil(() -> this.isCurrentActivity(Activity.IDLE), 10);
             return -1;

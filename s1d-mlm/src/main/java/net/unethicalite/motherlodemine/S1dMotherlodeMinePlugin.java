@@ -10,7 +10,9 @@ import net.runelite.api.events.*;
 import net.runelite.api.MenuEntry;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.overlay.OverlayManager;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.Players;
 import net.unethicalite.api.entities.TileObjects;
@@ -40,11 +42,17 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
     private static final int SACK_LARGE_SIZE = 162;
     private static final int SACK_SIZE = 81;
     private static final int UPPER_FLOOR_HEIGHT = -490;
+    private static final int MAX_INVENTORY_SIZE = 28;
 
     @Inject
     private Config config;
+    @Inject
+    private OverlayManager overlayManager;
+    @Inject
+    private S1dMlmOverlay s1dMlmOverlay;
     public int curSackSize;
     public int maxSackSize;
+    public double nonPayDirtItems;
     public TileObject oreVein;
     @Getter
     @Setter
@@ -68,6 +76,19 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
     @Getter
     @Setter
     private boolean assistedMining;
+
+    @Getter
+    @Setter
+    private boolean upstairs;
+
+    public String getActivity()
+    {
+        if (isCurrentActivity(Activity.AFK))
+        {
+            return Activity.AFK.getName() + " (" + taskCooldown + ")";
+        }
+        return currentActivity.getName();
+    }
 
     public void setActivity(Activity activity)
     {
@@ -99,6 +120,12 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
         return previousActivity == activity;
     }
 
+    // getter setter for mining area
+    @Getter
+    @Setter
+    private MiningArea miningArea;
+
+
     @Provides
     public Config getConfig(ConfigManager configManager)
     {
@@ -127,7 +154,22 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
     @Override
     protected void startUp()
     {
+        this.overlayManager.add(s1dMlmOverlay);
         setAssistedMining(config.assistedMining());
+        log.info("Upstairs: " + config.upstairs());
+        if (config.upstairs())
+        {
+            setUpstairs(true);
+            miningArea = MiningArea.UPSTAIRS;
+            log.info("Mining area set to: " + miningArea);
+        }
+        else
+        {
+            miningArea = MiningArea.INSIDE;
+            setUpstairs(false);
+            log.info("Mining area set to: " + miningArea);
+        }
+
         startedScript = false;
         refreshSackValues();
 
@@ -142,6 +184,33 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
         }
     }
 
+    @Override
+    protected void shutDown()
+    {
+        this.overlayManager.remove(s1dMlmOverlay);
+    }
+    // subscribe to config changed event
+    @Subscribe
+    public void onConfigChanged(ConfigChanged event)
+    {
+        if (!event.getGroup().equals("s1dmlm"))
+        {
+            return;
+        }
+        setAssistedMining(config.assistedMining());
+        if (config.upstairs())
+        {
+            miningArea = MiningArea.UPSTAIRS;
+            setUpstairs(true);
+            log.info("Mining area set to: " + miningArea);
+        }
+        else
+        {
+            miningArea = MiningArea.INSIDE;
+            setUpstairs(false);
+            log.info("Mining area set to: " + miningArea);
+        }
+    }
     @Subscribe
     public void onAnimationChanged(AnimationChanged event)
     {
@@ -183,7 +252,7 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
         WallObject wallObject = event.getWallObject();
         if (isCurrentActivity(Activity.MINING) && wallObject.getName().equals("Depleted vein"))
         {
-
+            log.info("depleted vein location: " + wallObject.getWorldLocation());
             if (wallObject.getWorldLocation().equals(oreVein.getWorldLocation()))
             {
                 log.info("Vein i was mining turned into a depleted vein");
@@ -327,6 +396,11 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
             {
                 log.info("Inventory full");
                 setActivity(Activity.IDLE);
+                if (isAssistedMining())
+                {
+                    startedScript = false;
+                }
+
             }
         }
     }
@@ -376,6 +450,7 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
             if (event.getMenuOption().contains("Mineer"))
             {
                 setActivity(Activity.ASSISTED_MINING);
+                startedScript = true;
             }
         }
     }
@@ -426,29 +501,26 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
         return MOTHERLODE_MAP_REGIONS.contains(client.getLocalPlayer().getWorldLocation().getRegionID());
     }
 
-    public MiningArea getMiningArea()
-    {
-
-            return MiningArea.UPSTAIRS;
-
-    }
 
     // function to calculate remaining deposits
     public int getRemainingDeposits()
     {
-        int remainingDeposits = 0;
-        if (curSackSize < maxSackSize - 26)
+        double remainingDeposits = 0.0;
+        nonPayDirtItems = Inventory.getAll().stream().filter(x -> x.getId() != ItemID.PAYDIRT).mapToDouble(x -> x.getQuantity()).sum();
+        if (curSackSize < maxSackSize)
         {
-            remainingDeposits = (maxSackSize - curSackSize) / 26;
+            remainingDeposits = (maxSackSize - curSackSize) / (28.0-nonPayDirtItems);
         }
-        return remainingDeposits;
+        // round up to the nearest whole number
+        return (int) Math.ceil(remainingDeposits);
+
     }
     public void refreshSackValues()
     {
         curSackSize = Vars.getBit(Varbits.SACK_NUMBER);
         boolean sackUpgraded = Vars.getBit(Varbits.SACK_UPGRADED) == 1;
         maxSackSize = sackUpgraded ? SACK_LARGE_SIZE : SACK_SIZE;
-        if (curSackSize >= maxSackSize - 26)
+        if (curSackSize >= maxSackSize)
         {
             sackFull = true;
         }
@@ -458,4 +530,5 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
             sackFull = false;
         }
     }
+
 }
