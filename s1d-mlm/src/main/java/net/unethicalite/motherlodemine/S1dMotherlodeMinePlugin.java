@@ -450,6 +450,8 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
             if (event.getMenuOption().contains("Mineer"))
             {
                 setActivity(Activity.ASSISTED_MINING);
+                //consume click event
+                event.consume();
                 startedScript = true;
             }
         }
