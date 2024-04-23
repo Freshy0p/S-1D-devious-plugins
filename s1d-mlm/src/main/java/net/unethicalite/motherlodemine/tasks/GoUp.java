@@ -39,7 +39,7 @@ public class GoUp extends MotherlodeMineTask
                 ItemID.UNCUT_DIAMOND,
                 ItemID.UNCUT_DRAGONSTONE)
                 && !this.isAssistedMining()
-                && this.config.upstairs();
+                && this.upStairs();
 
     }
 

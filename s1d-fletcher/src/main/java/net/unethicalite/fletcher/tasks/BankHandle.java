@@ -36,16 +36,21 @@ public class BankHandle extends FletcherTask {
             this.setTimesBanked(this.getTimesBanked() + 1);
             if(this.isMode(Mode.FLETCHING_SHORTBOW) || this.isMode(Mode.FLETCHING_LONGBOW) || this.isMode(Mode.FLETCHING_SHIELD) || this.isMode(Mode.FLETCHING_STOCKS) || this.isMode(Mode.FLETCHING_SHAFTS)) {
                 if(!this.isMode(Mode.FLETCHING_SHAFTS)){
-
-                    S1dBank.depositAllExcept(false,ItemID.KNIFE);
-                    DepositBox.depositInventory();
+                    Time.sleepTick();
+                    Time.sleep(this.calculateClickDelay());
+                    S1dBank.depositAllExcept(true,ItemID.KNIFE);
                     //sleep one tick
-                    Time.sleep(Constants.GAME_TICK_LENGTH);
+                    Time.sleepTick();
+
                 }
-                if(!this.hasKnife())
+                if(!this.hasKnife()){
+                    Time.sleep(this.calculateClickDelay());
                     Bank.withdraw(ItemID.KNIFE, 1, Bank.WithdrawMode.ITEM);
+                }
+                Time.sleep(this.calculateClickDelay());
                 Bank.withdrawAll(this.getMaterial().getLogID(), Bank.WithdrawMode.ITEM);
                 Time.sleepTicksUntil(this::hasMaterial, 20);
+                Time.sleep(this.calculateClickDelay());
                 Bank.close();
                 this.setTaskCooldown(1);
                 return -1;
@@ -53,27 +58,36 @@ public class BankHandle extends FletcherTask {
 
                 // if we are stringing longbow or shortbow
             } else if (this.isMode(Mode.STRINGING_LONGBOW) || this.isMode(Mode.STRINGING_SHORTBOW)) {
-
+                    Time.sleepTick();
+                    Time.sleep(this.calculateClickDelay());
                     Bank.depositInventory();
                     //sleep one tick
-                    Time.sleep(Constants.GAME_TICK_LENGTH);
+                    Time.sleepTick();
 
                 if(this.isMode(Mode.STRINGING_LONGBOW)) {
                     // Withdraw 14 bow strings and 14 unstrung bows
+                    Time.sleep(this.calculateClickDelay());
                     Bank.withdraw(this.getMaterial().getProductID()[2], 14, Bank.WithdrawMode.ITEM);
+                    Time.sleepTick();
+                    Time.sleep(this.calculateClickDelay());
                     Bank.withdraw(ItemID.BOW_STRING, 14, Bank.WithdrawMode.ITEM);
                     Time.sleepTicksUntil(this::hasBowString, 20);
                     Bank.close();
-                    this.setTaskCooldown(1);
+                    this.setActivity(Activity.IDLE);
+                    //this.setTaskCooldown(1);
                     return -1;
                 }
                 if(this.isMode(Mode.STRINGING_SHORTBOW)) {
                     // Withdraw 14 bow strings and 14 unstrung bows
+                    Time.sleep(this.calculateClickDelay());
                     Bank.withdraw(this.getMaterial().getProductID()[1], 14, Bank.WithdrawMode.ITEM);
+                    Time.sleepTick();
+                    Time.sleep(this.calculateClickDelay());
                     Bank.withdraw(ItemID.BOW_STRING, 14, Bank.WithdrawMode.ITEM);
                     Time.sleepTicksUntil(this::hasBowString, 20);
                     Bank.close();
-                    this.setTaskCooldown(1);
+                    this.setActivity(Activity.IDLE);
+                    //this.setTaskCooldown(1);
                     return -1;
                 }
 

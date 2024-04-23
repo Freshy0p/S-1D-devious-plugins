@@ -34,7 +34,7 @@ public class AssistedMine extends MotherlodeMineTask
 
 
         return this.isCurrentActivity(Activity.ASSISTED_MINING) && !this.isSackFull()
-                && !Inventory.isFull() && oreVein != null;
+                && !Inventory.isFull() && oreVein != null ;
     }
 
     @Override

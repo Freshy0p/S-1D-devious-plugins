@@ -30,11 +30,14 @@ public class StringBow extends FletcherTask {
         if (this.isMode(Mode.STRINGING_LONGBOW)) {
             this.setActivity(Activity.STRINGING_LONGBOW);
             Item unstrungLongbow = Inventory.getFirst(material.getProductID()[2]);
+            Time.sleepTick();
+            Time.sleep(this.calculateClickDelay());
             bowString.useOn(unstrungLongbow);
             Time.sleepTicksUntil(() -> this.isFletchingWidgetOpen(), 30);
 
             Widget fletchingWidget = this.getClient().getWidget(270, 14);
-            Time.sleep(Constants.GAME_TICK_LENGTH);
+            Time.sleepTick();
+            Time.sleep(this.calculateClickDelay());
             fletchingWidget.interact("String");
             Time.sleepTicksUntil(() -> !this.hasBowString(), 80);
             this.setTaskCooldown(Optional.of(Activity.IDLE));
@@ -44,11 +47,14 @@ public class StringBow extends FletcherTask {
         } else if (this.isMode(Mode.STRINGING_SHORTBOW)) {
             this.setActivity(Activity.STRINGING_SHORTBOW);
             Item unstrungShortbow = Inventory.getFirst(material.getProductID()[1]);
+            Time.sleepTick();
+            Time.sleep(this.calculateClickDelay());
             bowString.useOn(unstrungShortbow);
             Time.sleepTicksUntil(() -> this.isFletchingWidgetOpen(), 30);
 
             Widget fletchingWidget = this.getClient().getWidget(270, 14);
-            Time.sleep(Constants.GAME_TICK_LENGTH);
+            Time.sleepTick();
+            Time.sleep(this.calculateClickDelay());
             fletchingWidget.interact("String");
             Time.sleepTicksUntil(() -> !this.hasBowString(), 80);
             this.setTaskCooldown(Optional.of(Activity.IDLE));

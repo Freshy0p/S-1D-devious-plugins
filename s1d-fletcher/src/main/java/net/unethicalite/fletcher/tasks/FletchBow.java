@@ -31,8 +31,9 @@ public class FletchBow extends FletcherTask {
             this.setActivity(Activity.FLETCHING_LONGBOW);
 
             knife.useOn(logItem);
-            Time.sleepTicksUntil(() -> this.isFletchingWidgetOpen(), 30);
-
+            Time.sleepTicksUntil(this::isFletchingWidgetOpen, 30);
+            Time.sleepTick();
+            Time.sleep(this.calculateClickDelay());
             // select the longbow option in the fletching widget
             Widget fletchingWidget = this.getClient().getWidget(270, 16);
             fletchingWidget.interact("Make");
@@ -46,8 +47,9 @@ public class FletchBow extends FletcherTask {
             this.setActivity(Activity.FLETCHING_SHORTBOW);
 
             knife.useOn(logItem);
-            Time.sleepTicksUntil(() -> this.isFletchingWidgetOpen(), 30);
-
+            Time.sleepTicksUntil(this::isFletchingWidgetOpen, 30);
+            Time.sleepTick();
+            Time.sleep(this.calculateClickDelay());
             // select the shortbow option in the fletching widget
             Widget fletchingWidget = this.getClient().getWidget(270, 15);
             fletchingWidget.interact("Make");

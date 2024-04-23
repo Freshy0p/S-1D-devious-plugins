@@ -134,6 +134,28 @@ public class S1dFletcherPlugin extends TaskPlugin
     private Activity nextActivity;
     private Mode currentMode;
 
+    private int min = 100;
+    private int max = 250;
+    private int target = 175;
+    private int deviation = 50;
+
+    public int calculateClickDelay()
+    {
+        Random rand = new Random();
+        // Generate a Gaussian-distributed value centered around 0 with a standard deviation of 1
+        double gaussianValue = rand.nextGaussian();
+
+        // Scale and shift the Gaussian value to have a mean of `target` and a standard deviation of `deviation / 3`
+        // The division by 3 makes it more likely that the value falls within one standard deviation from the mean
+        int delay = (int) (target + gaussianValue * (deviation / 3));
+
+        // Ensure the delay is within the specified bounds [min, max]
+        if (delay < min) delay = min;
+        if (delay > max) delay = max;
+
+        return delay;
+    }
+
 
     private int taskCooldown;
 
@@ -267,6 +289,7 @@ public class S1dFletcherPlugin extends TaskPlugin
     {
         return client.getWidget(270, 14) != null;
     }
+
 
     private void reset()
     {

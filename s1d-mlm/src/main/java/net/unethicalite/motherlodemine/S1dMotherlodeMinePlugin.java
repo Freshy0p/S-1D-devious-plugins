@@ -105,6 +105,11 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
 
     }
 
+    public boolean upStairs()
+    {
+        return upstairs;
+    }
+
     public void setOreVein(TileObject oreVein)
     {
         this.oreVein = oreVein;
@@ -177,7 +182,7 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
         log.info("S1d Motherlode Mine started");
         log.info("Sack size: " + curSackSize + "/" + maxSackSize);
         log.info("Active activity: " + currentActivity.getName());
-        if (curSackSize >= maxSackSize - 26)
+        if (curSackSize >= maxSackSize)
         {
             sackFull = true;
             setLastGemBagEmpty(0);
@@ -413,7 +418,7 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
             log.info("remaining deposits: " + getRemainingDeposits());
             refreshSackValues();
             log.info("Sack size: " + curSackSize + "/" + maxSackSize);
-            if (curSackSize >= maxSackSize - 26)
+            if (curSackSize >= maxSackSize)
             {
 
                 sackFull = true;

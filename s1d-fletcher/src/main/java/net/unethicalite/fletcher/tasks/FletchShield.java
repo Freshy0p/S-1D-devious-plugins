@@ -34,7 +34,8 @@ public class FletchShield extends FletcherTask {
         Time.sleepTicksUntil(() -> this.isFletchingWidgetOpen(), 30);
 
         Widget fletchingWidget = this.getClient().getWidget(270, 18);
-        Time.sleep(Constants.GAME_TICK_LENGTH);
+        Time.sleepTick();
+        Time.sleep(this.calculateClickDelay());
         fletchingWidget.interact("Make");
 
         // wait until hasMaterial returns false

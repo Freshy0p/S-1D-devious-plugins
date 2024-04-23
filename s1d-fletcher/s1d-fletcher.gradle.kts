@@ -1,4 +1,4 @@
-version = "0.0.5"
+version = "0.0.6"
 
 project.extra["PluginName"] = "S-1D Fletcher"
 project.extra["PluginDescription"] = "Automate fletching, select custom task or allow the plugin to choose the best task for you."

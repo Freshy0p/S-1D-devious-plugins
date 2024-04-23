@@ -13,8 +13,10 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.ClientUI;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.util.WildcardMatcher;
+import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.Players;
@@ -33,19 +35,27 @@ import net.unethicalite.api.utils.MessageUtils;
 import net.unethicalite.api.widgets.Dialog;
 import net.unethicalite.api.widgets.Prayers;
 import net.unethicalite.fighter.utils.S1dBank;
+import net.runelite.client.ui.ColorScheme;
 import org.pf4j.Extension;
+import sun.misc.Unsafe;
 
 import javax.inject.Inject;
 import javax.swing.*;
+import java.awt.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static java.lang.System.out;
 
 @PluginDescriptor(
 		name = "<html>[<font color=#f44336>\uD83D\uDC24</font>] Fighter",
@@ -86,6 +96,28 @@ public class FighterPlugin extends LoopedPlugin
 	private boolean isFighting = false;
 
 	private boolean isLooting = false;
+
+	int min = 100;
+	int max = 250;
+	int target = 175;
+	int deviation = 50;
+
+	public static int calculateClickDelay(int min, int max, int target, int deviation)
+	{
+		Random rand = new Random();
+		// Generate a Gaussian-distributed value centered around 0 with a standard deviation of 1
+		double gaussianValue = rand.nextGaussian();
+
+		// Scale and shift the Gaussian value to have a mean of `target` and a standard deviation of `deviation / 3`
+		// The division by 3 makes it more likely that the value falls within one standard deviation from the mean
+		int delay = (int) (target + gaussianValue * (deviation / 3));
+
+		// Ensure the delay is within the specified bounds [min, max]
+		if (delay < min) delay = min;
+		if (delay > max) delay = max;
+
+		return delay;
+	}
 
 	@Override
 	public void startUp() throws Exception
@@ -257,6 +289,7 @@ public class FighterPlugin extends LoopedPlugin
 					|| (foods.contains("Any") && x.hasAction("Eat")));
 			if (food != null)
 			{
+				Time.sleep(calculateClickDelay(min, max, target, deviation));
 				food.interact("Eat");
 				return -3;
 			}
@@ -268,6 +301,7 @@ public class FighterPlugin extends LoopedPlugin
 					&& (x.getName().contains("Prayer potion") || x.getName().contains("Super restore")));
 			if (restorePotion != null)
 			{
+				Time.sleep(calculateClickDelay(min, max, target, deviation));
 				restorePotion.interact("Drink");
 				return -3;
 			}
@@ -283,6 +317,7 @@ public class FighterPlugin extends LoopedPlugin
 			);
 			if (antipoison != null)
 			{
+				Time.sleep(calculateClickDelay(min, max, target, deviation));
 				antipoison.interact("Drink");
 				return -1;
 			}
@@ -293,6 +328,7 @@ public class FighterPlugin extends LoopedPlugin
 			Item bones = Inventory.getFirst(x -> x.hasAction("Bury") || x.hasAction("Scatter"));
 			if (bones != null)
 			{
+				Time.sleep(calculateClickDelay(min, max, target, deviation));
 				bones.interact(bones.hasAction("Bury") ? "Bury" : "Scatter");
 				return -1;
 			}
@@ -303,7 +339,7 @@ public class FighterPlugin extends LoopedPlugin
 		{
 			if(Bank.isOpen())
 			{
-				S1dBank.depositAllExcept(false, 1);
+				S1dBank.depositAllExcept(true, 1);
 				Time.sleepTick();
 				Bank.close();
 				return -1;
@@ -311,6 +347,7 @@ public class FighterPlugin extends LoopedPlugin
 			NPC banker = NPCs.getNearest(npc -> npc.hasAction("Collect"));
 			if (banker != null && !Bank.isOpen())
 			{
+				Time.sleep(calculateClickDelay(min, max, target, deviation));
 				banker.interact("Bank");
 				Time.sleepTicksUntil(Bank::isOpen, 20);
 				return -1;
@@ -319,6 +356,7 @@ public class FighterPlugin extends LoopedPlugin
 			TileObject bank = TileObjects.getFirstSurrounding(client.getLocalPlayer().getWorldLocation(), 10, obj -> obj.hasAction("Collect") || obj.getName().startsWith("Bank"));
 			if (bank != null && banker == null && !Bank.isOpen())
 			{
+				Time.sleep(calculateClickDelay(min, max, target, deviation));
 				bank.interact("Bank", "Use");
 				Time.sleepTicksUntil(Bank::isOpen, 20);
 				return 0;
@@ -335,11 +373,11 @@ public class FighterPlugin extends LoopedPlugin
 			if (!Reachable.isInteractable(loot.getTile()))
 			{
 				Movement.walkTo(loot.getTile().getWorldLocation());
-				return -1;
+				return 0;
 			}
 			loot.pickup();
 			isLooting = true;
-			return -1;
+			return 0;
 		}
 		else {
 			isLooting = false;
@@ -354,6 +392,7 @@ public class FighterPlugin extends LoopedPlugin
 				Item alchItem = Inventory.getFirst(x -> x.getName() != null && textMatches(alchItems, x.getName()));
 				if (alchItem != null)
 				{
+					Time.sleep(calculateClickDelay(min, max, target, deviation));
 					Magic.cast(alchSpell.getSpell(), alchItem);
 					return -1;
 				}
@@ -375,6 +414,7 @@ public class FighterPlugin extends LoopedPlugin
 			);
 			if (antifire != null)
 			{
+				Time.sleep(calculateClickDelay(min, max, target, deviation));
 				antifire.interact("Drink");
 				return -1;
 			}
@@ -400,7 +440,7 @@ public class FighterPlugin extends LoopedPlugin
 					isFighting = false;
 					return -1;
 				}
-
+				Time.sleep(calculateClickDelay(min, max, target, deviation));
 				Movement.walkTo(center);
 				return -4;
 			}
@@ -408,10 +448,11 @@ public class FighterPlugin extends LoopedPlugin
 
 			if (!Reachable.isInteractable(mob))
 			{
+				Time.sleep(calculateClickDelay(min, max, target, deviation));
 				Movement.walkTo(mob.getWorldLocation());
 				return -4;
 			}
-
+			Time.sleep(calculateClickDelay(min, max, target, deviation));
 			mob.interact("Attack");
 			isFighting = true;
 			return -3;
