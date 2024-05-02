@@ -72,10 +72,19 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 	@Override
 	protected int loop()
 	{
-		configManager.setConfiguration("s1dsolotempoross", "info", "Welcome to S1d's Solo Tempoross plugin! \n\n" +
+		// check if the info text box is changed, if it is, set it back to the default text
+		if (!config.info().equals("Welcome to S1d's Solo Tempoross plugin! \n" +
+				"\n" +
 				"This plugin is designed to solo Tempoross with the Infernal Harpoon. \n" +
-				"Make sure you have the correct equipment and tools for the trip. \n\n" +
-				"Use at your own risk.");
+				"Make sure you have the correct equipment and tools for the trip. \n" +
+				"\n" +
+				"Use at your own risk."))
+		{
+			configManager.setConfiguration("s1dsolotempoross", "info", "Welcome to S1d's Solo Tempoross plugin! \n\n" +
+					"This plugin is designed to solo Tempoross with the Infernal Harpoon. \n" +
+					"Make sure you have the correct equipment and tools for the trip. \n\n" +
+					"Use at your own risk.");
+		}
 		Player player = client.getLocalPlayer();
 		if (player == null)
 		{
