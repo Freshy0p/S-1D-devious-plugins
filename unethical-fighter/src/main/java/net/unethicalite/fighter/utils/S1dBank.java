@@ -68,6 +68,11 @@ public class S1dBank {
     public static void depositAllExcept(boolean delay, int... ids) {
         depositAllExcept(delay, x -> Arrays.stream(ids).anyMatch(id -> x.getId() == id));
     }
+    // deposit all except ids from list
+
+    public static void depositAllExcept(boolean delay, List<Integer> ids) {
+        depositAllExcept(delay, x -> ids.contains(x.getId()));
+    }
 
     public static void depositAllExcept(Predicate<Item> filter) {
         depositAllExcept(true, filter);

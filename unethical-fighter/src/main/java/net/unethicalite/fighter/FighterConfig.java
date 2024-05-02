@@ -184,6 +184,105 @@ public interface FighterConfig extends Config
 		return 5;
 	}
 
+	// checkbox to ignore stamina potions when banking
+	@ConfigItem(
+			keyName = "ignoreStamina",
+			name = "Ignore stamina potions",
+			description = "Ignore stamina potions when banking",
+			position = 2,
+			section = banking
+	)
+	default boolean ignoreStamina()
+	{
+		return true;
+	}
+	// checkbox to ignore food when banking
+	@ConfigItem(
+			keyName = "ignoreFood",
+			name = "Ignore food",
+			description = "Ignore food when banking",
+			position = 3,
+			section = banking
+	)
+	default boolean ignoreFood()
+	{
+		return true;
+	}
+	// checkbox to ignore restore potions when banking
+	@ConfigItem(
+			keyName = "ignoreRestore",
+			name = "Ignore restore potions",
+			description = "Ignore restore potions when banking",
+			position = 4,
+			section = banking
+	)
+	default boolean ignoreRestore()
+	{
+		return true;
+	}
+	// checkbox to ignore prayer potions when banking
+	@ConfigItem(
+			keyName = "ignorePrayer",
+			name = "Ignore prayer potions",
+			description = "Ignore prayer potions when banking",
+			position = 5,
+			section = banking
+	)
+	default boolean ignorePrayer()
+	{
+		return true;
+	}
+	// checkbox to ignore antipoison potions when banking
+	@ConfigItem(
+			keyName = "ignoreAntipoison",
+			name = "Ignore antipoison potions",
+			description = "Ignore antipoison potions when banking",
+			position = 6,
+			section = banking
+	)
+	default boolean ignoreAntipoison()
+	{
+		return true;
+	}
+	// checkbox to ignore antifire potions when banking
+	@ConfigItem(
+			keyName = "ignoreAntifire",
+			name = "Ignore antifire potions",
+			description = "Ignore antifire potions when banking",
+			position = 7,
+			section = banking
+	)
+	default boolean ignoreAntifire()
+	{
+		return true;
+	}
+	// checkbox to ignore combat potions when banking
+	@ConfigItem(
+			keyName = "ignoreCombat",
+			name = "Ignore combat potions",
+			description = "Ignore combat potions when banking",
+			position = 8,
+			section = banking
+	)
+	default boolean ignoreCombat()
+	{
+		return true;
+	}
+	// checkbox to ignore teleportation items when banking
+	@ConfigItem(
+			keyName = "ignoreTeleport",
+			name = "Ignore teleportation items",
+			description = "Ignore teleportation items when banking",
+			position = 9,
+			section = banking
+	)
+	default boolean ignoreTeleport()
+	{
+		return true;
+	}
+	// checkbox to ignore
+
+
 	@ConfigItem(
 			keyName = "lootOnlyMode",
 			name = "Loot only mode",

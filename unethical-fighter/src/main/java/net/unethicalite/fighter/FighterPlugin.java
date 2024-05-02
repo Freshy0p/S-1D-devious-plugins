@@ -13,10 +13,8 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.ui.ClientUI;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.util.WildcardMatcher;
-import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.Players;
@@ -29,22 +27,18 @@ import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.magic.Magic;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
+import net.unethicalite.api.movement.pathfinder.model.BankLocation;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.plugins.Plugins;
 import net.unethicalite.api.utils.MessageUtils;
 import net.unethicalite.api.widgets.Dialog;
 import net.unethicalite.api.widgets.Prayers;
+import net.unethicalite.fighter.utils.Constants;
 import net.unethicalite.fighter.utils.S1dBank;
-import net.runelite.client.ui.ColorScheme;
 import org.pf4j.Extension;
-import sun.misc.Unsafe;
 
 import javax.inject.Inject;
 import javax.swing.*;
-import java.awt.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,8 +48,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static java.lang.System.out;
 
 @PluginDescriptor(
 		name = "<html>[<font color=#f44336>\uD83D\uDC24</font>] Fighter",
@@ -96,6 +88,8 @@ public class FighterPlugin extends LoopedPlugin
 	private boolean isFighting = false;
 
 	private boolean isLooting = false;
+
+	private boolean isBanking = false;
 
 	int min = 100;
 	int max = 250;
@@ -337,13 +331,55 @@ public class FighterPlugin extends LoopedPlugin
 		int minimumFreeSlots = config.minFreeSlots();
 		if (Inventory.getFreeSlots() <= minimumFreeSlots && config.bank())
 		{
+			isBanking = true;
 			if(Bank.isOpen())
 			{
-				S1dBank.depositAllExcept(true, 1);
+				// Deposit all items except the ones we want to keep according to the config
+				// create a list of item ids to keep
+				// check config for items to keep (boolean values in config)
+				List<Integer> idsToKeep = new ArrayList<>();
+				if (config.ignoreTeleport())
+				{
+					idsToKeep.addAll(Constants.TELEPORT_IDS);
+				}
+				if (config.ignoreStamina())
+				{
+					idsToKeep.addAll(Constants.STAMINA_POTION_IDS);
+				}
+				if (config.ignorePrayer())
+				{
+					idsToKeep.addAll(Constants.PRAYER_RESTORE_POTION_IDS);
+				}
+				if (config.ignoreFood())
+				{
+					idsToKeep.addAll(Constants.FOOD_ITEM_IDS);
+				}
+				if (config.ignoreAntipoison())
+				{
+					idsToKeep.addAll(Constants.ANTI_POISON_POTION_IDS);
+				}
+				if (config.ignoreAntifire())
+				{
+					idsToKeep.addAll(Constants.ANTI_FIRE_POTION_IDS);
+				}
+				if (config.ignoreCombat())
+				{
+					idsToKeep.addAll(Constants.STRENGTH_POTION_IDS);
+				}
+				if (config.ignoreRestore())
+				{
+					idsToKeep.addAll(Constants.RESTORE_POTION_IDS);
+				}
+
+
+
+				// deposit all items except the ones we want to keep
+				S1dBank.depositAllExcept(true, idsToKeep);
 				Time.sleepTick();
 				Bank.close();
 				return -1;
 			}
+			BankLocation bankLocation = BankLocation.getNearest();
 			NPC banker = NPCs.getNearest(npc -> npc.hasAction("Collect"));
 			if (banker != null && !Bank.isOpen())
 			{
@@ -353,6 +389,7 @@ public class FighterPlugin extends LoopedPlugin
 				return -1;
 			}
 
+
 			TileObject bank = TileObjects.getFirstSurrounding(client.getLocalPlayer().getWorldLocation(), 10, obj -> obj.hasAction("Collect") || obj.getName().startsWith("Bank"));
 			if (bank != null && banker == null && !Bank.isOpen())
 			{
@@ -361,6 +398,15 @@ public class FighterPlugin extends LoopedPlugin
 				Time.sleepTicksUntil(Bank::isOpen, 20);
 				return 0;
 			}
+			if (bank == null && banker == null && !Bank.isOpen())
+			{
+				Time.sleep(calculateClickDelay(min, max, target, deviation));
+				Movement.walkTo(bankLocation);
+				return -1;
+			}
+		}
+		else {
+			isBanking = false;
 		}
 
 		Player local = Players.getLocal();
@@ -368,7 +414,7 @@ public class FighterPlugin extends LoopedPlugin
 				!notOurItems.contains(x)
 						&& !shouldNotLoot(x) && (shouldLootByName(x) || shouldLootUntradable(x) || shouldLootByValue(x))
 		);
-		if (loot != null && canPick(loot) && !local.isMoving() && !isFighting)
+		if (loot != null && canPick(loot) && !local.isMoving())
 		{
 			if (!Reachable.isInteractable(loot.getTile()))
 			{
@@ -434,7 +480,7 @@ public class FighterPlugin extends LoopedPlugin
 			);
 			if (mob == null)
 			{
-				if (local.getWorldLocation().distanceTo(center) < 3 && !isLooting)
+				if (local.getWorldLocation().distanceTo(center) < 3 && !isLooting && !isBanking)
 				{
 					MessageUtils.addMessage("No attackable monsters in area");
 					isFighting = false;

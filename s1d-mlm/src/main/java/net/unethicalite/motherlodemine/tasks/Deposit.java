@@ -38,6 +38,7 @@ public class Deposit extends MotherlodeMineTask
             if (this.getRemainingDeposits() <= 1)
             {
                 this.setSackFull(true);
+                this.setLastGemBagEmpty(0);
             }
             hopper.interact("Deposit");
             Time.sleepTicksUntil(() -> this.isCurrentActivity(Activity.IDLE), 15);

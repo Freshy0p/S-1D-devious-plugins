@@ -35,7 +35,7 @@
     },
     {
       "date": "2024-03-15",
-      "sha512sum": "15E36232E840F8D3C250C3AF3B3624BFDD1716ABD498FD1250126C848110E4F2B6DCCA234F1C75F2ED86D3D146AB3CE8CC0AF16176C9F4DCCD2C65FBC2A70D15",
+      "sha512sum": "BF821C6E126DCA7EE72F890EEE576998CC866A8399BABEAC9CE3733CA16EF6C12FC460F04E2EA3F3BC0385EA410BB7F4C0C59237616445A45563AB3CCD7DA1E8",
       "version": "0.0.6",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-fletcher-0.0.6.jar?raw=true",
       "requires": "^1.0.0"
@@ -134,9 +134,16 @@
     },
     {
       "date": "2024-04-23",
-      "sha512sum": "FA5E9EB1C7933F2B11E9A1A1E417CED431D770D6BBE8DD3A001B12AC935D3243D2B43ABB68D4370B25D0511D5096528CA2E853148E8EA53F95E42BEB83E167C6",
+      "sha512sum": "A115553B9F020ED6F5FBDEDF88004598FCA69093117A71546E1E989F8DB09CDED4CB85631BF4522A978015FC1EDB5CB36ADB42BFD44D44D599E8115D4F37609D",
       "version": "0.0.16",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.16.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-05-03",
+      "sha512sum": "3F49A0C91055CDDBB9CAABBCC64793D6147BAF8D5CFF512B96229323A91402F57A5CF6BD8E7193D65A7A85BF36E09DBD988D60E8AE62B3858A892E57B96C9154",
+      "version": "0.0.18",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-mlm-0.0.18.jar?raw=true",
       "requires": "^1.0.0"
     }
   ]
@@ -177,7 +184,7 @@
     },
     {
       "date": "2024-03-11",
-      "sha512sum": "6B22E739296BC3B6C36468CB96568D38B647A5D21AA7DD8C1837DF4A52EC2FF041FE38A98B83D1862207303D300353629DB63262018E3AA87F1EE1A23709C600",
+      "sha512sum": "01B3698958E92D76CABBB041AEA0559E1BDE4189047B49D07B5A21E56D8DA6B5E2EBED950CD2078F47F6558D4EB5C3E7E26A6ACEA66682393BBB053D77A73DC0",
       "version": "0.0.25",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.25.jar?raw=true",
       "requires": "^1.0.0"
@@ -255,7 +262,7 @@
     },
     {
       "date": "2024-03-11",
-      "sha512sum": "B23D24CCAFE060C794405CEFA2150440155B75C5016A0C8A5EB1A256D6618C0A6F00633466DCCC53D266FE71E49792A8869B5E3B2E5825EF9B12B56C7DB10BF1",
+      "sha512sum": "C75EC3440A6F6C70004E8016B28797C8D1F0B781D146187DEC29D980C612C01D0D05E7AFE827CFE79263ABCE72A8F775ACA01CD171ED29A5AC559DDBD6B51C77",
       "version": "0.0.17",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-wintertodt-0.0.17.jar?raw=true",
       "requires": "^1.0.0"
@@ -277,7 +284,7 @@
     },
     {
       "date": "2024-03-14",
-      "sha512sum": "0D613635150D2B8F169B1A05F5048BACEE5952A1AD5B0E3594A296CC48FEBFADC431DD6886B6B042B8B0AA2A21DF05E0D4B1B3E390AB809E4B93043C7A4475C6",
+      "sha512sum": "3C233931BB65A30DDBF84011181B56217389CC7B1DFE24BBF75DF3C3CB9F6D959DD265B147D8C6437DAD85856636E6E285FBEA0EDDCA16ED889033CE8CD2C412",
       "version": "0.0.5",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-zeah-bloodrunes-0.0.5.jar?raw=true",
       "requires": "^1.0.0"
@@ -323,6 +330,20 @@
       "sha512sum": "00C8E47B0101F997E16C2D0F461D54ABFB6B1AC12ED8F7135BF51CC8E66B2AEA96BF232674DB9C3EB2C32E993027395919A52B0A35A356E6CBA50F7DEAAE3EE6",
       "version": "0.0.13",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/unethical-fighter-0.0.13.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-05-02",
+      "sha512sum": "AECF2A3C96509129D554B3221DBADFFA4B272F80D5BBBDAD56DA51B983CF0D50EEEC1E00A7212AB78921B3381A7B5F6ABF4ECE92D72AF757F2E73CD69A9CDF6B",
+      "version": "0.0.14",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/unethical-fighter-0.0.14.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-05-03",
+      "sha512sum": "97715625087C81254F7092D364FD6C0D6F5ACCDCF22D46D0F0AD954FCA926C08EDB8FCA2E6B2586EF75EDE624140C64A8E3614AE5053D543BF235467589BBFB4",
+      "version": "0.0.15",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/unethical-fighter-0.0.15.jar?raw=true",
       "requires": "^1.0.0"
     }
   ]

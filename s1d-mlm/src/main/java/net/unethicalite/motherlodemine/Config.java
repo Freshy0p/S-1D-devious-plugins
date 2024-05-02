@@ -76,4 +76,6 @@ public interface Config extends net.runelite.client.config.Config
     {
         return false;
     }
+
+
 }
