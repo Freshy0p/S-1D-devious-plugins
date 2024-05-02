@@ -38,7 +38,10 @@ import static net.unethicalite.tempoross.TemporossID.*;
 @Extension
 @PluginDescriptor(
 		name = "<html>[<font color=#18a9d9>\uD83D\uDC24</font>] Solo Tempoross",
-		enabledByDefault = false
+		enabledByDefault = false,
+		tags = {"tempoross", "solo", "fishing", "minigame", "combat", "pvm", "pve", "skilling", "s1d"}
+
+
 )
 @Slf4j
 public class S1dSoloTemporossPlugin extends LoopedPlugin
@@ -69,6 +72,10 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 	@Override
 	protected int loop()
 	{
+		configManager.setConfiguration("s1dsolotempoross", "info", "Welcome to S1d's Solo Tempoross plugin! \n\n" +
+				"This plugin is designed to solo Tempoross with the Infernal Harpoon. \n" +
+				"Make sure you have the correct equipment and tools for the trip. \n\n" +
+				"Use at your own risk.");
 		Player player = client.getLocalPlayer();
 		if (player == null)
 		{

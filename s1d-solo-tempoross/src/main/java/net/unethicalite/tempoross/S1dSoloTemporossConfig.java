@@ -9,6 +9,22 @@ import net.runelite.client.config.ConfigSection;
 public interface S1dSoloTemporossConfig extends Config
 {
 	//sections
+	//info text box to inform user how to use the plugin properly
+	@ConfigItem(
+			keyName = "info",
+			name = "Info",
+			description = "Info",
+			position = 0
+	)
+	default String info()
+	{
+		return "Welcome to S1d's Solo Tempoross plugin! \n\n" +
+				"This plugin is designed to solo Tempoross with the Infernal Harpoon. \n" +
+				"Make sure you have the correct equipment and tools for the trip. \n\n" +
+				"Use at your own risk.";
+
+
+	}
 
 	//general
 	@ConfigSection(
@@ -68,7 +84,7 @@ public interface S1dSoloTemporossConfig extends Config
 	)
 	default HarpoonType harpoonType()
 	{
-		return HarpoonType.HARPOON;
+		return HarpoonType.INFERNAL_HARPOON;
 	}
 
 	//Bucket setting, how many buckets to bring, min 4
