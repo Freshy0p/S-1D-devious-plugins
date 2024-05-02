@@ -75,14 +75,19 @@ public class S1dSoloTemporossPlugin extends LoopedPlugin
 		// check if the info text box is changed, if it is, set it back to the default text
 		if (!config.info().equals("Welcome to S1d's Solo Tempoross plugin! \n" +
 				"\n" +
-				"This plugin is designed to solo Tempoross with the Infernal Harpoon. \n" +
-				"Make sure you have the correct equipment and tools for the trip. \n" +
+				"This plugin is designed to solo Tempoross with the Infernal Harpoon or with high fishing the Dragon Harpoon.\n" +
+				" \n" +
+				"Make sure you have the correct equipment, tools and MINIMUM 19 free inventory slots.\n" +
 				"\n" +
 				"Use at your own risk."))
 		{
-			configManager.setConfiguration("s1dsolotempoross", "info", "Welcome to S1d's Solo Tempoross plugin! \n\n" +
-					"This plugin is designed to solo Tempoross with the Infernal Harpoon. \n" +
-					"Make sure you have the correct equipment and tools for the trip. \n\n" +
+			log.info(config.info());
+			configManager.setConfiguration("s1dsolotempoross", "info", "Welcome to S1d's Solo Tempoross plugin! \n" +
+					"\n" +
+					"This plugin is designed to solo Tempoross with the Infernal Harpoon or with high fishing the Dragon Harpoon.\n" +
+					" \n" +
+					"Make sure you have the correct equipment, tools and MINIMUM 19 free inventory slots.\n" +
+					"\n" +
 					"Use at your own risk.");
 		}
 		Player player = client.getLocalPlayer();

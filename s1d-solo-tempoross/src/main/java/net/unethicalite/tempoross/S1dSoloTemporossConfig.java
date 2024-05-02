@@ -14,13 +14,16 @@ public interface S1dSoloTemporossConfig extends Config
 			keyName = "info",
 			name = "Info",
 			description = "Info",
-			position = 0
+			position = 999
 	)
 	default String info()
 	{
-		return "Welcome to S1d's Solo Tempoross plugin! \n\n" +
-				"This plugin is designed to solo Tempoross with the Infernal Harpoon. \n" +
-				"Make sure you have the correct equipment and tools for the trip. \n\n" +
+		return "Welcome to S1d's Solo Tempoross plugin! \n" +
+				"\n" +
+				"This plugin is designed to solo Tempoross with the Infernal Harpoon or with high fishing the Dragon Harpoon.\n" +
+				" \n" +
+				"Make sure you have the correct equipment, tools and MINIMUM 19 free inventory slots.\n" +
+				"\n" +
 				"Use at your own risk.";
 
 

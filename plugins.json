@@ -202,6 +202,13 @@
       "version": "0.0.27",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.27.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-05-03",
+      "sha512sum": "39826FF5F4D906BC0C05E6577D4FB743E91A8D72F116E7FDB15B74D8C98143A6AAC2E6605E43F755A371D091E56743F13F3524321A0741E1F9A26739B58A96AB",
+      "version": "0.0.28",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-solo-tempoross-0.0.28.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
