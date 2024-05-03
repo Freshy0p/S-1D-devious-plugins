@@ -415,19 +415,25 @@ public class FighterPlugin extends LoopedPlugin
 				!notOurItems.contains(x)
 						&& !shouldNotLoot(x) && (shouldLootByName(x) || shouldLootUntradable(x) || shouldLootByValue(x))
 		);
+		if (loot != null)
+		{
+
+			isLooting = true;
+		}
+		else {
+			isLooting = false;
+		}
 		if (loot != null && canPick(loot) && !local.isMoving())
 		{
+
 			if (!Reachable.isInteractable(loot.getTile()))
 			{
 				Movement.walkTo(loot.getTile().getWorldLocation());
 				return 0;
 			}
 			loot.pickup();
-			isLooting = true;
+
 			return 0;
-		}
-		else {
-			isLooting = false;
 		}
 
 		if (config.alching())
@@ -470,7 +476,7 @@ public class FighterPlugin extends LoopedPlugin
 		// Check if loot only mode is enabled
 		boolean lootOnlyMode = config.lootOnlyMode();
 
-		if (!lootOnlyMode)
+		if (!lootOnlyMode && !isLooting)
 		{
 			// This block will execute if loot only mode is not enabled
 			// Look for and attack NPCs
@@ -500,6 +506,7 @@ public class FighterPlugin extends LoopedPlugin
 				return -4;
 			}
 			Time.sleep(calculateClickDelay(min, max, target, deviation));
+
 			mob.interact("Attack");
 			isFighting = true;
 			return -3;

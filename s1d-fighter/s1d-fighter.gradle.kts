@@ -1,4 +1,4 @@
-version = "0.0.16"
+version = "0.0.17"
 
 project.extra["PluginName"] = "S-1D Fighter"
 project.extra["PluginDescription"] = "Simple fighter, supports eating, looting, alching, prayer potions, prayer flicking also supports loot only mode."
