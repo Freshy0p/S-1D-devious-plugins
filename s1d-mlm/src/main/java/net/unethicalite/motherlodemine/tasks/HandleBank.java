@@ -62,7 +62,8 @@ public class HandleBank extends MotherlodeMineTask
             idsToKeep.addAll(Constants.PICKAXE_IDS);
             idsToKeep.add(ItemID.HAMMER);
 
-            if (this.getLastGemBagEmpty() < 1)
+
+            if (this.getLastGemBagEmpty() < 1 && Inventory.contains(ItemID.OPEN_GEM_BAG))
             {
                 S1dDepositBox.emptyGemBag();
                 log.info("Emptying Gem Bag...");
