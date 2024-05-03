@@ -67,6 +67,13 @@
       "version": "0.0.17",
       "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-fighter-0.0.17.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-05-03",
+      "sha512sum": "0CBEA8A48E5C89DC4123A87A823C4EB9D01F3EAF45762CF4416ED50179E3CFD52657B213B3447A519673C992624FF7B3EACCD1BDA8DD96938CC33585FFE7CB5E",
+      "version": "0.0.18",
+      "url": "https://github.com/SexyPinata/S-1D-devious-plugins/blob/master/release/s1d-fighter-0.0.18.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {

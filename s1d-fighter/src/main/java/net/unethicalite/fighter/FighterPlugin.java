@@ -27,12 +27,12 @@ import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.magic.Magic;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
-import net.unethicalite.api.movement.pathfinder.model.BankLocation;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.plugins.Plugins;
 import net.unethicalite.api.utils.MessageUtils;
 import net.unethicalite.api.widgets.Dialog;
 import net.unethicalite.api.widgets.Prayers;
+import net.unethicalite.fighter.utils.BankLocation;
 import net.unethicalite.fighter.utils.Constants;
 import net.unethicalite.fighter.utils.S1dBank;
 import org.pf4j.Extension;
@@ -380,29 +380,44 @@ public class FighterPlugin extends LoopedPlugin
 				Bank.close();
 				return -1;
 			}
-			BankLocation bankLocation = BankLocation.getNearest();
+			WorldPoint bankArea;
+
+			bankArea = BankLocation.getNearest().getArea();
+
 			NPC banker = NPCs.getNearest(npc -> npc.hasAction("Collect"));
-			if (banker != null && !Bank.isOpen())
+			if (banker != null && !Bank.isOpen() && !Movement.isWalking())
 			{
 				Time.sleep(calculateClickDelay(min, max, target, deviation));
-				banker.interact("Bank");
-				Time.sleepTicksUntil(Bank::isOpen, 20);
+				// only interact if we are next to the banker
+				if (banker.getWorldLocation().distanceTo(Players.getLocal().getWorldLocation()) <= 2)
+				{
+					banker.interact("Bank");
+					Time.sleepTicksUntil(Bank::isOpen, 20);
+					return -1;
+				}
+				Movement.walkNextTo(banker);
 				return -1;
 			}
 
 
-			TileObject bank = TileObjects.getFirstSurrounding(client.getLocalPlayer().getWorldLocation(), 10, obj -> obj.hasAction("Collect") || obj.getName().startsWith("Bank"));
-			if (bank != null && banker == null && !Bank.isOpen())
+			TileObject bank = TileObjects.getFirstSurrounding(client.getLocalPlayer().getWorldLocation(), 10, obj -> obj.hasAction("Collect") || obj.getName().startsWith("Bank")&& obj.hasAction("Use"));
+			if (bank != null && banker == null && !Bank.isOpen() && !Movement.isWalking())
 			{
 				Time.sleep(calculateClickDelay(min, max, target, deviation));
-				bank.interact("Bank", "Use");
-				Time.sleepTicksUntil(Bank::isOpen, 20);
+				// only interact if we are next to the bank
+				if (bank.getWorldLocation().distanceTo(Players.getLocal().getWorldLocation()) <= 2)
+				{
+					bank.interact("Bank", "Use");
+					Time.sleepTicksUntil(Bank::isOpen, 20);
+					return -1;
+				}
+				Movement.walkNextTo(bank);
 				return 0;
 			}
 			if (bank == null && banker == null && !Bank.isOpen())
 			{
 				Time.sleep(calculateClickDelay(min, max, target, deviation));
-				Movement.walkTo(bankLocation);
+				Movement.walkTo(bankArea);
 				return -1;
 			}
 		}
