@@ -100,7 +100,7 @@ public class S1dMotherlodeMinePlugin extends TaskPlugin
         {
             previousActivity = currentActivity;
         }
-
+        log.info("previous activity: " + previousActivity);
         currentActivity = activity;
 
     }

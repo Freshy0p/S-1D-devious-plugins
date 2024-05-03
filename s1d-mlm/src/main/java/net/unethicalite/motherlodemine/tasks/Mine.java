@@ -6,7 +6,6 @@ import net.runelite.api.TileObject;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.motherlodemine.Config;
-import net.unethicalite.motherlodemine.MiningArea;
 import net.unethicalite.motherlodemine.S1dMotherlodeMinePlugin;
 import net.unethicalite.motherlodemine.data.Activity;
 

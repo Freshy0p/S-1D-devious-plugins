@@ -1,5 +1,6 @@
 package net.unethicalite.motherlodemine.tasks;
 
+import net.runelite.api.ObjectID;
 import net.runelite.api.TileObject;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.TileObjects;
@@ -41,7 +42,18 @@ public class Deposit extends MotherlodeMineTask
                 this.setLastGemBagEmpty(0);
             }
             hopper.interact("Deposit");
+
             Time.sleepTicksUntil(() -> this.isCurrentActivity(Activity.IDLE), 15);
+            if (TileObjects.getAll(ObjectID.BROKEN_STRUT).size() == 2)
+            {
+                TileObject brokenStrut = TileObjects.getNearest(ObjectID.BROKEN_STRUT);
+                if (brokenStrut != null)
+                {
+                    this.setActivity(Activity.REPAIRING);
+                    brokenStrut.interact("Hammer");
+                    return 4000;
+                }
+            }
             this.refreshSackValues();
             return 200;
         }
