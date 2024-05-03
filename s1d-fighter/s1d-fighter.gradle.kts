@@ -1,8 +1,7 @@
-version = "0.0.7"
+version = "0.0.16"
 
-project.extra["PluginName"] = "S-1D Fletcher"
-project.extra["PluginDescription"] = "Automate fletching, select custom task or allow the plugin to choose the best task for you."
-
+project.extra["PluginName"] = "S-1D Fighter"
+project.extra["PluginDescription"] = "Simple fighter, supports eating, looting, alching, prayer potions, prayer flicking also supports loot only mode."
 
 tasks {
     jar {

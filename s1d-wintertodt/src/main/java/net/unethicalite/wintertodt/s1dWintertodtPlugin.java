@@ -73,11 +73,7 @@ import static net.unethicalite.api.commons.Time.sleepUntil;
         name = "<html>[<font color=#F4A236>\uD83D\uDC24</font>] Wintertodt</html>",
         description = "does wintertodt really well",
         enabledByDefault = false,
-        tags =
-                {
-                        "wintertodt",
-                        "minigame"
-                }
+        tags = {"wintertodt", "skilling", "minigame", "firemaking", "woodcutting", "fletching", "combat", "pvm", "pve", "pvp", "pvp", "pve", "pvm", "skilling", "minigame", "firemaking", "woodcutting", "fletching", "combat"}
 )
 @Slf4j
 @Singleton

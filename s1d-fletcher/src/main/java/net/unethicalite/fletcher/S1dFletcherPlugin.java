@@ -36,11 +36,7 @@ import java.util.Random;
         name = "<html>[<font color=#93C47D>\uD83D\uDC24</font>] Fletcher</html>",
         description = "Fletches logs into unstrung shortbows, longbows, Stocks, Shields or Arrow shafts. Supports banking, and stringing bows.",
         enabledByDefault = false,
-        tags =
-                {
-                        "Fletching",
-                        "skilling",
-                }
+        tags = {"fletching", "skilling", "unstrung", "shortbow", "longbow", "stock", "shield", "shaft", "string", "banking", "fletch", "fletcher", "s1d", "unethicalite"}
 )
 @Slf4j
 @Singleton

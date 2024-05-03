@@ -1,4 +1,4 @@
-version = "0.0.5"
+version = "0.0.6"
 
 project.extra["PluginName"] = "S-1D Zeah Blood Runes"
 project.extra["PluginDescription"] = "Crafts blood runes"

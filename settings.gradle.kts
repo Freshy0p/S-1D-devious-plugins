@@ -25,41 +25,15 @@
 
 rootProject.name = "unethicalite-plugins"
 
-//include("hoot-blackjack")
-//include("hoot-trawler")
-//include("hoot-pickpocket")
-//include("hoot-aerialfishing")
-//include("hoot-chins")
-//include("hoot-notifier")
-//include("hoot-karambwanfisher")
+
 
 include("s1d-solo-tempoross")
 include("s1d-wintertodt")
 include("s1d-mlm")
-include("unethical-fighter")
+include("s1d-fighter")
 include("s1d-fletcher")
 include("s1d-zeah-bloodrunes")
-//include("unethical-butler")
-//include("unethical-birdhouses")
-//include("unethical-kebab-buyer")
-//include("unethical-autologin")
-//include("unethical-oneclick")
-//include("unethical-agility")
-//include("unethical-prayer")
-//include("unethical-explorer")
-//include("unethical-chopper")
-//include("unethical-zulrah")
-//include("unethical-cooker")
-//include("unethical-bankpin")
-//include("unethical-tempoross")
-//include("unethical-pickpocket")
-//include("unethical-logout")
-//
-//include("m-autoswitcher")
-//include("m-powerfisher")
-//include("m-wintertodt")
 
-//include("example-kotlin")
 
 for (project in rootProject.children) {
     project.apply {

@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.*;
-import net.runelite.api.MenuEntry;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
@@ -32,7 +31,8 @@ import java.util.Set;
 @Extension
 @PluginDescriptor(
         name = "<html>[<font color=#8f6b32>\uD83D\uDC24</font>] Motherlode Mine",
-        enabledByDefault = false
+        enabledByDefault = false,
+        tags = {"mining", "motherlode", "mlm", "motherlode mine", "s1d"}
 )
 @Slf4j
 public class S1dMotherlodeMinePlugin extends TaskPlugin
